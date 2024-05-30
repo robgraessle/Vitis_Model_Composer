@@ -21,9 +21,10 @@ Here you see examples for FIR,FFT and Matrix Multiply functions.
 - [Importing Matrix Multiply from DSPLib as a block](matrix_multiply/README.md)
 - [Using DSPLib AI Engine SSR FIR](fir_ssr/README.md)
 - [AI Engine Dynamic Point FFT](Dynamic_FFT/README.md)
+- [Digital Upconversion (DUC)](DUC/README.md) using FIR interpolator blocks
 
 --------------
-Copyright 2020 Xilinx
+Copyright 2024 Advanced Micro Devices, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

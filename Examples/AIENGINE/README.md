@@ -148,6 +148,15 @@ This example showcases the use of the AI Engine Dynamic Point FFT block.
 Using DSPLib AI Engine SSR FIR block to achieve 4 Gsps throughput. 
 </td>
 </tr> 
+
+<tr>
+<td>
+<a href="./DSPlib/DUC/README.md">Digital Upconversion (DUC)</a> <img src="../../Images/new.PNG" width="50">
+</td>
+<td>
+Using FIR Interpolator blocks to implement a Digital Upconverter (DUC).
+</td>
+</tr> 
   
 </table>
 <br/>
@@ -185,7 +194,7 @@ Using DSPLib AI Engine SSR FIR block to achieve 4 Gsps throughput.
   
    <tr>
  <td align="left">
- <a href="./Filtering_in_frequency_domain/README.md">Filtering in frequency domain </a> <img src="../../Images/new.PNG" width="50">
+ <a href="./Filtering_in_frequency_domain/README.md">Filtering in frequency domain </a>
  </td>
  <td> This design showcases filtering in frequency domain and also shows how to increase the throughput using different techniques.</td>
  </tr> 
