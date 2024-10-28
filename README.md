@@ -15,11 +15,10 @@ a block diagram environment for multidomain simulation and model-based design.
 * Browse through many of the examples we have here. You can easily access these examples from within the tool. (**Note:** Many of the examples require the [DSP System Toolbox](https://www.mathworks.com/products/dsp-system.html).)
 
 
-# What's new in 2024.1?
-* The [Normalization example](./Examples/AIENGINE/Normalization) showcases two features of the AIE-ML architecture: shared buffers on memory tiles, and the `bfloat16` data type.
-* See a [64K-pt IFFT at 2 GSPS](./Examples/AIENGINE_plus_PL/AIE_HLS/IFFT64K_2D) implemented in AI Engine using a 2D architecture.
+# What's new in 2024.2?
+* The [Filtering in Frequency Domain](./Examples/AIENGINE/Filtering_in_frequency_domain) example shows how to increase AI Engine throughput using different techniques.
+* See a Vitis Model Composer testbench for a [fractional delay Farrow filter](./Examples/AIENGINE/Farrow_Filter).
 * Working with both AI Engines and PL? See the [tutorials](./Tutorials/AIE-PL/README.md) showing how to connect the block libraries in Vitis Model Composer.
-* MATLAB R2023a and R2023b are now supported by Vitis Model Composer.
 
 # Examples
 
