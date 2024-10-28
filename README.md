@@ -20,6 +20,11 @@ a block diagram environment for multidomain simulation and model-based design.
 * See a Vitis Model Composer testbench for a [fractional delay Farrow filter](./Examples/AIENGINE/Farrow_Filter).
 * Working with both AI Engines and PL? See the [tutorials](./Tutorials/AIE-PL/README.md) showing how to connect the block libraries in Vitis Model Composer.
 
+# Tutorials
+<p align="center">
+   <a href="./Tutorials/README.md"><img src="Images/tutorials.jpg" width="350" ></a>
+</p>
+
 # Examples
 
 <p align="center">
@@ -27,11 +32,6 @@ a block diagram environment for multidomain simulation and model-based design.
   <a href="./Examples/AIENGINE/README.md"> <img src="Images/aiengines.jpg" width="350"></a>
   <a href="./Examples/HLS/README.md"><img src="Images/hls.jpg" width="350"></a>
   <a href="./Examples/HDL/README.md"><img src="Images/hdl.jpg" width="350"></a>
-</p>
-
-# Tutorials
-<p align="center">
-   <a href="./Tutorials/README.md"><img src="Images/tutorials.jpg" width="350" ></a>
 </p>
     
 # Quick Guides<a name="quick_guides"></a>
