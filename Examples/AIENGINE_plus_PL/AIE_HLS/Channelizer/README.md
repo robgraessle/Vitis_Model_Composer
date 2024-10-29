@@ -1,6 +1,6 @@
 # Polyphase Channelizer
 
-***Version: Vitis Model Composer 2024.1***
+***Version: Vitis Model Composer 2024.2***
 
 ## Table of Contents
 

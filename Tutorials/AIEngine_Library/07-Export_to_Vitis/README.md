@@ -101,7 +101,7 @@ Next, we will create a new Vitis workspace and add an AI Engine component to it.
 
 1. Open a Linux terminal in this lab directory.
 
-2. Configure your shell to run Vitis: `source (path to Xilinx installation)/Vitis/2024.1/settings64.sh`.
+2. Configure your shell to run Vitis: `source (path to Xilinx installation)/Vitis/2024.2/settings64.sh`.
 
 3. Start the Vitis IDE: `vitis -w work &`.
 
@@ -249,7 +249,7 @@ The compiled AI Engine graph is now in the Vitis system project's binary contain
 
 Now that the AI Engine design has been brought from Vitis Model Composer into Vitis, it can be combined with other PL components (HLS components, data movers, etc.) and a host application to build a complete Versal system design.
 
-To learn more about how to use a Vitis system project, see the [AI Engine/Versal Integration tutorial](https://github.com/Xilinx/Vitis-Tutorials/blob/2024.1/AI_Engine_Development/AIE/Feature_Tutorials/05-AI-engine-versal-integration/unified-ide.md).
+To learn more about how to use a Vitis system project, see the [AI Engine/Versal Integration tutorial](https://github.com/Xilinx/Vitis-Tutorials/tree/2024.2/AI_Engine_Development/AIE/Feature_Tutorials/05-AI-engine-versal-integration/unified-ide.md).
 
 ## Conclusion
 
