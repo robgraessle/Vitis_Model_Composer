@@ -75,10 +75,11 @@ If you close the Timing Analyzer sometime later you might want to relaunch the T
 
 Inserting some registers in the combinational path might give better timing results and might help overcome timing violations if any. This can be done by changing latency of the combinational blocks as explained in the following.
 
-1. Click the violated path from the Timing Analyzer window which opens the violated path as shown in the following figure.
+1. Click the violated path from the Timing Analyzer window which opens the violated path.
 
 2. Double-click the `coef` block to open the Single Port RAM block parameters window as shown in the following figure.
-<br><br><img src="Images/Step1/Part2/Step2.png">
+
+![](Images/Step1/Part2/Step2.png)
 
 3. Under Basic tab, change the latency from 1 to 2 and click **OK**.
 
