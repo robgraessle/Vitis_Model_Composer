@@ -36,5 +36,21 @@
  <td>This guide will show how to debug C/C++ source code (AI Engine or HLS kernels) that has been imported into a Vitis Model Composer model.
  </td>
  </tr>
+
+<tr>
+ <td align="left">
+   <a href="./Monitoring_Cascade_Signals/README.md">Monitoring Cascade Signals</a>
+ </td>
+ <td>When monitoring cascade signals in an AI Engine design, not all of the samples displayed may be valid. Read this Quick Guide to learn why this is and how to determine which samples are valid.
+ </td>
+ </tr>
+
+<tr>
+ <td align="left">
+   <a href="./Running_on_Hardware/README.md">Running on Hardware</a>
+ </td>
+ <td>Follow these instructions to move the Validate on Hardware baremetal or SD card image into the hardware and run the application.
+ </td>
+ </tr>
     
  </table>
