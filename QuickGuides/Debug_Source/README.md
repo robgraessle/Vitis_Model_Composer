@@ -71,9 +71,19 @@ The odd transient behavior at the beginning of the algorithm execution is what w
 
 6. After attaching to PID, open detectSingleWindow.cpp file to set a break point as shown below.
 
-![](images/step8.png)
-
 ![](images/step9.png)
+
+> **NOTE:** When debugging HLS kernels on Windows, it is not possible to set breakpoints in the source code editor.
+>
+> Instead, the breakpoints must be set in the `_ide/launch.json` file. Modify the `autorun` section of the file as follows, save the file, then restart the debugger.
+>
+> ```
+> "autorun": [
+>        "handle SIGSEGV nostop noprint",
+>        "set breakpoint pending on",
+>        "break detectSingleWindow.cpp:82"
+>      ]
+> ``` 
 
 7. Run the `detect_test.slx` model after setting break point.
 

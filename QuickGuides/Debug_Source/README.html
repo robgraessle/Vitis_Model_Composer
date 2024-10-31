@@ -66,8 +66,17 @@
 <ol start="6">
 <li>After attaching to PID, open detectSingleWindow.cpp file to set a break point as shown below.</li>
 </ol>
-<p><img src="images/step8.png" alt="" /></p>
 <p><img src="images/step9.png" alt="" /></p>
+<blockquote>
+  <p><strong>NOTE:</strong> When debugging HLS kernels on Windows, it is not possible to set breakpoints in the source code editor.</p>
+  <p>Instead, the breakpoints must be set in the <code>_ide/launch.json</code> file. Modify the <code>autorun</code> section of the file as follows, save the file, then restart the debugger.</p>
+<pre><code>"autorun": [
+       "handle SIGSEGV nostop noprint",
+       "set breakpoint pending on",
+       "break detectSingleWindow.cpp:82"
+     ]
+</code></pre>
+</blockquote>
 <ol start="7">
 <li><p>Run the <code>detect_test.slx</code> model after setting break point.</p></li>
 <li><p>Break point hitting at line 82 as shown in debug console. </p></li>
