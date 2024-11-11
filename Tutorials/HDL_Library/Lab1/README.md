@@ -30,7 +30,7 @@ This lab has four primary parts:
 In this step, you learn the basic operation of Vitis Model Composer and how to synthesize a Simulink design into an FPGA.
 
 1. Invoke Vitis Model Composer. 
-   - On Windows systems, select **Windows > AMD Design Tools > Vitis Model Composer 2024.2.**
+   - On Windows systems, select **Windows > AMD Design Tools > Vitis Model Composer 2024.1.**
    - On Linux systems, type `model_composer` at the command prompt.
 
 2. Navigate to the Lab1 folder: <samp> \HDL_Library\Lab1. </samp> 
@@ -78,7 +78,7 @@ In this step, you learn the basic operation of Vitis Model Composer and how to s
    - The output ports
    - The FPGA technology
 
-<ul>The next three steps show how each of these attributes is added to your Simulink design.</ul>
+<ul>The next three steps show how each of these attributes are added to your Simulink design.</ul>
 
 >**Important: If you fail to correctly add these components to your design, it cannot be implemented in an FPGA. Subsequent labs will review in detail how these blocks are configured; however, they must be present in all Vitis Model Composer HDL designs.**
 
@@ -88,7 +88,7 @@ In this step, you learn the basic operation of Vitis Model Composer and how to s
 
 10. Similarly, from the same menu, add a Gateway Out block to the design.
 
-11. From the Utilites menu, under the Code Generation menu, add the Vitis Model Composer Hub block used to define the FPGA technology.
+11. From the Utilites menu, under the Code Generation menu, add the Vitis Model Composer Hub block (used to define the FPGA technology) to your Simulink design.
 
 12. Finally, make a copy of one of the existing Spectrum Analyzer blocks, and rename the instance to Spectrum Analyzer HDL by clicking the instance name label and editing the text.
 
@@ -165,7 +165,7 @@ The first task is to define the coefficients of the new filter. For this task yo
 	 - Specify a Simulink system period of 1/20e6 seconds.
 <ul><img src="Images/Step1/Configure_HDL_Blocks/clock_settings.png" width=600px; height=auto></ul>
 
-16. Click **Apply** in the Hub Block.
+16. Click **Apply** and then **OK** in the Hub Block.
 
 17. <p> Click the Run simulation button <img width="18" height="18" src="Images/Step1/Configure_HDL_Blocks/runemoji.png"> to simulate the design and view the results, as shown in the following figure. Because the new design is cycle and bit accurate, simulation might take longer to complete than before.</p>
 <ul><img src="Images/Step1/Configure_HDL_Blocks/Step16.png">
