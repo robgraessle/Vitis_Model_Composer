@@ -192,7 +192,7 @@ ${SD_CARD}: ${BUILD_DIR}/${XSA} ${PS_EXE} ${KERNEL_IMAGE} ${ROOTFS} ${STIMULUS_I
 			--package.kernel_image=${KERNEL_IMAGE} \
 			--package.rootfs=${ROOTFS}  \
 			--package.defer_aie_run \
-            ${XSA} \
+            		${XSA} \
             		$(addprefix ../, ${VSS}) \
 			$(addprefix --package.sd_file=../, ${PS_EXE}) \
 			$(addprefix --package.sd_file=../,${STIMULUS_IO}) \
