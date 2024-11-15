@@ -163,7 +163,7 @@ ${BUILD_DIR}/${XSA}: ${XO} ${SYSTEM_CFG}
 			--platform ${PLATFORM} \
 			$(addprefix --config ../, ${SYSTEM_CFG}) \
 			$(addprefix ../, ${XO}) \
-            $(addprefix ../, ${VSS}) \
+            		$(addprefix ../, ${VSS}) \
 			--output ${XSA} \
 			2>&1 | tee vpp_link.log
 ```
@@ -171,10 +171,10 @@ ${BUILD_DIR}/${XSA}: ${XO} ${SYSTEM_CFG}
 This target invokes `v++` using the `--link` option, and specifies a target (`hw` or `hw_emu`) and platform (`xilinx_vck190_base_202420_1` in this case). The linker takes the system configuration file, data mover PL kernels, and VSS as inputs to produce an XSA. The inputs to the linker are specified in the Makefile as follows:
 
 ```
-XO                    := ../hls_src/ifft_dma_src/ifft_dma_src_wrapper.xo \
-                         ../hls_src/ifft_dma_snk/ifft_dma_snk_wrapper.xo
-VSS			          := ../code/vss/DUT/DUT.vss
-SYSTEM_CFG            := system.cfg
+XO              := ../hls_src/ifft_dma_src/ifft_dma_src_wrapper.xo \
+                   ../hls_src/ifft_dma_snk/ifft_dma_snk_wrapper.xo
+VSS		:= ../code/vss/DUT/DUT.vss
+SYSTEM_CFG      := system.cfg
 ```
 Note that the VSS is pulled from the `code` folder you generated earlier from Vitis Model Composer.
 
@@ -193,7 +193,7 @@ ${SD_CARD}: ${BUILD_DIR}/${XSA} ${PS_EXE} ${KERNEL_IMAGE} ${ROOTFS} ${STIMULUS_I
 			--package.rootfs=${ROOTFS}  \
 			--package.defer_aie_run \
             ${XSA} \
-            $(addprefix ../, ${VSS}) \
+            		$(addprefix ../, ${VSS}) \
 			$(addprefix --package.sd_file=../, ${PS_EXE}) \
 			$(addprefix --package.sd_file=../,${STIMULUS_IO}) \
 			$(addprefix --package.sd_file=../,embedded_exec.sh) \
