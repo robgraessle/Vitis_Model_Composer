@@ -26,6 +26,8 @@ document.location=commandURI
 </html>
 <p>This tutorial will show how to export a heterogeneous design (AI Engine + PL) to Vitis as a Vitis Subsystem (VSS).</p>
 <h2 id="what-is-a-vitis-subsystem">What is a Vitis Subsystem?</h2>
+<p>A Vitis Subsystem (VSS) is a platform-independent reusable design unit, or <em>component</em>, with customizable AIE and PL content, that is integrated into a larger system through Vitis tools.</p>
+<p>For more information, see <a href="https://docs.amd.com/r/en-US/ug1701-vitis-accelerated-embedded/Linking-the-System">Embedded Design Development Using Vitis User Guide (UG1701)</a>. </p>
 <h2 id="tutorial-design">Tutorial Design</h2>
 <p>This tutorial uses the example design 64K-Pt IFFT @ 2 Gsps Using a 2D Architecture.</p>
 <p>The figure below shows a block diagram of a 64k-point 2D IFFT hardware design implemented in Versal using AI Engines and PL. The design targets a throughput of 2 GSPS.</p>
@@ -37,7 +39,13 @@ document.location=commandURI
 <p>When the model runs, the scope displays the real and imaginary output of the IFFT, which is compared to the original input signal. </p>
 <p><img src="Images/results.png" alt="figure1" /></p>
 <h2 id="export-dut-as-vitis-subsystem">Export DUT as Vitis Subsystem</h2>
-<p>To export the design as a VSS:</p>
+<p>A Vitis Subsystem has the following constituent parts:</p>
+<ul>
+<li>Compiled AI Engine application (libadf.a), if the design uses the AI Engine</li>
+<li>Compiled AMD object files (.xo) for any PL kernels in the design</li>
+<li>System configuration (.cfg) file describing how the AI Engine graph and PL kernels are to be connected</li>
+</ul>
+<p>To export the Vitis Model Composer IFFT design as a VSS:</p>
 <ol>
 <li><p>Double-click the <strong>Vitis Model Composer Hub</strong> block.</p></li>
 <li><p>Select the <strong>DUT</strong> subsystem and the <strong>Export</strong> tab.</p></li>
@@ -48,13 +56,7 @@ document.location=commandURI
 <ol start="4">
 <li>Click <strong>Export</strong>.</li>
 </ol>
-<p>Vitis Model Composer generates the following:</p>
-<ul>
-<li>Compiled AI Engine application (libadf.a)</li>
-<li>Compiled HLS PL kernel (.xo)</li>
-<li>System configuration (.cfg) file describing how the AI Engine graph and PL kernels are to be connected</li>
-</ul>
-<p>After generating these products, Vitis Model Composer also invokes the Vitis compiler (<code>v++</code>) to generate a Vitis Subsystem. This will take a few minutes.</p>
+<p>Vitis Model Composer generates the constituent parts of the VSS listed above, and it also invokes the Vitis linker (<code>v++</code>) to generate a Vitis Subsystem. This will take a few minutes.</p>
 <p><img src="Images/progress1.png" alt="figure1" /></p>
 <p>After code generation is complete, the products can be viewed in the <code>code</code> folder.</p>
 <p><img src="Images/folders1.png" alt="figure1" /></p>
@@ -65,9 +67,9 @@ document.location=commandURI
 <li>The <code>vss</code> folder contains the files used to generate the Vitis Subsystem.<ul>
 <li>The <code>DUT</code> folder contains the VSS itself. <strong>This folder contains the files necessary to use the VSS with the Vitis linker.</strong> The libadf.a and .xo are copied here, along with a <code>DUT.vss</code> file providing information about the VSS.</li></ul></li>
 </ul>
-<p>In the next section, we will link and package this VSS with an existing Vitis project.</p>
-<h2 id="integrating-the-vss-with-vitis-project">Integrating the VSS with Vitis Project</h2>
-<p>This tutorial provides a Vitis project, consisting of:</p>
+<p>In the next section, we will link and package this VSS with an existing Vitis platform.</p>
+<h2 id="integrating-the-vss-with-vitis-platform">Integrating the VSS with Vitis Platform</h2>
+<p>This tutorial provides a Vitis platform, consisting of:</p>
 <ul>
 <li>Data movers (implemented in HLS code targeting the PL) to move data between the AI Engine and memory.<ul>
 <li><code>hls_src/ifft_dma_src</code>, <code>hls_src/ifft_dma_sink</code></li></ul></li>
@@ -77,9 +79,9 @@ document.location=commandURI
 <li><code>ps_apps/host.cpp</code></li></ul></li>
 <li>System configuration file describing how the data movers are to be connected to the DUT.<ul>
 <li><code>vitis/system.cfg</code></li></ul></li>
-<li>Makefiles to build the project from sources.</li>
+<li>Makefiles to build the platform from sources.</li>
 </ul>
-<p>To see how to integrate the VSS, we will highlight 3 aspects of the project: the host application, the system configuration file, and how the Vitis linker and packager are invoked in the Makefile.</p>
+<p>To see how to integrate the VSS, we will highlight 3 aspects of the platform: the host application, the system configuration file, and how the Vitis linker and packager are invoked in the Makefile.</p>
 <h3 id="host-application">Host Application</h3>
 <p>Open <code>ps_apps/host.cpp</code> to view the host application source code.</p>
 <p>The host application is responsible for loading and starting the AI Engine graph and the PL data movers. Because the VSS contains the AI Engine graph, the host application must reflect the graph name contained in the VSS.</p>
@@ -136,7 +138,7 @@ sp=dma_snk.mem:LPDDR
 </code></pre>
 <p>The AI Engine port names (<code>In1</code>, <code>Out</code>, etc.) come from the generated AI Engine source code (and ultimately the Simulink model), which can be viewed at <code>code/ip/AIE/src/AIE.h</code>.</p>
 <h3 id="linking-and-packaging">Linking and Packaging</h3>
-<p>Open the file <code>vitis/Makefile</code>. This file automates invoking the Vitis toolchain (<code>v++</code>) to link and package the project.</p>
+<p>Open the file <code>vitis/Makefile</code>. This file automates invoking the Vitis toolchain (<code>v++</code>) to link and package the platform.</p>
 <p>Find the <code>${BUILD_DIR}/${XSA}</code> target, which invokes the Vitis linker.</p>
 <pre><code>${BUILD_DIR}/${XSA}: ${XO} ${SYSTEM_CFG}
 cd ${BUILD_DIR} &amp;&amp; \
@@ -150,10 +152,10 @@ $(addprefix ../, ${VSS}) \
 2&gt;&amp;1 | tee vpp_link.log
 </code></pre>
 <p>This target invokes <code>v++</code> using the <code>--link</code> option, and specifies a target (<code>hw</code> or <code>hw_emu</code>) and platform (<code>xilinx_vck190_base_202420_1</code> in this case). The linker takes the system configuration file, data mover PL kernels, and VSS as inputs to produce an XSA. The inputs to the linker are specified in the Makefile as follows:</p>
-<pre><code>XO                    := ../hls_src/ifft_dma_src/ifft_dma_src_wrapper.xo \
+<pre><code>XO              := ../hls_src/ifft_dma_src/ifft_dma_src_wrapper.xo \
 ../hls_src/ifft_dma_snk/ifft_dma_snk_wrapper.xo
-VSS                      := ../code/vss/DUT/DUT.vss
-SYSTEM_CFG            := system.cfg
+VSS        := ../code/vss/DUT/DUT.vss
+SYSTEM_CFG      := system.cfg
 </code></pre>
 <p>Note that the VSS is pulled from the <code>code</code> folder you generated earlier from Vitis Model Composer.</p>
 <p>The <code>${SD_CARD}</code> target invokes the Vitis packager.</p>
@@ -177,7 +179,7 @@ $(addprefix --package.sd_file=../,embedded_exec.sh) \
 </code></pre>
 <p>This target creates an <code>sd_card.img</code> that can be loaded onto a board, in this case a VCK190. The packager takes as inputs the VSS and the XSA that was generated by the linker.</p>
 <h2 id="building-and-running-the-project">Building and Running the Project</h2>
-<p>The <code>Makefile</code> contained in this folder invokes other Makefiles in the project to build each component, then link and package the overall project.</p>
+<p>The <code>Makefile</code> contained in this folder invokes other Makefiles in the project to build each component, then link and package the overall platform.</p>
 <blockquote>
 <p><strong>NOTE:</strong> To build the Vitis project, make sure you have completed the following steps:</p>
 <ol>

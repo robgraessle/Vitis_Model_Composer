@@ -21,6 +21,10 @@ These tutorials will give a greater understanding of how the different processin
 
 ### [Connecting AI Engine and HLS Subsystems](./AIE_HLS_tutorial/README.md)
 
+The tutorial below will show how to export a heterogeneous design (AI Engine + PL) to Vitis as a Vitis Subsystem (VSS).
+
+### [Export Design from Vitis Model Composer to Vitis](./Export_to_Vitis/README.md)
+
 ---
 
 &copy; Copyright 2023 Advanced Micro Devices, Inc.
