@@ -164,15 +164,6 @@ Hardware Validation of Versal Adaptive SoC Design
 </tr> 
 
 <tr>
-<td>
-<a href="./AIEngine_Library/07-Export_to_Vitis/README.md">Lab 7</a>
-</td>
-<td>
-Export AI Engine Design from Vitis Model Composer to Vitis <img src="../Images/new.PNG" width="50">
-</td>
-</tr> 
-
-<tr>
   <td align="center" colspan="2" style="bold" ><b>AIE-PL System Development</a></b> <img src="../Images/new.PNG" width="50">
 </tr>
 
@@ -192,13 +183,22 @@ Connecting AI Engine and HDL Subsystems
 <td>
 Connecting AI Engine and HLS Subsystems
 </td>
-</tr> 
+</tr>
+
+<tr>
+<td>
+<a href="./AIE-PL/Export_to_Vitis/README.md">Lab 3</a>
+</td>
+<td>
+Export Design from Vitis Model Composer to Vitis <img src="../Images/new.PNG" width="50">
+</td>
+</tr>  
 
 </table>
 
 --------------
 Copyright 2022 Xilinx
-Copyright 2023 Advanced Micro Devices, Inc.
+Copyright 2023-2024 Advanced Micro Devices, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
