@@ -4,6 +4,10 @@ This tutorial will show how to export a heterogeneous design (AI Engine + PL) to
 
 ## What is a Vitis Subsystem?
 
+A Vitis Subsystem (VSS) is a platform-independent reusable design unit, or *component*, with customizable AIE and PL content, that is integrated into a larger system through Vitis tools.
+
+For more information, see [Embedded Design Development Using Vitis User Guide (UG1701)](https://docs.amd.com/r/en-US/ug1701-vitis-accelerated-embedded/Linking-the-System). 
+
 ## Tutorial Design
 
 This tutorial uses the example design 64K-Pt IFFT @ 2 Gsps Using a 2D Architecture.
@@ -26,7 +30,13 @@ When the model runs, the scope displays the real and imaginary output of the IFF
 
 ## Export DUT as Vitis Subsystem
 
-To export the design as a VSS:
+A Vitis Subsystem has the following constituent parts:
+
+* Compiled AI Engine application (libadf.a), if the design uses the AI Engine
+* Compiled AMD object files (.xo) for any PL kernels in the design
+* System configuration (.cfg) file describing how the AI Engine graph and PL kernels are to be connected
+
+To export the Vitis Model Composer IFFT design as a VSS:
 
 1. Double-click the **Vitis Model Composer Hub** block.
 
@@ -40,13 +50,7 @@ The default configuration is to use the entire AI Engine array for the generated
 
 4. Click **Export**.
 
-Vitis Model Composer generates the following:
-
-* Compiled AI Engine application (libadf.a)
-* Compiled HLS PL kernel (.xo)
-* System configuration (.cfg) file describing how the AI Engine graph and PL kernels are to be connected
-
-After generating these products, Vitis Model Composer also invokes the Vitis compiler (`v++`) to generate a Vitis Subsystem. This will take a few minutes.
+Vitis Model Composer generates the constituent parts of the VSS listed above, and it also invokes the Vitis linker (`v++`) to generate a Vitis Subsystem. This will take a few minutes.
 
 ![figure1](Images/progress1.png)
 
@@ -60,11 +64,11 @@ After code generation is complete, the products can be viewed in the `code` fold
 * The `vss` folder contains the files used to generate the Vitis Subsystem.
     * The `DUT` folder contains the VSS itself. **This folder contains the files necessary to use the VSS with the Vitis linker.** The libadf.a and .xo are copied here, along with a `DUT.vss` file providing information about the VSS.
 
-In the next section, we will link and package this VSS with an existing Vitis project.
+In the next section, we will link and package this VSS with an existing Vitis platform.
 
-## Integrating the VSS with Vitis Project
+## Integrating the VSS with Vitis Platform
 
-This tutorial provides a Vitis project, consisting of:
+This tutorial provides a Vitis platform, consisting of:
 
 * Data movers (implemented in HLS code targeting the PL) to move data between the AI Engine and memory.
     * `hls_src/ifft_dma_src`, `hls_src/ifft_dma_sink`
@@ -74,9 +78,9 @@ This tutorial provides a Vitis project, consisting of:
     * `ps_apps/host.cpp`
 * System configuration file describing how the data movers are to be connected to the DUT.
     * `vitis/system.cfg`
-* Makefiles to build the project from sources.
+* Makefiles to build the platform from sources.
 
-To see how to integrate the VSS, we will highlight 3 aspects of the project: the host application, the system configuration file, and how the Vitis linker and packager are invoked in the Makefile.
+To see how to integrate the VSS, we will highlight 3 aspects of the platform: the host application, the system configuration file, and how the Vitis linker and packager are invoked in the Makefile.
 
 ### Host Application
 
@@ -151,7 +155,7 @@ The AI Engine port names (`In1`, `Out`, etc.) come from the generated AI Engine 
 
 ### Linking and Packaging
 
-Open the file `vitis/Makefile`. This file automates invoking the Vitis toolchain (`v++`) to link and package the project.
+Open the file `vitis/Makefile`. This file automates invoking the Vitis toolchain (`v++`) to link and package the platform.
 
 Find the `${BUILD_DIR}/${XSA}` target, which invokes the Vitis linker.
 
@@ -204,7 +208,7 @@ This target creates an `sd_card.img` that can be loaded onto a board, in this ca
 
 ## Building and Running the Project
 
-The `Makefile` contained in this folder invokes other Makefiles in the project to build each component, then link and package the overall project.
+The `Makefile` contained in this folder invokes other Makefiles in the project to build each component, then link and package the overall platform.
 
 >**NOTE:** To build the Vitis project, make sure you have completed the following steps:
 > 1. [Configure your environment](https://docs.amd.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-the-Vitis-Environment) to run Vitis.
