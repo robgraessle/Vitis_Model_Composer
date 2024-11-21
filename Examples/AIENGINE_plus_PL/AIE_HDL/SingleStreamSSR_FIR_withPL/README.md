@@ -4,7 +4,7 @@ This design showcases a Super Sample Rate FIR filter to process a 4GSPS input st
 For more details on the design of the FIR kernels click [here](https://github.com/Xilinx/Vitis-Tutorials/blob/master/AI_Engine_Development/Design_Tutorials/02-super_sampling_rate_fir/SingleStreamSSR). 
 
 
-![](images/SingleStreamSSR_withPL.PNG)
+<img src="images/SingleStreamSSR_withPL.PNG" alt="Single Stream SSR with PL" width="800">
 
 ------------
 Copyright 2020 Xilinx
