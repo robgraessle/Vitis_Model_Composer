@@ -16,13 +16,17 @@ The figure below shows a block diagram of a 64k-point 2D IFFT hardware design im
 
 ![figure](Images/ifft64k-block-diagram.png)
 
-The IFFT operation is performed by AI Engine kernels, 5 each for each data dimension. The results of the first dimension are transposed by an HLS kernel implemented in PL.
+The IFFT operation is performed by AI Engine kernels, 5 each for each data dimension. The results of the first dimension are transposed by an HLS kernel implemented in PL. The IFFT of the second dimension is then performed in the AI Engine.
+
+>**NOTE:** The DMA Source and DMA Sink blocks in the PL, shown in the diagram above, will be provided as part of the platform and not the Vitis Subsystem in this tutorial.
 
 For more details on the design, refer to the [Vitis Model Composer example](https://github.com/Xilinx/Vitis_Model_Composer/tree/2024.2/Examples/AIENGINE_plus_PL/AIE_HLS/IFFT64K_2D) and the [Design Example from Vitis-Tutorials](https://github.com/Xilinx/Vitis-Tutorials/tree/2024.2/AI_Engine_Development/AIE/Design_Tutorials/12-IFFT64K-2D).
 
 Open the model `IFFT64K_2D.slx` and examine the `DUT` subsystem, which contains an HLS Kernel and an AI Engine subsystem.
 
 ![figure](Images/model2.png)
+
+The signals entering and exiting the AI Engine are of `cint32` data type (64 bits wide). The PLIO blocks inside the AI Engine subsystem configure the PLIO width to 64 bits. This means that in hardware, one `cint32` sample will be transferred across each stream on every PL clock cycle. You could potentially increase the PLIO width to 128 bits, so that 2 samples are transferred on each PL clock cycle.
 
 When the model runs, the scope displays the real and imaginary output of the IFFT, which is compared to the original input signal. 
 
@@ -68,7 +72,11 @@ In the next section, we will link and package this VSS with an existing Vitis pl
 
 ## Integrating the VSS with Vitis Platform
 
-This tutorial provides a Vitis platform, consisting of:
+A Vitis platform is comprised of a base hardware design and optional system software (e.g. operating system and bootloaders) that target a specific device. 
+
+The platform hardware design is encapsulated in an XSA container built in Vivado, with annotations that indicate potential attachment points used by Vitis tools to integrate additional design components including Vitis Subsystems (VSS), compiled AI Engine graphs, HLS and RTL kernels. 
+
+So far in this tutorial we have generated a Vitis Subsystem from Model Composer. In the rest of the tutorial, we will show how to integrate the generated Vitis Subsystem along with data movers to the platform hardware and add system software to create a working HW image that takes in input test vectors and compare the hardware output with reference data. To do that we need:
 
 * Data movers (implemented in HLS code targeting the PL) to move data between the AI Engine and memory.
     * `hls_src/ifft_dma_src`, `hls_src/ifft_dma_sink`
