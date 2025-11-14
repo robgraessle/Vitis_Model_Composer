@@ -48,13 +48,13 @@ jobs:
           changed=false
           
           # Find only README.md files that were modified in this push
-          # Handle different scenarios: first commit, multiple commits, etc.
-          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
-            # Not the first commit - compare with previous commit
-            mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+          # Use GitHub's push event context to get the actual range of commits pushed
+          if [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            # Normal push with previous commits - compare the before/after from the push event
+            mapfile -t files < <(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep -E '(^|/)README\.md$' || true)
           else
-            # First commit or no previous commit - get all README.md files from current commit
-            mapfile -t files < <(git diff --name-only --diff-filter=A HEAD | grep -E '(^|/)README\.md$' || true)
+            # First push to branch or forced push - get all README.md files in the current commit
+            mapfile -t files < <(git ls-tree -r --name-only HEAD | grep -E '(^|/)README\.md$' || true)
           fi
           
           if [ "${#files[@]}" -eq 0 ]; then 
