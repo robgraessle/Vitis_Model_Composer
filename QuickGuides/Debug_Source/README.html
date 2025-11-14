@@ -1,7 +1,7 @@
 
     <html>
       <head>
-        <title></title>
+        <title>Debugging C/C++ Source Code</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
@@ -81,16 +81,14 @@
     mem0out++;
     mem0in++;
     mem1in++;
-}
-</code></pre>
+}</code></pre>
 <p>This kernel iterates over frames of 2048 samples, 8 samples at a time, while computing the moving average of the past 32 samples. The output of the kernel is the moving average.</p>
 <p>There is also an initialization function that prepares variables for function execution. A for loop clears two buffers that will be used for accumulation:</p>
 <pre><code>for (int ctr=0; ctr &lt; NUMSAMPLES/8; ctr++)
 {
     *clearMem0 = pWinZero;
     *clearMem1 = pWinZero;
-}
-</code></pre>
+}</code></pre>
 <p>We would expect the accumulator buffers to be zeroed out at the beginning of execution, so the AI Engine kernel should output all zeros initially. For some reason, this loop is not operating as expected. We can set breakpoints and debug this loop using gdb.</p>
 <p>Initialize the <strong>gdb</strong> debugger from within Vitis Model Composer:</p>
 <ol start="2">
@@ -166,8 +164,7 @@ display clearMem1</p></li>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />

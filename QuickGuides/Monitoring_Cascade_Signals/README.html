@@ -1,7 +1,7 @@
 
     <html>
       <head>
-        <title></title>
+        <title>Monitoring Cascade Signals in an AI Engine Design</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
@@ -22,8 +22,7 @@ void dmover0(adf::input_buffer&lt;cint32,adf::extents&lt;adf::inherited_extent&g
       aie::vector&lt;cint32, LANE&gt;  value;
     value = *inIter++;
       writeincr(out,value );
-}
-</code></pre>
+}</code></pre>
 <p>The screen shot below depicts the kernel above imported as an AI Engine block for an AIE-ML device. </p>
 <p><img src="images/example2.png" alt="" /></p>
 <p>Note that even though the kernel only processes 2 <code>cint32</code> samples (128 bits) per clock cycle, the output cascade signal size must be set to 8 <code>cint32</code> samples (512 bits). This is because the AIE Kernel requires the signal size to be set to a multiple of 8 for <code>cint32</code> data.</p>
@@ -33,8 +32,7 @@ void dmover0(adf::input_buffer&lt;cint32,adf::extents&lt;adf::inherited_extent&g
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />

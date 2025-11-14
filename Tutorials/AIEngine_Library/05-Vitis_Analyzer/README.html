@@ -1,34 +1,22 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<table class="sphinxhide" width="100%">
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
-<tr width="100%">
-<td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-<a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
-<a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
-</td>
-</tr>
+    <html>
+      <head>
+        <title>Lab 5: AI Engine Throughput and Latency with Vitis Analyzer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
+    </td>
+ </tr>
 </table>
 <h1 id="lab-5-ai-engine-throughput-and-latency-with-vitis-analyzer">Lab 5: AI Engine Throughput and Latency with Vitis Analyzer</h1>
 <p>This lab will take our existing decimation filter chain design and explore different techniques to increase algorithm throughput. We will also view detailed timing and resource information in the Vitis Analyzer.</p>
-<p>:warning: This AI Engine Lab can be done only in a Linux environment.</p>
+<p>⚠️ This AI Engine Lab can be done only in a Linux environment.</p>
 <h3 id="procedure">Procedure</h3>
 <p>This lab has the following steps:</p>
 <ul>
@@ -81,15 +69,14 @@ a.href = commandURI;
 <p>This limits the throughput calculation to the area between the two cursors. In the figure above, the estimated throughput is 125 MSPS. This satisfies our expected throughput of at least 125 MSPS.</p>
 <p>We can see the affects of adding the PLIO block in the generated graph code (<code>FIRchain.h</code>):</p>
 <pre><code>  In1 = adf::input_plio::create("In1",
-adf::plio_64_bits,
-"./data/input/In1.txt",
-500);
+        adf::plio_64_bits,
+        "./data/input/In1.txt",
+        500);
 
-Out1 = adf::output_plio::create("Out1",
-adf::plio_64_bits,
-"Out1.txt",
-500);
-</code></pre>
+  Out1 = adf::output_plio::create("Out1",
+        adf::plio_64_bits,
+        "Out1.txt",
+        500);</code></pre>
 <p>The input and output PLIO widths are set to 64 bits, and the fourth argument tells the AIE simulator to simulate these PLIOs operating at 500 MHz.</p>
 <h2 id="step-2-cascading-algorithms-across-multiple-aie-tiles">Step 2: Cascading Algorithms Across Multiple AIE Tiles</h2>
 <p>In Step 1, we used PLIOs to increase the throughput of our AI Engine design. It now barely satisfies our expected throughput of 125 MSPS.</p>
@@ -127,7 +114,7 @@ adf::plio_64_bits,
 </ol>
 <p><img src="Images/Image12.png" alt="missing image" /></p>
 <p>This limits the throughput calculation to the area between the two cursors. In the figure above, the estimated throughput is 157 MSPS (your displayed value may vary slightly). The cascading of the FIR filter algorithm across multiple AI Engine kernels has increased our throughput. In the next step, we will see how this change has affected how the algorithm is implemented in the AI Engine.</p>
-<p>By combining multiple techniques: high throughput across the AIE-PL boundary, cascading the algorithm across multiple AI Engine tiles and Super Sample Rate (SSR) parallelism, it is possible to implement designs well in excess of 1 GSPS. One example is an <a href="matlab:XmcExampleApi.getExample('fir_ssr')">AI Engine SSR FIR</a> that achieves 4 GSPS.</p>
+<p>By combining multiple techniques: high throughput across the AIE-PL boundary, cascading the algorithm across multiple AI Engine tiles and Super Sample Rate (SSR) parallelism, it is possible to implement designs well in excess of 1 GSPS. One example is an <a href="https://github.com/Xilinx/Vitis_Model_Composer/blob/HEAD/Examples/AIENGINE/DSPlib/fir_ssr/README.md">AI Engine SSR FIR</a> that achieves 4 GSPS.</p>
 <h2 id="step-3-use-vitis-analyzer-to-calculate-latency">Step 3: Use Vitis Analyzer to Calculate Latency</h2>
 <p>In addition to throughput, a key design metric for signal processing systems is latency. The AI Engine simulator can be configured to capture detailed timing information for display in Vitis Analyzer, which can be used to calculate latency.</p>
 <ol>
@@ -186,205 +173,204 @@ adf::plio_64_bits,
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>    http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>    http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

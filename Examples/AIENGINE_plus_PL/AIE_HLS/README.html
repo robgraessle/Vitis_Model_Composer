@@ -1,7 +1,7 @@
 
     <html>
       <head>
-        <title></title>
+        <title>AI Engine and HLS design</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
       </head>
       <body>
@@ -10,25 +10,24 @@
 <p>In Model Composer you can simulate designs with both AI Engine blocks and HLS Kernel blocks. We use the <em>HLS Kernel</em> block to import an HLS kernel into Model Composer as a block. When connecting the AI Engine blocks to the HLS kernel block, in case the data types do not match, we use the <em>AIE to HLS</em> and <em>HLS to AIE</em> interface blocks.</p>
 <p><img src="images/interface_blocks.PNG" alt="" /></p>
 <h2 id="knowledge-nuggets">Knowledge nuggets</h2>
-<p><img width="18" height="18" src="../Images/bulb.png"> In Model Composer, you can cosimulate HLS kernels and AI Engine blocks.</p>
-<p><img width="18" height="18" src="../Images/bulb.png"> The HLS kernel code should have stream interfaces. Run-time Parameters (RTPs) are also supported. </p>
+<p>💡 In Model Composer, you can cosimulate HLS kernels and AI Engine blocks.</p>
+<p>💡 The HLS kernel code should have stream interfaces. Run-time Parameters (RTPs) are also supported. </p>
 <h2 id="examples">Examples</h2>
 <ul>
-<li><a href="matlab:XmcExampleApi.getExample('Channelizer')">Polyphase Channelizer</a></li>
-<li><a href="matlab:XmcExampleApi.getExample('Prime_Factor_FFT')">Prime Factor FFT-1008</a></li>
-<li><a href="matlab:XmcExampleApi.getExample('IFFT64K_2D')">64K-Pt IFFT @ 2 Gsps Using a 2D Architecture</a></li>
-<li><a href="matlab:XmcExampleApi.getExample('AIE_HLS_with_interface')">A design with both AI Engine and HLS Kernel blocks connected through interface blocks </a></li>
-<li><a href="matlab:XmcExampleApi.getExample('AIE_HLS_without_interface')">A design with both AI Engine and HLS Kernel blocks connected directly </a></li>
-<li><a href="matlab:XmcExampleApi.getExample('AIE_HLS_clipper')">A design with AI Engine blocks and an HLS Kernel block with a Run-time Parameter (RTP) </a></li>
-<li><a href="matlab:XmcExampleApi.getExample('FFT2D')">2D FFT design with both AI Engine and HLS Kernel blocks</a></li>
+<li><a href="Channelizer/README.md">Polyphase Channelizer</a></li>
+<li><a href="Prime_Factor_FFT/README.md">Prime Factor FFT-1008</a></li>
+<li><a href="IFFT64K_2D/README.md">64K-Pt IFFT @ 2 Gsps Using a 2D Architecture</a></li>
+<li><a href="AIE_HLS_with_interface/README.md">A design with both AI Engine and HLS Kernel blocks connected through interface blocks </a></li>
+<li><a href="AIE_HLS_without_interface/README.md">A design with both AI Engine and HLS Kernel blocks connected directly </a></li>
+<li><a href="AIE_HLS_clipper/README.md">A design with AI Engine blocks and an HLS Kernel block with a Run-time Parameter (RTP) </a></li>
+<li><a href="FFT2D/README.md">2D FFT design with both AI Engine and HLS Kernel blocks</a></li>
 </ul>
 <hr />
 <p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />

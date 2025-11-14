@@ -1,25 +1,13 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1 id="polyphase-channelizer">Polyphase Channelizer</h1>
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1); 
-
-commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
-
-a.href = commandURI;
-</script>
-<p><strong><em>Version: Vitis Model Composer 2025.2</em></strong></p>
+    <html>
+      <head>
+        <title>Polyphase Channelizer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="polyphase-channelizer">Polyphase Channelizer</h1>
+<p><strong><em>Version: Vitis Model Composer 2025.1</em></strong></p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ol>
 <li><a href="#introduction">Introduction</a></li>
@@ -42,9 +30,9 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <table>
 <thead>
 <tr>
-<th>Parameter</th>
-<th>Value</th>
-<th>Units</th>
+<th id="parameter">Parameter</th>
+<th id="value">Value</th>
+<th id="units">Units</th>
 </tr>
 </thead>
 <tbody>
@@ -96,7 +84,7 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 </ul>
 <p><img src="images/channelizer-block-diagram.png" alt="figure1" /><br />
 <em>Polyphase Channelizer Block Diagram.</em></p>
-<p>For a more detailed description of the implementation, refer to <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.2/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a> in <a href="https://github.com/Xilinx/Vitis-Tutorials">Vitis-Tutorials</a>. </p>
+<p>For a more detailed description of the implementation, refer to <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.1/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a> in <a href="https://github.com/Xilinx/Vitis-Tutorials">Vitis-Tutorials</a>. </p>
 <p>The remainder of this example will focus on how to bring the polyphase channelizer implementation into Vitis Model Composer and simulate it.</p>
 <h2 id="matlab-model">MATLAB Model</h2>
 <p>The figure below shows a system model of the polyphase channelizer built in MATLAB and encapsulated in a MATLAB app. This provides a comprehensive golden model of the channelizer algorithms and illustrates the relationships between the various system parameters. The model was built to support a different, broader range of parameter settings than the actual Versal design:</p>
@@ -138,13 +126,13 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <p><img src="images/Subsystem_DFT.png" alt="" /></p>
 <p>Each input and output stream has a 64-bit PLIO. This means that 2 <code>cint16</code> samples are transferred on each stream during each clock cycle. To achieve high throughput, the AI Engine design is implemented using a Super Sample Rate (SSR) parallel architecture. </p>
 <p>Each <strong>AIE Class Kernel</strong> block represents a kernel that will execute on its own AI Engine tile. The design consists of a 4x4 array of tiles. Each tile performs two [1x2] x [2x4] operations over two cycles. Each row of tiles passes its computed outputs to the tile below in the same column using the cascade stream.</p>
-<p>Refer to <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.2/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a> in Vitis-Tutorials for further details on the parallel architecture.</p>
+<p>Refer to <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.1/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a> in Vitis-Tutorials for further details on the parallel architecture.</p>
 <ol start="5">
 <li>Double-click on the <strong>run_inputA</strong> block.</li>
 </ol>
 <p><img src="images/AIE_Class_Kernel_Function.png" alt="" /></p>
 <p>The <strong>Function Declaration</strong> indicates that this block executes the <code>run_input</code> function, with two stream inputs and one cascade output. </p>
-<p>The <strong>Signal size</strong> of the cascade output must be set by the user. Signal Size is a block mask property associated with each stream or cascade output of an imported AI Engine block. This property is used only in Simulink simulation and is not reflected in the generated code. This value is always set as samples and not bytes. For more information, see <a href="matlab:XmcExampleApi.getExample('Setting_Signal_Size')">Setting Signal Size</a>.</p>
+<p>The <strong>Signal size</strong> of the cascade output must be set by the user. Signal Size is a block mask property associated with each stream or cascade output of an imported AI Engine block. This property is used only in Simulink simulation and is not reflected in the generated code. This value is always set as samples and not bytes. For more information, see <a href="https://github.com/Xilinx/Vitis_Model_Composer/tree/2025.1/QuickGuides/Setting_Signal_Size/README.md">Setting Signal Size</a>.</p>
 <p>In this case, the <strong>Signal size</strong> parameter is set to 8 times the number of samples processed, reflecting the SSR=8 nature of the algorithm.</p>
 <ol start="6">
 <li>Click on the <strong>Kernel Class</strong> tab.</li>
@@ -164,12 +152,12 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <li>Output Permute</li>
 <li>Cyclic Shift Buffer</li>
 </ul>
-<p>These functions are explained in greater detail in <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.2/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a>.</p>
+<p>These functions are explained in greater detail in <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.1/AI_Engine_Development/AIE/Design_Tutorials/04-Polyphase-Channelizer">Polyphase Channelizer</a>.</p>
 <p>These blocks are implemented in PL using HLS @ 625 MHz. With 2 samples transferred in each PL clock cycle, the AI Engine is able to operate at a rate of 1250 MHz.</p>
 <p>Each function is imported into Vitis Model Composer using the <strong>HLS Kernel</strong> block.</p>
 <ol start="8">
 <li><p>Return up to the <strong>DUT</strong> subsystem.</p></li>
-<li><p>Double-click on the <strong>m16<em>ssr8</em>permute<em>fb</em>i_wrapper</strong> block, which implements the Input Circular Buffer.</p></li>
+<li><p>Double-click on the <strong>m16_ssr8_permute_fb_i_wrapper</strong> block, which implements the Input Circular Buffer.</p></li>
 </ol>
 <p><img src="images/HLS_Kernel_Function.png" alt="" /></p>
 <p>Note that each output has a Signal size of N uint128 sample. As mentioned earlier, this corresponds to N*4 cint16 samples. </p>
@@ -232,205 +220,204 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

@@ -1,24 +1,12 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1 id="export-design-from-vitis-model-composer-to-vitis">Export Design from Vitis Model Composer to Vitis</h1>
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
+    <html>
+      <head>
+        <title>Export Design from Vitis Model Composer to Vitis</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="export-design-from-vitis-model-composer-to-vitis">Export Design from Vitis Model Composer to Vitis</h1>
 <p>This tutorial will show how to export a heterogeneous design (AI Engine + PL) to Vitis as a Vitis Subsystem (VSS).</p>
 <h2 id="what-is-a-vitis-subsystem">What is a Vitis Subsystem?</h2>
 <p>A Vitis Subsystem (VSS) is a platform-independent reusable design unit, or <em>component</em>, with customizable AIE and PL content, that is integrated into a larger system through Vitis tools.</p>
@@ -29,9 +17,9 @@ a.href = commandURI;
 <p><img src="Images/ifft64k-block-diagram.png" alt="figure" /></p>
 <p>The IFFT operation is performed by AI Engine kernels, 5 each for each data dimension. The results of the first dimension are transposed by an HLS kernel implemented in PL. The IFFT of the second dimension is then performed in the AI Engine.</p>
 <blockquote>
-<p><strong>NOTE:</strong> The DMA Source and DMA Sink blocks in the PL, shown in the diagram above, will be provided as part of the platform and not the Vitis Subsystem in this tutorial.</p>
+  <p><strong>NOTE:</strong> The DMA Source and DMA Sink blocks in the PL, shown in the diagram above, will be provided as part of the platform and not the Vitis Subsystem in this tutorial.</p>
 </blockquote>
-<p>For more details on the design, refer to the <a href="matlab:XmcExampleApi.getExample('IFFT64K_2D')">Vitis Model Composer example</a> and the <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.2/AI_Engine_Development/AIE/Design_Tutorials/12-IFFT64K-2D">Design Example from Vitis-Tutorials</a>.</p>
+<p>For more details on the design, refer to the <a href="https://github.com/Xilinx/Vitis_Model_Composer/tree/2025.2/Examples/AIENGINE_plus_PL/AIE_HLS/IFFT64K_2D/README.md">Vitis Model Composer example</a> and the <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/2025.2/AI_Engine_Development/AIE/Design_Tutorials/12-IFFT64K-2D">Design Example from Vitis-Tutorials</a>.</p>
 <p>Open the model <code>IFFT64K_2D.slx</code> and examine the <code>DUT</code> subsystem, which contains an HLS Kernel and an AI Engine subsystem.</p>
 <p><img src="Images/model2.png" alt="figure" /></p>
 <p>The signals entering and exiting the AI Engine are of <code>cint32</code> data type (64 bits wide). The PLIO blocks inside the AI Engine subsystem configure the PLIO width to 64 bits. This means that in hardware, one <code>cint32</code> sample will be transferred across each stream on every PL clock cycle. You could potentially increase the PLIO width to 128 bits, so that 2 samples are transferred on each PL clock cycle.</p>
@@ -98,8 +86,7 @@ my_graph.reset();
 std::cout &lt;&lt; STR_PASSED &lt;&lt; "my_graph.reset()" &lt;&lt; std::endl;
 
 my_graph.run(NUM_ITER);
-std::cout &lt;&lt; STR_PASSED &lt;&lt; "my_graph.run( NUM_ITER=" &lt;&lt; NUM_ITER &lt;&lt; " )" &lt;&lt; std::endl;
-</code></pre>
+std::cout &lt;&lt; STR_PASSED &lt;&lt; "my_graph.run( NUM_ITER=" &lt;&lt; NUM_ITER &lt;&lt; " )" &lt;&lt; std::endl;</code></pre>
 <p>This code calls the XRT API to load and run the AIE graph. The name of the graph, <strong>mygraph</strong>, comes from the generated AI Engine source code (see <code>code/ip/AIE/src/AIE.cpp</code>). <strong>mygraph</strong> is a default name provided by Vitis Model Composer.</p>
 <h3 id="system-configuration-file">System Configuration File</h3>
 <p>Open <code>vitis/system.cfg</code> to view the system configuration file.</p>
@@ -110,8 +97,7 @@ std::cout &lt;&lt; STR_PASSED &lt;&lt; "my_graph.run( NUM_ITER=" &lt;&lt; NUM_IT
 
 # Sources/Sinks Data Movers to/from LPDDR/PL:
 nk = ifft_dma_src_wrapper:1:dma_src
-nk = ifft_dma_snk_wrapper:1:dma_snk
-</code></pre>
+nk = ifft_dma_snk_wrapper:1:dma_snk</code></pre>
 <p>This file also describes connectivity between the PL kernels and the AI Engine. However, because connections within the DUT are handled by the VSS, this file only contains connections that occur between the VSS (DUT), data movers, and DDR.</p>
 <pre><code># ------------------------------------------------------------
 # AXI Stream Connections (PL to AIE)
@@ -135,60 +121,56 @@ sc = ai_engine_0.Out4:dma_snk.sig_i_3
 sc = ai_engine_0.Out5:dma_snk.sig_i_4
 
 # PL DMA SINK to LPDDR
-sp=dma_snk.mem:LPDDR
-</code></pre>
+sp=dma_snk.mem:LPDDR</code></pre>
 <p>The AI Engine port names (<code>In1</code>, <code>Out</code>, etc.) come from the generated AI Engine source code (and ultimately the Simulink model), which can be viewed at <code>code/ip/AIE/src/AIE.h</code>.</p>
 <h3 id="linking-and-packaging">Linking and Packaging</h3>
 <p>Open the file <code>vitis/Makefile</code>. This file automates invoking the Vitis toolchain (<code>v++</code>) to link and package the platform.</p>
 <p>Find the <code>${BUILD_DIR}/${XSA}</code> target, which invokes the Vitis linker.</p>
 <pre><code>${BUILD_DIR}/${XSA}: ${XO} ${SYSTEM_CFG}
-cd ${BUILD_DIR} &amp;&amp; \
-v++ --link --debug --save-temps \
---target ${TARGET} \
---platform ${PLATFORM} \
-$(addprefix --config ../, ${SYSTEM_CFG}) \
-$(addprefix ../, ${XO}) \
-$(addprefix ../, ${VSS}) \
---output ${XSA} \
-2&gt;&amp;1 | tee vpp_link.log
-</code></pre>
+    cd ${BUILD_DIR} &amp;&amp; \
+        v++ --link --debug --save-temps \
+            --target ${TARGET} \
+            --platform ${PLATFORM} \
+            $(addprefix --config ../, ${SYSTEM_CFG}) \
+            $(addprefix ../, ${XO}) \
+                    $(addprefix ../, ${VSS}) \
+            --output ${XSA} \
+            2&gt;&amp;1 | tee vpp_link.log</code></pre>
 <p>This target invokes <code>v++</code> using the <code>--link</code> option, and specifies a target (<code>hw</code> or <code>hw_emu</code>) and platform (<code>xilinx_vck190_base_202420_1</code> in this case). The linker takes the system configuration file, data mover PL kernels, and VSS as inputs to produce an XSA. The inputs to the linker are specified in the Makefile as follows:</p>
 <pre><code>XO              := ../hls_src/ifft_dma_src/ifft_dma_src_wrapper.xo \
-../hls_src/ifft_dma_snk/ifft_dma_snk_wrapper.xo
+                   ../hls_src/ifft_dma_snk/ifft_dma_snk_wrapper.xo
 VSS        := ../code/vss/DUT/DUT.vss
-SYSTEM_CFG      := system.cfg
-</code></pre>
+SYSTEM_CFG      := system.cfg</code></pre>
 <p>Note that the VSS is pulled from the <code>code</code> folder you generated earlier from Vitis Model Composer.</p>
 <p>The <code>${SD_CARD}</code> target invokes the Vitis packager.</p>
 <pre><code>${SD_CARD}: ${BUILD_DIR}/${XSA} ${PS_EXE} ${KERNEL_IMAGE} ${ROOTFS} ${STIMULUS_IO}
-cd ${BUILD_DIR} &amp;&amp; \
-v++ --package --debug --save-temps \
---target ${TARGET} \
---platform ${PLATFORM} \
---package.out_dir ${SD_CARD} \
---package.boot_mode=sd \
---package.image_format=ext4 \
---package.kernel_image=${KERNEL_IMAGE} \
---package.rootfs=${ROOTFS}  \
---package.defer_aie_run \
-${XSA} \
-$(addprefix ../, ${VSS}) \
-$(addprefix --package.sd_file=../, ${PS_EXE}) \
-$(addprefix --package.sd_file=../,${STIMULUS_IO}) \
-$(addprefix --package.sd_file=../,embedded_exec.sh) \
-2&gt;&amp;1 | tee vpp_pack.log
-</code></pre>
+    cd ${BUILD_DIR} &amp;&amp; \
+        v++ --package --debug --save-temps \
+            --target ${TARGET} \
+            --platform ${PLATFORM} \
+            --package.out_dir ${SD_CARD} \
+            --package.boot_mode=sd \
+            --package.image_format=ext4 \
+            --package.kernel_image=${KERNEL_IMAGE} \
+            --package.rootfs=${ROOTFS}  \
+            --package.defer_aie_run \
+                    ${XSA} \
+                    $(addprefix ../, ${VSS}) \
+            $(addprefix --package.sd_file=../, ${PS_EXE}) \
+            $(addprefix --package.sd_file=../,${STIMULUS_IO}) \
+            $(addprefix --package.sd_file=../,embedded_exec.sh) \
+            2&gt;&amp;1 | tee vpp_pack.log</code></pre>
 <p>This target creates an <code>sd_card.img</code> that can be loaded onto a board, in this case a VCK190. The packager takes as inputs the VSS and the XSA that was generated by the linker.</p>
 <h2 id="building-and-running-the-project-for-hardware-emulation">Building and Running the Project for Hardware Emulation</h2>
 <p>The <code>Makefile</code> contained in this folder invokes other Makefiles in the project to build each component, then link and package the overall platform.</p>
 <blockquote>
-<p><strong>NOTE:</strong> To build the Vitis project, make sure you have completed the following steps:</p>
-<ol>
-<li><a href="https://docs.amd.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-the-Vitis-Environment">Configure your environment</a> to run Vitis.</li>
-<li>Set the <code>PLATFORM_REPO_PATHS</code> environment variable to point to the <code>base_platforms</code> folder inside the Vitis installation directory.</li>
-<li>Download and install the <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2024-2.html">Common Images for Embedded Vitis Platforms</a>.</li>
-<li>Set the environment variable <code>COMMON_IMAGE_VERSAL</code> to the full path where you have downloaded the common images.</li>
-</ol>
+  <p><strong>NOTE:</strong> To build the Vitis project, make sure you have completed the following steps:</p>
+  <ol>
+  <li><a href="https://docs.amd.com/r/en-US/ug1393-vitis-application-acceleration/Setting-Up-the-Vitis-Environment">Configure your environment</a> to run Vitis.</li>
+  <li>Set the <code>PLATFORM_REPO_PATHS</code> environment variable to point to the <code>base_platforms</code> folder inside the Vitis installation directory.</li>
+  <li>Download and install the <a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/2024-2.html">Common Images for Embedded Vitis Platforms</a>.</li>
+  <li>Set the environment variable <code>COMMON_IMAGE_VERSAL</code> to the full path where you have downloaded the common images.</li>
+  </ol>
 </blockquote>
 <ol>
 <li>Run <code>make all TARGET=hw_emu</code> in this folder in a terminal window to build and package the project for hardware emulation.</li>
@@ -205,11 +187,9 @@ Run app command sent to console
 ls
 BOOT.BIN          a.xclbin          embedded_exec.sh  sig_i.txt
 Image             boot.scr          host.exe          sig_o.txt
-versal-rootfs-common-20242:/mnt# ./embedded_exec.sh
-</code></pre>
+versal-rootfs-common-20242:/mnt# ./embedded_exec.sh</code></pre>
 <p>As the host application runs, status messages are printed to the display as the AI Engine graph and PL kernels start. Eventually the host application will wait while the kernels execute:</p>
-<pre><code>INFO:    Waiting for kernels to end...
-</code></pre>
+<pre><code>INFO:    Waiting for kernels to end...</code></pre>
 <p>It will take several minutes for the kernels to execute in hardware emulation. When the kernels finish, the host application will compare the DUT output to the golden reference on a sample-by-sample basis. If the results match, the simulation will pass.</p>
 <pre><code>ss: 65532  Gld: 8388273 -12839  Act: 8388273 -12839  Err: 0 0
 ss: 65533  Gld: 8388344 -9502  Act: 8388344 -9502  Err: 0 0
@@ -218,8 +198,7 @@ ss: 65535  Gld: 8388462 -3082  Act: 8388462 -3082  Err: 0 0
 Level: 16384
 Max Error: 256
 
---- PASSED ---
-</code></pre>
+--- PASSED ---</code></pre>
 <h2 id="building-and-running-the-project-for-hardware">Building and Running the Project for Hardware</h2>
 <ol>
 <li><p>Run <code>make all TARGET=hw</code> in a Vitis terminal window to build and package the project for the target.</p></li>
@@ -235,11 +214,11 @@ Max Error: 256
 </ol>
 <ul>
 <li>An sd_card.img file generated by Vitis</li>
-<li>VCK190 Evaluation board</li>
+<li>VCK190 Evaluation board<ul>
 <li>System Controller SD Card: may already be available with the board and plugged in.</li>
 <li>VCK190 SD card: may already be available with the board. This is the card, where you will write the sd_card.img file generated for your design.</li>
 <li>Connect uSD card to your laptop. If your laptop does not come with a uSD card reader slot, an USB-to-uSD card-reader may be used, assuming laptop has a USB port</li>
-<li>For board setup and establish a connection to a serial device by selecting “Serial”, please refer to <a href="matlab:XmcExampleApi.getExample('linux')">Running on Hardware</a>.</li>
+<li>For board setup and establish a connection to a serial device by selecting “Serial”, please refer to <a href="https://github.com/Xilinx/Vitis_Model_Composer/tree/2024.2/QuickGuides/Running_on_Hardware/linux/README.md">Running on Hardware</a>.</li></ul></li>
 </ul>
 <ol start="4">
 <li><p>Turn on board power by switching SW13 on and observe the terminal emulator. If everything goes well, boot messages should be displayed.</p></li>
@@ -253,197 +232,197 @@ Max Error: 256
 <hr />
 <p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

@@ -1,30 +1,18 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<table class="sphinxhide" width="100%">
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
-<tr width="100%">
-<td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-<a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
-<a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
-</td>
-</tr>
+    <html>
+      <head>
+        <title>Connecting AI Engine and HDL Subsystems</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
+    </td>
+ </tr>
 </table>
 <h1 id="connecting-ai-engine-and-hdl-subsystems">Connecting AI Engine and HDL Subsystems</h1>
 <p>This tutorial will explore how to model heterogeneous systems (consisting of AI Engine and PL components) in Vitis Model Composer.</p>
@@ -75,8 +63,8 @@ a.href = commandURI;
 <p>Also note that the signal lines are all a single color, indicating a single sample rate for this subsystem. Referring to the timing legend, the sample period of this subsystem is 2 ns, corresponding to a sample rate of 500 MHz.</p>
 <p><img src="./Images/model3.png" alt="" /></p>
 <blockquote>
-<p><strong>TIP:</strong> You can click the button labeled <code>1/P</code> in the Timing Legend to view timing information in terms of rate instead of period.</p>
-<p><img src="./Images/model4.png" alt="" /></p>
+  <p><strong>TIP:</strong> You can click the button labeled <code>1/P</code> in the Timing Legend to view timing information in terms of rate instead of period.</p>
+  <p><img src="./Images/model4.png" alt="" /></p>
 </blockquote>
 <h2 id="aie-subsystem">AIE Subsystem</h2>
 <p>Unlike the HDL block library, the Vitis Model Composer AI Engine blocks do not perform cycle-accurate simulation. Instead, these blocks allow for functional or bit-accurate simulation. The observed sample times in the Simulink model do not correspond to the AI Engine's hardware clock rate.  </p>
@@ -98,7 +86,7 @@ a.href = commandURI;
 <p>The <strong>PLIO frequency</strong> is 500 MHz, which matches the expected rate of our HDL subsystem (see above). </p>
 <p>The combination of the PLIO width and frequency mean that the AI Engine effectively consumes <code>int32</code> values at a rate of 1 GHz.</p>
 <blockquote>
-<p><strong>IMPORTANT:</strong> The parameters specified in the PLIO block do not affect the functional simulation or observed sample times in Simulink. These parameters only affect the generated AI Engine graph code and how the design is simulated in the cycle-approximate <code>aiesimulator</code>.</p>
+  <p><strong>IMPORTANT:</strong> The parameters specified in the PLIO block do not affect the functional simulation or observed sample times in Simulink. These parameters only affect the generated AI Engine graph code and how the design is simulated in the cycle-approximate <code>aiesimulator</code>.</p>
 </blockquote>
 <p>The second PLIO block is configured identically to transfer <code>int32</code> values from AIE to PL at a rate of 1 GHz.</p>
 <h2 id="interface-from-hdl-to-aie">Interface From HDL to AIE</h2>
@@ -123,15 +111,17 @@ a.href = commandURI;
 <li><strong>Output data type:</strong> <code>int32</code> The AI Engine kernel expects an <code>int32</code> input. On each HDL clock cycle, the HDL to AIE block will split the 64-bit input into 2 32-bit outputs at twice the rate.</li>
 </ul>
 <blockquote>
-<p><strong>NOTE:</strong> When converting input to output data types, the HDL to AIE block only splits the underlying bits of the data; it does not change their numerical values.</p>
-<ul>
-<li><strong>Number of output samples:</strong> <code>16</code> The AI Engine kernel's input buffer is 16 samples.</li>
-<li><strong>Reduce output sample rate by a factor of:</strong> <code>1</code> The HDL subsystem produces valid data on every clock cycle.</li>
-</ul>
-<p><strong>When would you reduce the output sample rate?</strong></p>
-<p>If the HDL subsystem does not produce valid data on every clock cycle, the AI Engine subsystem will operate at a reduced rate. The <strong>Reduce output sample rate</strong> parameter allows the <strong>HDL to AIE</strong> block to model this behavior.</p>
-<p>For example, if the HDL subsystem asserts <code>tvalid</code> every 4 HDL clock cycles, set the <strong>Reduce output sample rate by a factor of</strong> parameter to 4. </p>
-<p>If you do not do this, the <strong>HDL to AIE</strong> block will output a variable-size signal that is empty when there is no valid data. For analysis and viewing the signal on a scope, it is easier to work with variable-size signals that are full. For more information, see the <a href="matlab:XmcExampleApi.getExample('Variable_Size_Signals')">Variable-Size Signals</a> Quick Guide.</p>
+  <p><strong>NOTE:</strong> When converting input to output data types, the HDL to AIE block only splits the underlying bits of the data; it does not change their numerical values.</p>
+  <ul>
+  <li><strong>Number of output samples:</strong> <code>16</code> The AI Engine kernel's input buffer is 16 samples.</li>
+  <li><strong>Reduce output sample rate by a factor of:</strong> <code>1</code> The HDL subsystem produces valid data on every clock cycle.</li>
+  </ul>
+</blockquote>
+<blockquote>
+  <p><strong>When would you reduce the output sample rate?</strong></p>
+  <p>If the HDL subsystem does not produce valid data on every clock cycle, the AI Engine subsystem will operate at a reduced rate. The <strong>Reduce output sample rate</strong> parameter allows the <strong>HDL to AIE</strong> block to model this behavior.</p>
+  <p>For example, if the HDL subsystem asserts <code>tvalid</code> every 4 HDL clock cycles, set the <strong>Reduce output sample rate by a factor of</strong> parameter to 4. </p>
+  <p>If you do not do this, the <strong>HDL to AIE</strong> block will output a variable-size signal that is empty when there is no valid data. For analysis and viewing the signal on a scope, it is easier to work with variable-size signals that are full. For more information, see the <a href="https://github.com/Xilinx/Vitis_Model_Composer/tree/2025.2/QuickGuides/Variable_Size_Signals/README.md">Variable-Size Signals</a> Quick Guide.</p>
 </blockquote>
 <p><img src="./Images/hdl_aie_params2.png" alt="" /></p>
 <ol start="17">
@@ -190,205 +180,204 @@ a.href = commandURI;
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>    http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>    http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

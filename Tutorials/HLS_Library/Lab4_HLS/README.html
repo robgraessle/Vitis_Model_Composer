@@ -1,24 +1,12 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1 id="lab-4-automatic-code-generation">Lab 4: Automatic Code Generation</h1>
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
+    <html>
+      <head>
+        <title>Lab 4: Automatic Code Generation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="lab-4-automatic-code-generation">Lab 4: Automatic Code Generation</h1>
 <p>In this lab, you look at the flow for generating output from your Vitis Model Composer model and moving it into downstream tools like Vitis™ or the Vivado® Design Suite for implementation into an AMD device.</p>
 <h3 id="procedure">Procedure</h3>
 <p>This lab has five steps:</p>
@@ -37,8 +25,10 @@ a.href = commandURI;
 <li><p>Right-click the <strong>Edge Detection</strong> area, and select <strong>Create Subsystem from Area.</strong></p></li>
 </ol>
 <blockquote>
-<p> <strong>Note</strong>: For code generation to work, all the blocks within the enclosed subsystem should only be from the Vitis Model Composer HLS library, with the exception of the Simulink blocks noted below. Subsystems with unsupported blocks will generate errors during code generation. The Simulink diagnostic viewer will contain error messages and links to the unsupported blocks in the subsystem.</p>
-<p> <strong>Note</strong>: In addition to the base Vitis Model Composer HLS blocks, a subset of native Simulink blocks such as From, Goto, Bus Creator, Bus Selector, If, and others, are supported. The supported Simulink blocks appear within the HLS libraries as well.</p>
+  <p>📝 <strong>Note</strong>: For code generation to work, all the blocks within the enclosed subsystem should only be from the Vitis Model Composer HLS library, with the exception of the Simulink blocks noted below. Subsystems with unsupported blocks will generate errors during code generation. The Simulink diagnostic viewer will contain error messages and links to the unsupported blocks in the subsystem.</p>
+</blockquote>
+<blockquote>
+  <p>📝 <strong>Note</strong>: In addition to the base Vitis Model Composer HLS blocks, a subset of native Simulink blocks such as From, Goto, Bus Creator, Bus Selector, If, and others, are supported. The supported Simulink blocks appear within the HLS libraries as well.</p>
 </blockquote>
 <p>Next, you add the Model Composer Hub block at the top level of your design. </p>
 <ol start="4">
@@ -88,7 +78,7 @@ a.href = commandURI;
 </ol>
 <p><img src="Images/Step2/Step5-1.png" alt="" /></p>
 <p><img src="Images/Step2/Step5-2.png" alt="" /></p>
-<p>The Bundle parameter is used in conjunction with the AXI4-Lite or AXI4-Stream (video) interfaces to indicate that multiple ports should be grouped into the same interface. It lets you bundle multiple input/output signals with the same specified bundle name into a single interface port and assigns the corresponding name to the RTL port. <br> For example in this case, the specified settings on the Input ports tab result in the YCbCr inputs being mapped to AXI4-Stream (video) interfaces and bundled together as an image<em>in port in the generated IP while the YCbCr outputs are bundled together as an image</em>out port.</p>
+<p>The Bundle parameter is used in conjunction with the AXI4-Lite or AXI4-Stream (video) interfaces to indicate that multiple ports should be grouped into the same interface. It lets you bundle multiple input/output signals with the same specified bundle name into a single interface port and assigns the corresponding name to the RTL port. <br> For example in this case, the specified settings on the Input ports tab result in the YCbCr inputs being mapped to AXI4-Stream (video) interfaces and bundled together as an image_in port in the generated IP while the YCbCr outputs are bundled together as an image_out port.</p>
 <p>The Video Format drop-down menu lets you select between the following formats:</p>
 <ul>
 <li>YUV 4:2:2</li>
@@ -129,7 +119,7 @@ a.href = commandURI;
 </ul>
 <p><img src="Images/Step3/Step7.png" alt="" /></p>
 <ol start="8">
-<li>To view the generated Edge<em>detection IP in the IP catalog, search for “Edge</em>Detection”. The generated Edge_detection IP, now appears in the IP catalog under Vitis HLS IP as shown in the following figure.</li>
+<li>To view the generated Edge_detection IP in the IP catalog, search for “Edge_Detection”. The generated Edge_detection IP, now appears in the IP catalog under Vitis HLS IP as shown in the following figure.</li>
 </ol>
 <p><img src="Images/Step3/Step8-1.png" alt="" /></p>
 <p>You can now add this IP into an IP integrator block diagram, as shown in the following figure.</p>
@@ -175,14 +165,12 @@ a.href = commandURI;
 <pre><code>v = VideoReader(video_filename);
 frame_height = v.Height;
 frame_width = v.Width;
-save video_handle v
-</code></pre>
+save video_handle v</code></pre>
 <ul>
 <li>Section 2: Creating a Vitis Model Composer HDL solution from a Vitis Model Composer HLS design.  Vitis Model Composer allows you to export a HLS design as a block into HDL design. The result of exporting a design from Vitis Model Composer HLS to HDL is a solution folder that you will import into the HDL design using the Vitis HLS block in HDL library.</li>
 </ul>
 <pre><code>open_system('HLS_design');
-xmcGenerate('HLS_design');
-</code></pre>
+xmcGenerate('HLS_design');</code></pre>
 <ul>
 <li>Section 3:  Serializing the input video.  Serialize the input video which is required for use with the Vitis Model Composer HDL design which will do pixel-based processing.</li>
 </ul>
@@ -190,24 +178,21 @@ xmcGenerate('HLS_design');
 
 i = 1;
 while hasFrame(v)
-frame = rgb2gray(readFrame(v));
-a = reshape(frame',[],1);
-stream_in(i:i+length(a)-1) = a;
-i = i + length(a);
+    frame = rgb2gray(readFrame(v));
+    a = reshape(frame',[],1);
+    stream_in(i:i+length(a)-1) = a;
+    i = i + length(a);
 end
 
-save stream_in stream_in
-</code></pre>
+save stream_in stream_in</code></pre>
 <ul>
 <li>Section 4: Import the generated solution into a Vitis Model Composer HDL design.Set up the Vitis HLS block in the Vitis Model Composer HDL design to point to the correct solution folder generated in Section 2</li>
 </ul>
-<pre><code>open_system('HDL_AXI');
-</code></pre>
+<pre><code>open_system('HDL_AXI');</code></pre>
 <ul>
 <li>Section 5: Simulate the Vitis Model Composer HDL design. Simulate the Vitis Model Composer HDL design and save the outputs into a MAT file. Note that the simulation will be slower than the Vitis Model Composer HLS design since we are simulating the generated RTL and are doing an element-by-element based processing.</li>
 </ul>
-<pre><code>sim('HDL_AXI');
-</code></pre>
+<pre><code>sim('HDL_AXI');</code></pre>
 <ul>
 <li>Section 6: De-serializing the output of the Vitis Model Composer HDL design.  This is a post-processing step that creates a frame-based video for playback using the outputs logged from the Vitis Model Composer HDL simulation.</li>
 </ul>
@@ -225,16 +210,14 @@ open(outputVideo)
 %The output is boolean. This is why we multiply the img by 255 so that
 %implay shows the image. 
 for i = 1:length(stream_out)/v.Height/v.Width
-img = reshape(stream_out((i-1)*v.Height*v.Width+1:i*v.Height*v.Width),v.Width,v.Height);
-writeVideo(outputVideo,255*img')
+   img = reshape(stream_out((i-1)*v.Height*v.Width+1:i*v.Height*v.Width),v.Width,v.Height);
+   writeVideo(outputVideo,255*img')
 end
-close(outputVideo);
-</code></pre>
+close(outputVideo);</code></pre>
 <ul>
 <li>Section 7: Play the de-serialized output using <code>implay</code>.</li>
 </ul>
-<pre><code>implay('stream_out.avi')
-</code></pre>
+<pre><code>implay('stream_out.avi')</code></pre>
 <ol start="4">
 <li>The AXI4-Stream uses three signals, <code>DATA</code>, <code>READY</code>, and <code>VALID</code>. The <code>READY</code> signal is a back pressure signal from the slave side to the master side indicating whether the slave side can accept new data.</li>
 </ol>
@@ -265,205 +248,204 @@ close(outputVideo);
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

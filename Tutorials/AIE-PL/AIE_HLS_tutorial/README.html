@@ -1,30 +1,18 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<table class="sphinxhide" width="100%">
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
-<tr width="100%">
-<td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-<a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
-<a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
-</td>
-</tr>
+    <html>
+      <head>
+        <title>Connecting AI Engine and HLS Subsystems</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
+    </td>
+ </tr>
 </table>
 <h1 id="connecting-ai-engine-and-hls-subsystems">Connecting AI Engine and HLS Subsystems</h1>
 <p>This tutorial will explore how to model heterogeneous systems (consisting of AI Engine and PL components) in Vitis Model Composer.</p>
@@ -49,7 +37,7 @@ a.href = commandURI;
 <h2 id="hls-kernel-block">HLS Kernel Block</h2>
 <p>In order to interface a PL kernel written in HLS with an AI Engine design, the PL kernel must be brought into Vitis Model Composer using the <strong>HLS Kernel</strong> block. This block lets you import HLS C/C++ code that is compiled and executed when simulating the Simulink model. The simulation of the HLS Kernel in Simulink is not cycle-accurate.</p>
 <blockquote>
-<p><strong>IMPORTANT:</strong> Vitis Model Composer also allows you to import HLS code into your design using the <code>xmcImportFunction</code>, or to build a design out of blocks from the HLS block library. <strong>These approaches are not supported for connecting an HLS design to the AI Engine.</strong> For a detailed discussion on the differences between these approaches and using the <strong>HLS Kernel</strong> block, see <a href="https://docs.xilinx.com/r/en-US/ug1483-model-composer-sys-gen-user-guide/Interconnecting-AI-Engines-and-HLS-Kernels">Interconnecting AI Engines and HLS Kernels</a> in the Vitis Model Compouser User Guide. </p>
+  <p><strong>IMPORTANT:</strong> Vitis Model Composer also allows you to import HLS code into your design using the <code>xmcImportFunction</code>, or to build a design out of blocks from the HLS block library. <strong>These approaches are not supported for connecting an HLS design to the AI Engine.</strong> For a detailed discussion on the differences between these approaches and using the <strong>HLS Kernel</strong> block, see <a href="https://docs.xilinx.com/r/en-US/ug1483-model-composer-sys-gen-user-guide/Interconnecting-AI-Engines-and-HLS-Kernels">Interconnecting AI Engines and HLS Kernels</a> in the Vitis Model Compouser User Guide. </p>
 </blockquote>
 <ol start="5">
 <li>Focus on the <strong>HLS_passthrough</strong> block on the canvas.</li>
@@ -72,15 +60,14 @@ a.href = commandURI;
 <pre><code>void
 HLS_passthrough(hls::stream&lt; uint64_t &gt;&amp; arg0, hls::stream&lt; uint64_t &gt;&amp; arg1)
 {
-#pragma HLS INTERFACE axis port=arg0
-#pragma HLS INTERFACE axis port=arg1
-#pragma HLS INTERFACE ap_ctrl_none port=return
-#pragma HLS dataflow
-uint64_t data;
-data = arg0.read();
-arg1.write(data);
-}
-</code></pre>
+    #pragma HLS INTERFACE axis port=arg0
+    #pragma HLS INTERFACE axis port=arg1
+    #pragma HLS INTERFACE ap_ctrl_none port=return
+    #pragma HLS dataflow
+    uint64_t data;
+    data = arg0.read();
+    arg1.write(data);
+}</code></pre>
 <p>Note the pragmas that define the <code>axis</code> interface on the input and output. When this function is implemented in hardware, it will have AXI4-Stream interfaces. This is a requirement for any PL component that interfaces with an AI Engine. For more information, see <a href="https://docs.xilinx.com/r/en-US/ug1399-vitis-hls/How-AXI4-Stream-Works">How AXI4-Stream Works</a>.</p>
 <p>Additional requirements to interface an HLS Kernel with an AI Engine graph, specific to the Vitis Model Composer hardware validation flow, are listed in <a href="https://docs.xilinx.com/r/en-US/ug1483-model-composer-sys-gen-user-guide/Design-Considerations">Design Considerations</a> in the Vitis Model Composer User Guide.</p>
 <h2 id="aie-subsystem">AIE Subsystem</h2>
@@ -104,7 +91,7 @@ arg1.write(data);
 <p>64 bits of data will be transferred from the PL to the AI Engine shim at a rate of 500 MHz. This data is passed from the shim to the AI Engine array as a 32-bit wide AXI-Stream. As long as the AI Engine array is clocked at a rate of at least 1 GHz, there will be no loss of throughput when transferring data from PL to AI Engine.</p>
 <p>The combination of the PLIO width and frequency mean that the AI Engine effectively consumes 32-bit <code>cint16</code> values at a rate of 1 GHz.</p>
 <blockquote>
-<p><strong>IMPORTANT:</strong> The parameters specified in the PLIO block do not affect the functional simulation or observed sample times in Simulink. These parameters only affect the generated AI Engine graph code and how the design is simulated in the cycle-approximate <code>aiesimulator</code>.</p>
+  <p><strong>IMPORTANT:</strong> The parameters specified in the PLIO block do not affect the functional simulation or observed sample times in Simulink. These parameters only affect the generated AI Engine graph code and how the design is simulated in the cycle-approximate <code>aiesimulator</code>.</p>
 </blockquote>
 <p>The second PLIO block is configured identically to transfer <code>cint16</code> values from AIE to PL at a rate of 1 GHz.</p>
 <h2 id="interface-from-hls-to-aie">Interface From HLS to AIE</h2>
@@ -182,205 +169,204 @@ arg1.write(data);
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>    http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>    http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

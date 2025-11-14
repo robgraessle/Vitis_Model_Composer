@@ -1,34 +1,22 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<table class="sphinxhide" width="100%">
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
-<tr width="100%">
-<td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-<a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
-<a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
-</td>
-</tr>
+    <html>
+      <head>
+        <title>Lab 4: AI Engine Code Generation and Cycle-Approximate Simulation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <table class="sphinxhide" width="100%">
+ <tr width="100%">
+    <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
+    <a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
+    </td>
+ </tr>
 </table>
 <h1 id="lab-4-ai-engine-code-generation-and-cycle-approximate-simulation">Lab 4: AI Engine Code Generation and Cycle-Approximate Simulation</h1>
 <p>This lab shows how to use Vitis Model Composer to generate AI Engine graph code and simulate an AI Engine design.</p>
-<p>:warning: This AI Engine Lab can be done only in a Linux environment.</p>
+<p>⚠️ This AI Engine Lab can be done only in a Linux environment.</p>
 <h3 id="procedure">Procedure</h3>
 <p>This lab has the following steps:</p>
 <ul>
@@ -68,70 +56,64 @@ a.href = commandURI;
 #include "./FIR_Halfband_Decimator_9d303e82/FIR_Halfband_Decimator_9d303e82.h"
 #include "./FIR_Halfband_Decimator_e4b5f201/FIR_Halfband_Decimator_e4b5f201.h"
 #include "./FIR_Symmetric_5c1535c2/FIR_Symmetric_5c1535c2.h"
-#include "FreqShift.h"
-</code></pre>
+#include "FreqShift.h"</code></pre>
 <p>The graph is defined as a class derived from the class <code>adf::graph</code>. The class definition declares the four FIR filters and our custom FreqShift kernel:</p>
 <pre><code class="C++ language-C++">class FIRchain_base : public adf::graph {
 public:
-FIR_Halfband_Decimator_f290cd69 FIR_Halfband_Decimator;
-FIR_Halfband_Decimator_9d303e82 FIR_Halfband_Decimator1;
-FIR_Halfband_Decimator_e4b5f201 FIR_Halfband_Decimator2;
-FIR_Symmetric_5c1535c2 FIR_Symmetric;
-adf::kernel FreqShift_0;
-</code></pre>
+   FIR_Halfband_Decimator_f290cd69 FIR_Halfband_Decimator;
+   FIR_Halfband_Decimator_9d303e82 FIR_Halfband_Decimator1;
+   FIR_Halfband_Decimator_e4b5f201 FIR_Halfband_Decimator2;
+   FIR_Symmetric_5c1535c2 FIR_Symmetric;
+   adf::kernel FreqShift_0;</code></pre>
 <p>The graph class constructor instantiates an input port, an output port, and the FreqShift kernel (with a <code>FRAME_LENGTH</code> of 256). Because the FIR filters come from the DSP Library, they are instantiated in their own source files.</p>
 <pre><code class="C++ language-C++">public:
-adf::input_port In1;
-adf::output_port Out1;
+   adf::input_port In1;
+   adf::output_port Out1;
 
-FIRchain_base() {
-// create kernel FreqShift_0
-FreqShift_0 = adf::kernel::create(FreqShift&lt;256&gt;);
-adf::source(FreqShift_0) = "FreqShift.cpp";
-</code></pre>
+   FIRchain_base() {
+      // create kernel FreqShift_0
+      FreqShift_0 = adf::kernel::create(FreqShift&lt;256&gt;);
+      adf::source(FreqShift_0) = "FreqShift.cpp";</code></pre>
 <p>The graph class constructor also specifies a runtime <em>constraint</em> on the FreqShift kernel. We will talk more about constraints in Lab 5. This constraint states that the kernel can be expected to use 90% of an AI Engine tile's compute resources, so the <code>aiecompiler</code> should assign this kernel to its own tile.</p>
 <pre><code class="C++ language-C++">      // create kernel constraints FreqShift_0
-adf::runtime&lt;ratio&gt;(FreqShift_0) = 0.9;
-</code></pre>
+      adf::runtime&lt;ratio&gt;(FreqShift_0) = 0.9;</code></pre>
 <p>The <code>adf::connect</code> function describe how components of the graph connect together. These lines of code reproduce the layout of the decimation filter chain from the Simulink model, connecting the output of one block to the input of the next block.</p>
 <pre><code class="C++ language-C++">      // create nets to specify connections
-adf::connect net0 (In1, FIR_Halfband_Decimator.in[0]);
-adf::connect net1 (FIR_Halfband_Decimator.out[0], FIR_Halfband_Decimator1.in[0]);
-adf::connect net2 (FIR_Halfband_Decimator1.out[0], FIR_Halfband_Decimator2.in[0]);
-adf::connect net3 (FIR_Halfband_Decimator2.out[0], FIR_Symmetric.in[0]);
-adf::connect net4 (FIR_Symmetric.out[0], FreqShift_0.in[0]);
-adf::dimensions(FreqShift_0.in[0]) = {256};
-adf::connect net5 (FreqShift_0.out[0], Out1);
-adf::dimensions(FreqShift_0.out[0]) = {256};
-}
-};
-</code></pre>
+      adf::connect net0 (In1, FIR_Halfband_Decimator.in[0]);
+      adf::connect net1 (FIR_Halfband_Decimator.out[0], FIR_Halfband_Decimator1.in[0]);
+      adf::connect net2 (FIR_Halfband_Decimator1.out[0], FIR_Halfband_Decimator2.in[0]);
+      adf::connect net3 (FIR_Halfband_Decimator2.out[0], FIR_Symmetric.in[0]);
+      adf::connect net4 (FIR_Symmetric.out[0], FreqShift_0.in[0]);
+      adf::dimensions(FreqShift_0.in[0]) = {256};
+      adf::connect net5 (FreqShift_0.out[0], Out1);
+      adf::dimensions(FreqShift_0.out[0]) = {256};
+   }
+};</code></pre>
 <p>The graph constructor is wrapped by another graph class that places PLIOs (Programmable Logic Input/Output) on each input and output. PLIOs establish stream connections between the AI Engine and Programmable Logic. PLIOs can be 32, 64, or 128 bits wide; the PLIO width determines how much data is transferred on each clock cycle. The default PLIO width generated by Vitis Model Composer is 32 bits. Later, we will see how to use Vitis Model Composer to change the PLIO width as a way to increase design throughput.</p>
 <p>The <code>input_plio</code> and <code>output_plio</code> objects allow you to specify text files to use for input and output to the <code>aiesimulator</code>. Vitis Model Composer has automatically generated an input text file and will parse the output when the simulation completes.</p>
 <pre><code class="C++ language-C++">class FIRchain : public adf::graph {
 public:
-FIRchain_base mygraph;
+   FIRchain_base mygraph;
 
 public:
-adf::input_plio In1;
-adf::output_plio Out1;
+   adf::input_plio In1;
+   adf::output_plio Out1;
 
-FIRchain() {
-In1 = adf::input_plio::create("In1",
-adf::plio_32_bits,
-"./data/input/In1.txt");
+   FIRchain() {
+      In1 = adf::input_plio::create("In1",
+            adf::plio_32_bits,
+            "./data/input/In1.txt");
 
-Out1 = adf::output_plio::create("Out1",
-adf::plio_32_bits,
-"Out1.txt");
+      Out1 = adf::output_plio::create("Out1",
+            adf::plio_32_bits,
+            "Out1.txt");
 
-adf::connect&lt; &gt; (In1.out[0], mygraph.In1);
-adf::connect&lt; &gt; (mygraph.Out1, Out1.in[0]);
-}
+      adf::connect&lt; &gt; (In1.out[0], mygraph.In1);
+      adf::connect&lt; &gt; (mygraph.Out1, Out1.in[0]);
+   }
 };
 
-#endif // __XMC_FIRCHAIN_H__
-</code></pre>
+#endif // __XMC_FIRCHAIN_H__</code></pre>
 <h2 id="step-2-review-ai-engine-simulation-results">Step 2: Review AI Engine Simulation Results</h2>
 <h3 id="functional-verification">Functional Verification</h3>
 <p>Because we selected <strong>Create Testbench</strong> in the Model Composer Hub block, Vitis Model Composer generates a testbench that compares the output of the AI Engine simulation to the Simulink simulation for the same input. The AI Engine simulation runs immediately after testbench generation because we selected the option in the Model Composer Hub block. In this case, the simulation results <strong>MATCH</strong> and the testbench <strong>PASSED</strong>. </p>
@@ -183,205 +165,204 @@ adf::connect&lt; &gt; (mygraph.Out1, Out1.in[0]);
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>    http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>    http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

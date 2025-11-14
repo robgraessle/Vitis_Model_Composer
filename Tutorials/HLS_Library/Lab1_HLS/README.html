@@ -1,24 +1,12 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1 id="lab-1-introduction-to-model-composer-hls-library">Lab 1: Introduction to Model Composer HLS Library</h1>
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
+    <html>
+      <head>
+        <title>Lab 1: Introduction to Model Composer HLS Library</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="lab-1-introduction-to-model-composer-hls-library">Lab 1: Introduction to Model Composer HLS Library</h1>
 <p>This tutorial shows how you can use the Vitis™ Model Composer HLS Library for rapid algorithm design and simulation in the Simulink® environment.</p>
 <h3 id="procedure">Procedure</h3>
 <p>This lab has the following steps:</p>
@@ -55,7 +43,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li><p>Connect the rest of the blocks to complete the algorithm as shown in the following figure.</p></li>
 </ol>
 <blockquote>
-<p> Note: The blocks SobelFilter<em>XMC and GradientMag</em>XMC have been generated using the <code>xmcImportFunction</code> feature.</p>
+  <p>📝 Note: The blocks SobelFilter_XMC and GradientMag_XMC have been generated using the <code>xmcImportFunction</code> feature.</p>
 </blockquote>
 <ul> <img src="Images/Step2/Part2/Step5.png"> </ul>
 <ol start="6">
@@ -68,7 +56,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li><p>Try changing the input video through the From Multimedia File block by double-clicking the block and changing the File Name field to select a different video. Notice that changing the video resolution in the Source block does not require any structural modifications to the algorithm itself.</p></li>
 </ol>
 <blockquote>
-<p> <strong>Note:</strong> You must stop simulation before you can change the input file. MP4 files are not supported.</p>
+  <p>📝 <strong>Note:</strong> You must stop simulation before you can change the input file. MP4 files are not supported.</p>
 </blockquote>
 <h2 id="step-3-work-with-data-types">Step 3: Work with Data Types</h2>
 <p>In this step, you become familiar with the supported data types for Vitis Model Composer and conversion from floating to fixed-point types.</p>
@@ -88,10 +76,10 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <h3 id="convert-data-types">Convert Data Types</h3>
 <p>To convert the previous design to use AMD Fixed Point types:</p>
 <blockquote>
-<p> <strong>Note:</strong> Fixed point representation helps to achieve optimal resource usage and performance for a usually acceptable trade-off in precision, depending on the dataset/algorithm.</p>
+  <p>📝 <strong>Note:</strong> Fixed point representation helps to achieve optimal resource usage and performance for a usually acceptable trade-off in precision, depending on the dataset/algorithm.</p>
 </blockquote>
 <ol>
-<li><p>Double-click <strong>Colorspace<em>Conversion</em>fixed_start.slx</strong> in the Current Folder to open the design.</p></li>
+<li><p>Double-click <strong>Colorspace_Conversion_fixed_start.slx</strong> in the Current Folder to open the design.</p></li>
 <li><p>Open the <strong>HLS</strong> library in the Simulink Library Browser.</p></li>
 <li><p>Navigate to the Signal Attributes sub-library, select the <strong>Data Type Conversio</strong>n block, and drag it into the empty slots in the designs, before and after the RGB to YCbCr subsystem.<br />
 <br><br><img src="Images/Step3/Part1/Step3-1.png"><br />
@@ -107,7 +95,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li><p>Add the Data Type Conversion blocks at the output of the RGB to YCbCr Subsystem and set the <strong>Output data type</strong> parameter to <strong>single</strong>. This will enable connecting the output signals to the Video Viewer blocks for visualization.<br />
 <br><br><img src="Images/Step3/Part1/Step5.png"></p></li>
 <li><p>Double-click the <strong>RGB</strong> to <strong>YCbCr</strong> subsystem to descend the hierarchy and open the model. Within the RGB to YCbCr subsystem, there are subsystems to calculate Y, Cb, and Cr components using Gain and Constant blocks.<br />
-<br><br> You can control the fixed point types for the gain parameter in the Gain blocks and the value in the Constant blocks. You can do this by opening up the <strong>Calculate<em>Y</strong>, <strong>Calculate</em>Cb</strong>, and <strong>Calculate_Cr</strong> blocks and setting the data types as follows.<br />
+<br><br> You can control the fixed point types for the gain parameter in the Gain blocks and the value in the Constant blocks. You can do this by opening up the <strong>Calculate_Y</strong>, <strong>Calculate_Cb</strong>, and <strong>Calculate_Cr</strong> blocks and setting the data types as follows.<br />
 <br><br> For Gain blocks, set the Gain data type to fixed. For Constant blocks, on the Data Types tab set the Output data type to fixed. The following options appear:</p>
 <ul>
 <li><strong>Signedness</strong> to <strong>Signed</strong></li>
@@ -115,7 +103,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li><strong>Fractional length</strong> to <strong>7</strong></li></ul></li>
 </ol>
 <blockquote>
-<p>⭐ <strong>Tip</strong>: You can use the <strong>View > Property Inspector</strong> command to open the Property Inspector window. When you select the different Gain or Constant blocks, you can see and modify the properties on the selected block.</p>
+  <p>⭐ <strong>Tip</strong>: You can use the <strong>View > Property Inspector</strong> command to open the Property Inspector window. When you select the different Gain or Constant blocks, you can see and modify the properties on the selected block.</p>
 </blockquote>
 <ul>
 <br><br>Ensure you do this for all the Constant and Gain blocks in the design. Update the model (Ctrl+D) and observe the fixed point data types being propagated along with automatic bit growth in gain blocks and adder trees in the design as shown in the following figure:
@@ -133,7 +121,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <h3 id="convert-data-types-alternative">Convert Data Types (Alternative)</h3>
 <p>Vitis Model Composer supports Data Type Expressions that make it easier to change data types and quickly explore the results from your design.</p>
 <ol>
-<li><p>Double-click <strong>Colorspace<em>Conversion</em>expression.slx</strong> in the Current Folder to open the design.</p></li>
+<li><p>Double-click <strong>Colorspace_Conversion_expression.slx</strong> in the Current Folder to open the design.</p></li>
 <li><p>Notice that the Data Type Conversion blocks at the Input of the RGB to YCbCr Subsystem, the Gain blocks and Constant blocks within the Subsystem have Output data type and Gain data type set to data type expression.<br />
 <br><br><img src="Images/Step3/Part2/Step2.png"><br />
 <br><br> This enables HLS blocks to control the data types in the design using workspace variables, in this case <code>InputDataType</code> and <code>FDataType</code> that you can easily change from the MATLAB command prompt.</p></li>
@@ -142,8 +130,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <li><p>To change the fixed point types in the Gain, Constant, and DTC blocks, and Input data type in DTC blocks, type the following at the MATLAB command prompt:</p></li>
 </ol>
 <pre><code>&gt;&gt; FDataType = 'x_sfix8_En6'
-&gt;&gt; InputDataType = 'x_ufix8_En6'
-</code></pre>
+&gt;&gt; InputDataType = 'x_ufix8_En6'</code></pre>
 <ul>`'x_sfix8_En6' ` represents a signed fixed point number with Word Length 8 and Fractional Length 6.
 <br><br>Now update the model (<b>Ctrl+D</b>) and observe how the fixed-point data types have changed in the design.</ul>
 <ol start="5">
@@ -151,8 +138,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 </ol>
 <h3 id="additional-details">Additional Details</h3>
 <p>In the example above, we only specified the Word Length and Fractional Length of the fixed point data types using data type expressions. However, for greater control over the fixed point types in your design, you can also specify the Signedness, Rounding, and Overflow. In general the format used for specifying fixed point data types using the data type expression is</p>
-<pre><code>x_[u/s]fix[wl]_En[fl]_[r&lt;round&gt;w&lt;overflow&gt;]
-</code></pre>
+<pre><code>x_[u/s]fix[wl]_En[fl]_[r&lt;round&gt;w&lt;overflow&gt;]</code></pre>
 <p><br><br> <b>u</b>: Unsigned<br />
 <br><br> <b>s</b>: Signed<br />
 <br><br> <b>wl</b>: Word Length<br />
@@ -162,8 +148,8 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <table>
 <thead>
 <tr>
-<th>Index</th>
-<th>Meaning</th>
+<th id="index">Index</th>
+<th id="meaning">Meaning</th>
 </tr>
 </thead>
 <tbody>
@@ -202,8 +188,8 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <table>
 <thead>
 <tr>
-<th>Index</th>
-<th>Meaning</th>
+<th id="index">Index</th>
+<th id="meaning">Meaning</th>
 </tr>
 </thead>
 <tbody>
@@ -244,7 +230,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <li>How to use the Data Type Conversion block to control the conversion between data types, including floating-point to fixed-point data types.</li>
 </ul>
 <blockquote>
-<p> <strong>Note</strong>: Vitis Model Composer supports the same floating and integer data types as Simulink blocks and also supports AMD fixed point data types.</p>
+  <p>📝 <strong>Note</strong>: Vitis Model Composer supports the same floating and integer data types as Simulink blocks and also supports AMD fixed point data types.</p>
 </blockquote>
 <p>The following solution directories contain the final Vitis Model Composer files for this lab:</p>
 <ul>
@@ -256,205 +242,204 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>

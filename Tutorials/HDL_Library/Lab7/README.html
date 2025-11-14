@@ -1,24 +1,12 @@
 
-<html>
-<head>
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-<h1 id="lab-7-implement-filters-using-fir-compiler-block">Lab 7: Implement Filters using FIR Compiler Block</h1>
-<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
-
-<script>
-var a = document.getElementById('openlink');
-
-var path = document.location.pathname;
-var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
-var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
-
-commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
-
-a.href = commandURI;
-</script>
+    <html>
+      <head>
+        <title>Lab 7: Implement Filters using FIR Compiler Block</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      </head>
+      <body>
+        <div id='content'>
+    <h1 id="lab-7-implement-filters-using-fir-compiler-block">Lab 7: Implement Filters using FIR Compiler Block</h1>
 <p>In this lab, you will learn how to configure the FIR Compiler block in Vitis Model Composer. In particular, achieving the expected filter result requires you to set both the <strong>FIR block</strong> parameters and the Vitis Model Composer Simulink System Period settings in the <strong>Hub block</strong> correctly. This tutorial will show you how to do this.</p>
 <h3 id="objectives">Objectives</h3>
 <p>After completing this lab, you will be able to configure the <strong>FIR Compiler</strong> block as a:</p>
@@ -58,7 +46,7 @@ a.href = commandURI;
 </ol>
 <p><code>double(xlfda_numerator(strcat(bdroot,'/FDATool')))</code> </p>
 <blockquote>
-<p><strong>NOTE:</strong> You could also define the coefficients as a variable in the MATLAB workspace and specify the variable name in this field.</p>
+  <p><strong>NOTE:</strong> You could also define the coefficients as a variable in the MATLAB workspace and specify the variable name in this field.</p>
 </blockquote>
 <ol start="7">
 <li>Select filter type as <code>Single_Rate</code> under filter specification field as shown below:</li>
@@ -69,7 +57,7 @@ a.href = commandURI;
 </ol>
 <p><img src="Images/step1_4.png" alt="" /></p>
 <blockquote>
-<p><strong>NOTE:</strong> When <strong>Maximum<em>Possible</strong> format is selected, there is an automatic input handshaking, so s</em>data_tvalid port is not exposed here.</p>
+  <p><strong>NOTE:</strong> When <strong>Maximum_Possible</strong> format is selected, there is an automatic input handshaking, so s_data_tvalid port is not exposed here.</p>
 </blockquote>
 <ol start="9">
 <li>Go to the <strong>Implementation</strong> tab and configure the <strong>Coefficient Options</strong> as shown below:</li>
@@ -81,7 +69,7 @@ a.href = commandURI;
 </ul>
 <p><img src="Images/step1_5.png" alt="" /></p>
 <ol start="10">
-<li><p>Click <strong>Apply</strong> and <strong>OK</strong>, connect Gateway In block to <strong>data<em>tdata</em>real</strong> port of FIR Compiler.</p></li>
+<li><p>Click <strong>Apply</strong> and <strong>OK</strong>, connect Gateway In block to <strong>data_tdata_real</strong> port of FIR Compiler.</p></li>
 <li><p>Connect Gateway Out blocks to <strong>tready</strong>, <strong>tvalid</strong> and <strong>tdata</strong> as shown in figure below:</p></li>
 </ol>
 <p><img src="Images/step1_6.png" alt="" /></p>
@@ -174,19 +162,18 @@ a.href = commandURI;
 <li>Switch to the <strong>Channel Specification</strong> tab and change the hardware oversampling specification settings as shown below:</li>
 </ol>
 <ul>
-<li><strong>Select Format</strong>: Input<em>Sample</em>Period</li>
+<li><strong>Select Format</strong>: Input_Sample_Period</li>
 <li><strong>Sample Period</strong>: 5</li>
 </ul>
 <ol start="4">
 <li>Click <strong>Apply</strong> and <strong>OK</strong>.</li>
 </ol>
-<p>When you select <strong>Input<em>Sampling</em>Period</strong> format, the <strong>Sample Period</strong> parameter indicates the number of Simulink System Periods between two input samples.</p>
+<p>When you select <strong>Input_Sampling_Period</strong> format, the <strong>Sample Period</strong> parameter indicates the number of Simulink System Periods between two input samples.</p>
 <p><img src="Images/step2_4.PNG" alt="" /></p>
 <p>The formula for computing the Sample Period for a given input rate and Simulink system rate is: </p>
 <pre><code>Sample Period = {(Input Sampling Period /Simulink System Period)/number of input channels}
 
-Sample Period = (50ns/10ns)/(1) = 5.
-</code></pre>
+Sample Period = (50ns/10ns)/(1) = 5.</code></pre>
 <p><strong>Simulink System Period</strong> Computation is explained below:</p>
 <ul>
 <li><strong>Input Sample Rate</strong>: 20MHz (Input Sample Period: 1/20MHz = 50ns)</li>
@@ -217,24 +204,23 @@ Sample Period = (50ns/10ns)/(1) = 5.
 <p><img src="Images/step2_8.png" alt="" /></p>
 <p>The input sample rate to the filter is 20 MHz and the expected output sample rate is 100MHz (Interpolation with rate change value: 5). Observe the output sample rate in the spectrum analyzer, it should be 100MHz.</p>
 <blockquote>
-<p><strong>NOTE:</strong> We can also select any existing hardware oversampling specification format for this design.</p>
+  <p><strong>NOTE:</strong> We can also select any existing hardware oversampling specification format for this design.</p>
 </blockquote>
-<h3 id="updating-fir-compiler-block-settings-to-use-output_sample_period-format">Updating FIR Compiler block settings to use Output<em>Sample</em>Period format:</h3>
+<h3 id="updating-fir-compiler-block-settings-to-use-output_sample_period-format">Updating FIR Compiler block settings to use Output_Sample_Period format:</h3>
 <ol start="15">
 <li>Double click on FIR Compiler block. Switch to the <strong>Channel Specification</strong> tab. Change the <strong>Hardware Oversampling</strong> specification settings as shown below:</li>
 </ol>
 <ul>
-<li><strong>Select Format</strong>: Output<em>Sample</em>Period</li>
+<li><strong>Select Format</strong>: Output_Sample_Period</li>
 <li><strong>Sample Period</strong>: 1</li>
 </ul>
 <ol start="15">
 <li>Click <strong>Apply</strong> and <strong>OK</strong>.</li>
 </ol>
-<p>When you select <strong>Output<em>Sampling</em>Period</strong> format, the <strong>Sample Period</strong> parameter indicates the number of Simulink System Periods between two output samples.</p>
+<p>When you select <strong>Output_Sampling_Period</strong> format, the <strong>Sample Period</strong> parameter indicates the number of Simulink System Periods between two output samples.</p>
 <pre><code>Sample Period = {(Expected Output Sampling Period / Simulink System Period)/number of input channels}
 
-Sample Period = (10ns/10ns)/(1) = 1.
-</code></pre>
+Sample Period = (10ns/10ns)/(1) = 1.</code></pre>
 <ol start="17">
 <li>Run the design. We should have the same FIR Compiler output response with this format also.</li>
 </ol>
@@ -245,12 +231,11 @@ Sample Period = (10ns/10ns)/(1) = 1.
 </ol>
 <p><img src="Images/step3_1.png" alt="" /> </p>
 <ol start="3">
-<li>Add a Sine Wave as an input:</li>
-</ol>
+<li><p>Add a Sine Wave as an input:</p>
 <ul>
 <li>Double click on canvas and type <code>sine</code></li>
-<li>Select <strong>Sine Wave</strong> to add it to the design</li>
-</ul>
+<li>Select <strong>Sine Wave</strong> to add it to the design</li></ul></li>
+</ol>
 <p><img src="Images/step3_2.png" alt="" /> </p>
 <ol start="4">
 <li>Generate signal with 50MHz input sample rate by double click on the sine wave and add the settings as shown in figure below:</li>
@@ -287,8 +272,7 @@ Sample Period = (10ns/10ns)/(1) = 1.
 <li><p>Set <strong>Simulink System Period</strong> to <code>1/250e6</code> or <code>4e-9</code> in the Hub block.</p></li>
 </ol>
 <p>Simulink System Period is set based on the formula as explained in Step 1 and Step 2 of this Lab.</p>
-<pre><code>gcd(Input Sample Period, Output Sample Period) = gcd(20,16) = 4.
-</code></pre>
+<pre><code>gcd(Input Sample Period, Output Sample Period) = gcd(20,16) = 4.</code></pre>
 <p><strong>Simulink System Period</strong> in the Hub block: (4e-9) or 1/250e6.</p>
 <ol start="14">
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
@@ -330,205 +314,204 @@ Sample Period = (10ns/10ns)/(1) = 1.
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0</code></pre>
 <p>Unless required by applicable law or agreed to in writing, software<br />
 distributed under the License is distributed on an "AS IS" BASIS,<br />
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<br />
 See the License for the specific language governing permissions and<br />
 limitations under the License.</p>
 
-</div>
-<style type='text/css'>body {
-font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-color: #111;
-background-color: #fdfdfd;
--webkit-text-size-adjust: 100%;
--webkit-font-feature-settings: "kern" 1;
--moz-font-feature-settings: "kern" 1;
--o-font-feature-settings: "kern" 1;
-font-feature-settings: "kern" 1;
-font-kerning: normal;
-padding: 30px;
+        </div>
+        <style type='text/css'>body {
+  font: 400 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #111;
+  background-color: #fdfdfd;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-feature-settings: "kern" 1;
+  -moz-font-feature-settings: "kern" 1;
+  -o-font-feature-settings: "kern" 1;
+  font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  padding: 30px;
 }
 
 @media only screen and (max-width: 600px) {
-body {
-padding: 5px;
+  body {
+    padding: 5px;
+  }
+
+  body > #content {
+    padding: 0px 20px 20px 20px !important;
+  }
 }
 
 body > #content {
-padding: 0px 20px 20px 20px !important;
-}
-}
-
-body > #content {
-margin: 0px;
-max-width: 900px;
-border: 1px solid #e1e4e8;
-padding: 10px 40px;
-padding-bottom: 20px;
-border-radius: 2px;
-margin-left: auto;
-margin-right: auto;
+  margin: 0px;
+  max-width: 900px;
+  border: 1px solid #e1e4e8;
+  padding: 10px 40px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 hr {
-color: #bbb;
-background-color: #bbb;
-height: 1px;
-flex: 0 1 auto;
-margin: 1em 0;
-padding: 0;
-border: none;
+  color: #bbb;
+  background-color: #bbb;
+  height: 1px;
+  flex: 0 1 auto;
+  margin: 1em 0;
+  padding: 0;
+  border: none;
 }
 
 /**
-* Links
-*/
+ * Links
+ */
 a {
-color: #0366d6;
-text-decoration: none; }
-a:visited {
-color: #0366d6; }
-a:hover {
-color: #0366d6;
-text-decoration: underline; }
+  color: #0366d6;
+  text-decoration: none; }
+  a:visited {
+    color: #0366d6; }
+  a:hover {
+    color: #0366d6;
+    text-decoration: underline; }
 
 pre {
-background-color: #f6f8fa;
-border-radius: 3px;
-font-size: 85%;
-line-height: 1.45;
-overflow: auto;
-padding: 16px;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
 }
 
 /**
-* Code blocks
-*/
+  * Code blocks
+  */
 
 code {
-background-color: rgba(27,31,35,.05);
-border-radius: 3px;
-font-size: 85%;
-margin: 0;
-word-wrap: break-word;
-padding: .2em .4em;
-font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  word-wrap: break-word;
+  padding: .2em .4em;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
 }
 
 pre > code {
-background-color: transparent;
-border: 0;
-display: inline;
-line-height: inherit;
-margin: 0;
-overflow: visible;
-padding: 0;
-word-wrap: normal;
-font-size: 100%;
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+  font-size: 100%;
 }
 
 
 /**
-* Blockquotes
-*/
+ * Blockquotes
+ */
 blockquote {
-margin-left: 30px;
-margin-top: 0px;
-margin-bottom: 16px;
-border-left-width: 3px;
-padding: 0 1em;
-color: #828282;
-border-left: 3px solid #e8e8e8;
-padding-left: 15px;
-font-size: 18px;
-letter-spacing: -1px;
-font-style: italic;
+  margin-left: 30px;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  border-left-width: 3px;
+  padding: 0 1em;
+  color: #828282;
+  border-left: 3px solid #e8e8e8;
+  padding-left: 15px;
+  font-size: 18px;
+  letter-spacing: -1px;
+  font-style: italic;
 }
 blockquote * {
-font-style: normal !important;
-letter-spacing: 0;
-color: #6a737d !important;
+  font-style: normal !important;
+  letter-spacing: 0;
+  color: #6a737d !important;
 }
 
 /**
-* Tables
-*/
+ * Tables
+ */
 table {
-border-spacing: 2px;
-display: block;
-font-size: 14px;
-overflow: auto;
-width: 100%;
-margin-bottom: 16px;
-border-spacing: 0;
-border-collapse: collapse;
+  border-spacing: 2px;
+  display: block;
+  font-size: 14px;
+  overflow: auto;
+  width: 100%;
+  margin-bottom: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
 }
 
 td {
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 th {
-font-weight: 600;
-padding: 6px 13px;
-border: 1px solid #dfe2e5;
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #dfe2e5;
 }
 
 tr {
-background-color: #fff;
-border-top: 1px solid #c6cbd1;
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
 }
 
 table tr:nth-child(2n) {
-background-color: #f6f8fa;
+  background-color: #f6f8fa;
 }
 
 /**
-* Others
-*/
+ * Others
+ */
 
 img {
-max-width: 100%;
+  max-width: 100%;
 }
 
 p {
-line-height: 24px;
-font-weight: 400;
-font-size: 16px;
-color: #24292e; }
+  line-height: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #24292e; }
 
 ul {
-margin-top: 0; }
+  margin-top: 0; }
 
 li {
-color: #24292e;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5; }
+  color: #24292e;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5; }
 
 li + li {
-margin-top: 0.25em; }
+  margin-top: 0.25em; }
 
 * {
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-color: #24292e; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #24292e; }
 
 a:visited {
-color: #0366d6; }
+  color: #0366d6; }
 
 h2, h3 {
-border-bottom: 1px solid #eaecef;
-color: #111;
-/* Darker */ }
+  border-bottom: 1px solid #eaecef;
+  color: #111;
+  /* Darker */ }
 
 h1 {
 color: black;
 border-bottom: 1px solid #eaecef;
 }
 </style>
-</body>
-</html>
+      </body>
+    </html>
