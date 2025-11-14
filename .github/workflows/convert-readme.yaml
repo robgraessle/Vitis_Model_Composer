@@ -87,8 +87,6 @@ jobs:
             if [ -f "$workdir/README.html" ]; then
               git add "$gitPath"
               changed=true
-            else
-              echo "Warning: $workdir/README.html not created."
             fi
           done
           
