@@ -48,28 +48,14 @@ jobs:
 
           changed=false
           
-          # Find only README.md files that were modified in this push
-          # Use GitHub's push event context to get the actual range of commits pushed
-          if [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
-            # Normal push with previous commits - compare the before/after from the push event
-            echo "Comparing commit range: ${{ github.event.before }}..${{ github.event.after }}"
-            
-            # Check if both commits exist and are valid
-            if git rev-parse --verify "${{ github.event.before }}" >/dev/null 2>&1 && git rev-parse --verify "${{ github.event.after }}" >/dev/null 2>&1; then
-              mapfile -t files < <(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} | grep -E '(^|/)README\.md$' || true)
-            else
-              echo "Invalid commit range, falling back to HEAD~1..HEAD comparison"
-              if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
-                mapfile -t files < <(git diff --name-only HEAD~1..HEAD | grep -E '(^|/)README\.md$' || true)
-              else
-                echo "No previous commit available, processing all README.md files"
-                mapfile -t files < <(git ls-tree -r --name-only HEAD | grep -E '(^|/)README\.md$' || true)
-              fi
-            fi
+          # Find only README.md files that were modified in this push using the GitHub event payload (reliable in CI)
+          if [ -f "$GITHUB_EVENT_PATH" ]; then
+            files=$(jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[]' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true)
+            # Convert to array for compatibility with rest of script
+            readarray -t files <<< "$files"
           else
-            # First push to branch or forced push - get all README.md files in the current commit
-            echo "First push or force push detected, processing all README.md files"
-            mapfile -t files < <(git ls-tree -r --name-only HEAD | grep -E '(^|/)README\.md$' || true)
+            echo "GITHUB_EVENT_PATH not found, falling back to all tracked README.md files."
+            mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
           fi
           
           if [ "${#files[@]}" -eq 0 ]; then 
