@@ -2,9 +2,9 @@ name: Convert README.md -> README.html
 on: 
   push: # watch only README.md files (ignore README.html to be safe) 
     paths: 
-      - '**/README.md' # optionally, avoid triggering on commits that include [skip ci] messages from this workflow 
-      # (most CI systems respect this token; keeping it here is additional protection) 
-      # no additional config needed here for [skip ci], it's in the commit message below
+      - '**/README.md'
+    paths-ignore:
+      - '**/README.html'
 
 jobs: 
   convert: 
@@ -32,15 +32,22 @@ jobs:
         run: |
           set -euo pipefail
       
-          # Path to your converter folder (adjust if needed)
-          CONVERTER_DIR="util"
+          # Relative path (inside repo) to where convert.js and style.css live
+          CONVERTER_DIR="util" 
           CONVERTER_SCRIPT="$CONVERTER_DIR/convert.js"
-          
-          if [ ! -f "$CONVERTER_SCRIPT" ]; then
-          echo "Converter script not found at $CONVERTER_SCRIPT"
-          exit 1
+
+          # Absolute path to converter in the runner workspace
+          # GITHUB_WORKSPACE is automatically set to the repository root
+          if [ -n "${GITHUB_WORKSPACE:-}" ]; then 
+          ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" else 
+          ABS_CONVERTER_SCRIPT="$PWD/$CONVERTER_SCRIPT" 
           fi
-          
+
+          if [ ! -f "$ABS_CONVERTER_SCRIPT" ]; then 
+          echo "Converter script not found at $ABS_CONVERTER_SCRIPT" 
+          exit 1 
+          fi
+
           changed=false
           
           # Find all tracked README.md files
@@ -75,18 +82,17 @@ jobs:
           # Run the converter from inside the README.md folder.
           # Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
           (
-          cd "$workdir"
-          node "$PWD/../$CONVERTER_SCRIPT" "$pageTitle" 2>&1 | sed 's/^/  /'
+            cd "$workdir"
+            node "$ABS_CONVERTER_SCRIPT" "$pageTitle"
           ) || { echo "Conversion failed for $md"; exit 1; }
           
           # If convert.js wrote README.html, stage it.
           if [ -f "$workdir/README.html" ]; then
-          git add "$dir/README.html"
-          changed=true
+            git add "$gitPath"
+            changed=true
           else
-          echo "Warning: $workdir/README.html not created."
+            echo "Warning: $workdir/README.html not created."
           fi
-          done
           
           if [ "$changed" = true ]; then
           git config user.name "$GIT_COMMITTER_NAME"
