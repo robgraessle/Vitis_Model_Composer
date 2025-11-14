@@ -50,13 +50,22 @@ jobs:
           
           # Find only README.md files that were modified in this push using the GitHub event payload (reliable in CI)
           if [ -f "$GITHUB_EVENT_PATH" ]; then
-            files=$(jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[]' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true)
-            # Convert to array for compatibility with rest of script
-            readarray -t files <<< "$files"
+            echo "Using GitHub event payload to detect changed files..."
+            # Use mapfile to properly handle the pipeline and avoid empty elements
+            mapfile -t files < <(jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[] | select(. != null and . != "")' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true)
           else
             echo "GITHUB_EVENT_PATH not found, falling back to all tracked README.md files."
             mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
           fi
+          
+          # Filter out any empty elements from the array
+          filtered_files=()
+          for file in "${files[@]}"; do
+            if [ -n "$file" ] && [ "$file" != "" ]; then
+              filtered_files+=("$file")
+            fi
+          done
+          files=("${filtered_files[@]}")
           
           if [ "${#files[@]}" -eq 0 ]; then 
             echo "No modified README.md files found in this push." 
