@@ -3,8 +3,6 @@ on:
   push: # watch only README.md files (ignore README.html to be safe) 
     paths: 
       - '**/README.md'
-    paths-ignore:
-      - '**/README.html'
 
 jobs: 
   convert: 
