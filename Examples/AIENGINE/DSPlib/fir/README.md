@@ -7,7 +7,7 @@ This example demonstrates using the AI Engine 'FIR Asymmetric Filter' block in M
 
 <img src="images/hub.png" width="450"/>
 
-:bulb: After simulation is done, the Simulink Data Inspector will show the estimated throughput.
+:bulb: After simulation is done, the Simulink Data Inspector will show the estimated throughput
 
 <img src="images/data_inspector.png" width="450"/>
 

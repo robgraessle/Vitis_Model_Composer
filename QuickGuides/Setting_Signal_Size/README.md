@@ -1,6 +1,6 @@
 # How to properly set the Signal Size property on AI Engine blocks with stream or cascade output?
 
-This short tutorial goes over how to optimally set the signal size for AI Engine blocks. These include kernels with stream input and output, as well as Run-Time Parameter (RTP) ports.
+This short tutorial goes over how to optimally set the signal size for AI Engine blocks. These include kernels with stream input and output, as well as Run-Time Parameter (RTP) ports
 
 ## What is "Signal Size"?
 
