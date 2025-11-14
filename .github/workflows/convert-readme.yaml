@@ -21,7 +21,9 @@ jobs:
       
       - name: Install dependencies (if package.json present)
         run: |
-          if [ -f package.json ]; then npm ci; fi
+          if [ -f "$GITHUB_WORKSPACE/util/package.json" ]; then 
+            npm ci --prefix "$GITHUB_WORKSPACE/util" 
+          fi
       
       - name: Convert README.md files (run convert.js from README folder)
         env:
