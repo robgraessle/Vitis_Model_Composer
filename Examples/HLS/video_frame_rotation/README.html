@@ -30,15 +30,15 @@ a.href = commandURI;
 <p>In this example, we rotate video frames by a small angle using the warp transform block in Model Composer.</p>
 <h2 id="transformation-matrix">Transformation matrix</h2>
 <p>The Warp transform block requires a 3x3 input matrix that specifies the transformation on the input frame. For this example, we are setting the transfomration matrix in such a way to rotate the input frame around the center of the frame by a small angle. The general transformation matrix is:</p>
-<p><img src="Images/transform_equ.gif" alt="" /></p>
+<p><img src="../Images/transform_equ.gif" alt="" /></p>
 <p>To form this transformation matrix, we use the xmcImportFunction command to import C code into the model as a block. You can find the specific command to use in the import_function.m file. Note that a pragma used in create_transform_matrix.h is SUPPORTS_STREAMING. This pragma is needed to stream the input frame into the design, resulting in a smaller foot print on the FPGA.</p>
 <h2 id="interface-to-the-design">Interface to the design</h2>
 <p>We set the interface for this design using the Interface spec block that is under the main subsystem. This design has a video input to stream the video into the design. For this input we are using the AXI4-stream protocol. For all the other inputs that are used for forming the transformation matrix, we use the AXI4-lite protocol. We bundle all the AXI4-lite inputs under the name of rotation_ctrl. The image below shows one of the panels in the Interface spec block.</p>
-<p><img src="Images/interface_spec.PNG" alt="" /></p>
+<p><img src="../Images/interface_spec.PNG" alt="" /></p>
 <p>We use the IP Catalog export flow in Model Composer to package the design as an IP, which can then be imported into the Vivado IP Catalog to connect with other IPs in the IP Integrator tool. The image below shows the generated IP in the Vivado IP Catalog. Note the input and output ports, and the bundled port named rotation_ctrl.</p>
-<p><img src="Images/ip_catalog.PNG" alt="" /></p>
+<p><img src="../Images/ip_catalog.PNG" alt="" /></p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

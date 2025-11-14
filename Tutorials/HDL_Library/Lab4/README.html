@@ -51,12 +51,12 @@ a.href = commandURI;
 <li>The output section gain-controls the output for subsequent blocks which will use the data.</li>
 <li>The gain is controlled from the POWER_SCALE input.</li>
 </ul>
-<p><img src="Images/Step1/Step3.png" alt="" /></p>
+<p><img src="../Images/Step1/Step3.png" alt="" /></p>
 <ol start="4">
 <li>Click the Run simulation button to simulate the design.</li>
 </ol>
 <p>In the following figure Sample Time Display is enabled with colors (right-click in the canvas, <strong>Sample Time Display > Colors</strong>), and shows clearly that the design is running at multiple data rates.</p>
-<p><img src="Images/Step1/Step4.png" alt="" /></p>
+<p><img src="../Images/Step1/Step4.png" alt="" /></p>
 <p>The Vitis Model Composer environment automatically propagates the different data rates through the design.</p>
 <p>When a multi-rate design such as this is implemented in hardware, the most optimal implementation is to use a clock at the same frequency as the data; however, the clock is abstracted away in this environment. The following methodology demonstrates how to create this ideal implementation in the most efficient manner.</p>
 <p>To efficiently implement a multi-rate (or multi-clock) design using Vitis Model Composer you should capture each part running at the same data rate (or clock frequency) in its own hierarchy. The separate hierarchies should then be linked with FIFOs.</p>
@@ -70,16 +70,16 @@ a.href = commandURI;
 <ol start="5">
 <li>Select all the blocks in the filter chain – all those to be in the same clock domain, including the FDATool instances - as shown in the following figure.</li>
 </ol>
-<p><img src="Images/Step1/Step9.png" alt="" /></p>
+<p><img src="../Images/Step1/Step9.png" alt="" /></p>
 <ol start="6">
 <li><p>Select Create Subsystem to create a new subsystem.</p></li>
 <li><p>Select the instance name subsystem and change this to DDC to obtain the design shown.</p></li>
 </ol>
-<p><img src="Images/Step1/Step10.png" alt="" /></p>
+<p><img src="../Images/Step1/Step10.png" alt="" /></p>
 <ol start="8">
 <li>Select the components in the output path and create a subsystem named Gain Control.</li>
 </ol>
-<p><img src="Images/Step1/Step11.png" alt="" /></p>
+<p><img src="../Images/Step1/Step11.png" alt="" /></p>
 <ol start="9">
 <li>Finally, select the Gateway In instance <strong>POWER_SCALE</strong> to create a new subsystem called CTRL. The final grouped design is shown in the following figure.</li>
 </ol>
@@ -106,7 +106,7 @@ a.href = commandURI;
 <li>Connect <code>FIFO1/dout</code> to <code>Gain Control/In3</code>.</li></ul></li>
 </ol>
 <p>You have now connected the data between the different domains and have the design shown in the following figure.</p>
-<p><img src="Images/Step2/Step6.png" alt="" /></p>
+<p><img src="../Images/Step2/Step6.png" alt="" /></p>
 <p>You will now connect up the control logic signals to ensure the data is safely passed between domains.<br />
     - From the CTRL block a write enable is required. This is not currently present and needs to be created.<br />
     - From the DDC block a write enable is required. The data_tvalid from the final FIR stage can be used for this.<br />
@@ -122,7 +122,7 @@ a.href = commandURI;
 <li><p>Use the Comparison drop-down menu to select <strong>a!=b</strong> and click <strong>OK</strong>.</p></li>
 <li><p>Connect the blocks as shown in the following figure.</p></li>
 </ol>
-<p><img src="Images/Step2/Step11.png" alt="" /></p>
+<p><img src="../Images/Step2/Step11.png" alt="" /></p>
 <p>This will create an output strobe on Out2 which will be active for one cycle when the input changes, and be used as the write-enable from CTRL to the Gain Control (the FIFO block at the top level).</p>
 <ol start="12">
 <li><p>Click the Up to Parent toolbar button to return to the top level.</p></li>
@@ -143,7 +143,7 @@ a.href = commandURI;
 <li>Rename In4 to <code>CTRL_Empty</code></li></ul></li>
 <li><p>Connect the blocks as shown in the following figure</p></li>
 </ol>
-<p><img src="Images/Step2/Step18.png" alt="" /></p>
+<p><img src="../Images/Step2/Step18.png" alt="" /></p>
 <p>The FIFO empty signal from the top-level Gain Control FIFO (FIFO) block is simply an inverter block used to create a read-enable for the top-level DDC FIFO (FIFO1). If the FIFO is not empty, the data will be read.</p>
 <p>Similarly, the FIFO empty signal from the top-level DDC FIFO (FIFO1) is inverted to create a FIFO read-enable.</p>
 <p>This same signal will be used as the new <code>data_tvalid</code> (which was In2). However, because the FIFO has a latency of 1, this signal must be delayed to ensure this control signal is correctly aligned with the data (which is now delayed by 1 through the FIFO).</p>
@@ -151,7 +151,7 @@ a.href = commandURI;
 <li>Use the <strong>Up to Parent</strong> toolbar button to return to the top level.</li>
 </ol>
 <p>This shows the control signals are now present at the top level.</p>
-<p><img src="Images/Step2/Step20.png" alt="" /></p>
+<p><img src="../Images/Step2/Step20.png" alt="" /></p>
 <p>You will now complete the final connections.</p>
 <ol start="20">
 <li><p>Connect the control path through instance FIFO. Delete any existing connections to complete this task.</p>
@@ -165,7 +165,7 @@ a.href = commandURI;
 <li>Connect <code>FIFO1/empty</code> to <code>Gain Control/In2</code>.</li>
 <li>Connect<code>Gain Control/DDC_Read</code> to <code>FIFO1/re</code>.</li></ul></li>
 </ol>
-<p><img src="Images/Step2/Step22.png" alt="" /></p>
+<p><img src="../Images/Step2/Step22.png" alt="" /></p>
 <ol start="22">
 <li>Click the <strong>Run simulation</strong> button to simulate the design and confirm the correct operation – you will see the same results as Step 1 action 4.</li>
 </ol>
@@ -188,7 +188,7 @@ a.href = commandURI;
 <li><p>Set the <strong>FPGA clock period</strong> to <code>1e9/100e6</code>.</p></li>
 <li><p>Set the <strong>Simulink system period</strong> to <code>1/100e6</code>.</p></li>
 </ol>
-<p><img src="Images/Step3/Step8.png" alt="" /></p>
+<p><img src="../Images/Step3/Step8.png" alt="" /></p>
 <p>The DDC block uses the same clock frequency as the original design, 491 MHz, because this is the rate of the incoming data.</p>
 <ol start="9">
 <li><p>Select the <strong>Clock2</strong> tab.</p></li>
@@ -196,7 +196,7 @@ a.href = commandURI;
 <li><p>Set the <strong>FPGA clock period</strong> to <code>1e9/491.52e6</code>.</p></li>
 <li><p>Set the <strong>Simulink system period</strong> to <code>1/491.52e6</code>.</p></li>
 </ol>
-<p><img src="Images/Step3/Step12.png" alt="" /></p>
+<p><img src="../Images/Step3/Step12.png" alt="" /></p>
 <p>You will now specify a new clock rate for the Gain Control block. The Gain Control block will be clocked at the same rate as the output from the DDC, 61.44 MHz.</p>
 <ol start="13">
 <li><p>Select the <strong>Clock3</strong> tab.</p></li>
@@ -204,7 +204,7 @@ a.href = commandURI;
 <li><p>Set the <strong>FPGA clock period</strong> to <code>1e9/61.44e6</code>.</p></li>
 <li><p>Set the <strong>Simulink system period</strong> to <code>1/61.44e6</code>.</p></li>
 </ol>
-<p><img src="Images/Step3/Step16.png" alt="" /></p>
+<p><img src="../Images/Step3/Step16.png" alt="" /></p>
 <ol start="17">
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong> to close the Model Composer Hub.</p></li>
 <li><p>Double-click the HDL DUT block and then the CTRL block to navigate into the subsystem.</p></li>
@@ -241,7 +241,7 @@ a.href = commandURI;
 <li>The final results from Step 3 are provided in file <code>Lab4_3_sol.slx</code></li>
 </ul>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

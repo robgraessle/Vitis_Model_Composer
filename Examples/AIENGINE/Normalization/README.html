@@ -29,11 +29,11 @@ a.href = commandURI;
 </ul>
 <h2 id="algorithm">Algorithm</h2>
 <p>This example targets z-score normalization that scales elements of a frame, making the frame output have the following distribution:</p>
-<p><img src="./Images/eqn1.png" alt="" /> </p>
+<p><img src="../Images/eqn1.png" alt="" /> </p>
 <p>Assume the input frame is a <code>COL * ROW</code> matrix (data is stored column first). For each element in a frame, it computes the corresponding element as:</p>
-<p><img src="./Images/eqn2.png" alt="" /> </p>
+<p><img src="../Images/eqn2.png" alt="" /> </p>
 <p>Where:</p>
-<p><img src="./Images/eqn3.png" alt="" /> </p>
+<p><img src="../Images/eqn3.png" alt="" /> </p>
 <p>For this example, the following specifications are chosen:</p>
 <ul>
 <li><code>COL</code>: <code>128</code></li>
@@ -42,7 +42,7 @@ a.href = commandURI;
 </ul>
 <h2 id="design">Design</h2>
 <p>The Vitis Model Composer model imports the normalization design as AI Engine Kernel blocks. For a detailed description of the example design and its kernel functions, refer to the <a href="matlab:XmcExampleApi.getExample('13-aie-ml-performance-analysis')">AIE-ML Performance Analysis Tutorial</a>. The Vitis Model Composer example uses Version 4 of the normalization design.</p>
-<p><img src="./Images/model.png" alt="" /> </p>
+<p><img src="../Images/model.png" alt="" /> </p>
 <p>Here are the relevant features of the Vitis Model Composer model: </p>
 <ul>
 <li>Design inputs are provided via the model callbacks. To view the callbacks, right-click on the design canvas, select <strong>Model Properties</strong>, then <strong>Callbacks</strong>.</li>
@@ -66,10 +66,10 @@ end</code></pre>
 <li>The AI Engine design inputs and outputs <code>bfloat16</code> floating-point data. The <strong>Convert To Bfloat16</strong> and <strong>Convert From Bfloat16</strong> blocks convert between the Simulink <code>single</code> data type and the <code>bfloat16</code> data type.</li>
 <li>Because this design has a feedback loop within the AI Engine subsystem, an <strong>Algebraic Loop Breaker</strong> block is needed to compile and run the model. For more information, see the <a href="matlab:XmcExampleApi.getExample('AlgebraicLoopBreaker')">Algebraic Loop Breaker</a> block help.</li>
 </ul>
-<p><img src="./Images/results.png" alt="" />   </p>
+<p><img src="../Images/results.png" alt="" />   </p>
 <p>The mean and variance of both the input and output signal are displayed. Note that the mean of the output signal is less than 1, and the variance of the output signal is 1. This is the result of the normalization algorithm.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {

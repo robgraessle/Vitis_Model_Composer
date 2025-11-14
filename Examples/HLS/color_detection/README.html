@@ -33,11 +33,11 @@ a.href = commandURI;
 <li>Color thresholding</li>
 <li>Morphological operation</li>
 </ul>
-<p><img src="Images/color_detection_subsystems.png" alt="" /></p>
+<p><img src="../Images/color_detection_subsystems.png" alt="" /></p>
 <p>In this example, we feed a video taken from a car's front facing camera to the algorithm and segment the yellow traffic signs.</p>
 <h2 id="rgb-to-hsv-conversion">RGB to HSV Conversion</h2>
 <p>The input video is in RGB color space. We first convert the video from RGB to HSV color spaces. HSV color space is the most suitable color space for color based image segmentation. The conversion formula from RGB to HSV color spaces can be done using the following formulas:</p>
-<p><img src="Images/RGB_2_HSV_conversion.png" alt="" /></p>
+<p><img src="../Images/RGB_2_HSV_conversion.png" alt="" /></p>
 <p>Where MAX = max(R',G',B'), MIN = min(R',G',B'), and R',G', and B' are normalized to [0 1] range.</p>
 <p>We use the C/C++ import functionality of Model Composer to import the RGB2HSV function as a block into the design. This algorithm is well optimized in terms of timing and resources. The function signature of the RGB2HSV function is:</p>
 <pre><code>   template&lt;int SRC_T, int ROWS, int COLS,int NPC=1&gt; void
@@ -46,7 +46,7 @@ a.href = commandURI;
 <p>xf::Mat is a template class that serves as a container for storing image data and its attributes. To port RGB2HSV into Model Composer, we need to write a wrapper function that converts a 2d array to xf::Mat and vice versa. This is done in RGB2HSV_wrap.h file where the RGB channels are converted to an xf::Mat object and the resulting xf::Mat object from the function is then converted into three HSV channels. To gain a deeper understanding of how this is done, please review the contents of RGB2HSV_wrap.h.</p>
 <h2 id="color-threshold">Color Threshold</h2>
 <p>Based on the H (hue), S (saturation) and V (value) values, we apply the thresholding operation to the HSV image and return either 0 or 255. H,S,V threshold values should be specified in the range of 0-255. The example below demonstrates the threshold values for yellow color detection.</p>
-<p><img src="Images/yellow_thresholds.png" alt="" /></p>
+<p><img src="../Images/yellow_thresholds.png" alt="" /></p>
 <h2 id="morphological-operation">Morphological operation</h2>
 <p>Morphological operations apply a structuring element to an image, creating an output image of the same size. This reduces unnecessary white patches in the image. The most basic morphological operations are dilation and erosion.</p>
 <ul>
@@ -58,10 +58,10 @@ a.href = commandURI;
 <p><strong>Note</strong>: For Color Threshold and Morphological operations also, we use C/C++ import functionality of Model composer.</p>
 <h2 id="sample-input-and-output-frames">Sample input and output frames</h2>
 <p>The images below shows an input frame and output frame to the algorithm.</p>
-<p><img src="Images/input_video_frame.png" alt="" /><br />
-<img src="Images/output_video_frame.png" alt="" /></p>
+<p><img src="../Images/input_video_frame.png" alt="" /><br />
+<img src="../Images/output_video_frame.png" alt="" /></p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

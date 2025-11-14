@@ -48,12 +48,12 @@ a.href = commandURI;
 <li><p>Open the Simulink Library Browser and navigate to <strong>AMD Toolbox > HLS > Tools</strong> sub-library.</p></li>
 <li><p>Find the Model Composer Hub block, and add it into the design as shown in the following figure. </p></li>
 </ol>
-<p><img src="Images/Step1/Step5.jfif" alt="" /></p>
+<p><img src="../Images/Step1/Step5.jfif" alt="" /></p>
 <p>Next, you use the Model Composer Hub block to select the code generation options for the design.</p>
 <ol start="6">
 <li>Double-click the block to open the block interface and set up as shown in the following figure.</li>
 </ol>
-<p><img src="Images/Step1/Step6.png" alt="" /></p>
+<p><img src="../Images/Step1/Step6.png" alt="" /></p>
 <ol start="7">
 <li>On the <strong>Code Generation -> Export</strong> tab, you can set the following options as shown in the previous figure:</li>
 </ol>
@@ -74,13 +74,13 @@ a.href = commandURI;
 <li><p>Simulate the model to see the results in the Video Viewer blocks. Stop simulation before continuing to the next step.</p></li>
 <li><p>Open the Simulink Library browser, navigate to the <strong>AMD Toolbox > HLS > Tools</strong> sub-library and add the Interface Spec block inside the Edge Detection subsystem as shown in the following figure.</p></li>
 </ol>
-<p><img src="Images/Step2/Step3.png" alt="" /></p>
+<p><img src="../Images/Step2/Step3.png" alt="" /></p>
 <ol start="4">
 <li>Double-click the <strong>Interface Spec</strong> block to open the block interface.</li>
 </ol>
 <p>The Interface Spec block allows you to control what RTL interfaces should be synthesized for the ports of the subsystem in which the block is instantiated. This affects only code generation; it has no effect on Simulink simulation of your design.</p>
 <p>The information gathered by the Interface Spec block consists of three parts (represented as three Tabs on the block).</p>
-<p><img src="Images/Step2/Step4.png" alt="" /></p>
+<p><img src="../Images/Step2/Step4.png" alt="" /></p>
 <ul>
 <li><strong>Function Protocol</strong>: This is the block-level Interface Protocol which tells the IP when to start processing data. It is also used by the IP to indicate whether it accepts new data, or whether it has completed an operation, or whether it is idle.</li>
 <li><strong>Input Ports</strong>: Detects the Input ports in your subsystem automatically and allows specifying the port-level Interface Protocol for each input port of the subsystem.</li>
@@ -89,8 +89,8 @@ a.href = commandURI;
 <ol>
 <li>For this design, leave the Function Protocol mode at the default AXI4-Lite Slave and configure the Input ports and Output ports tabs as shown in the following figures.</li>
 </ol>
-<p><img src="Images/Step2/Step5-1.png" alt="" /></p>
-<p><img src="Images/Step2/Step5-2.png" alt="" /></p>
+<p><img src="../Images/Step2/Step5-1.png" alt="" /></p>
+<p><img src="../Images/Step2/Step5-2.png" alt="" /></p>
 <p>The Bundle parameter is used in conjunction with the AXI4-Lite or AXI4-Stream (video) interfaces to indicate that multiple ports should be grouped into the same interface. It lets you bundle multiple input/output signals with the same specified bundle name into a single interface port and assigns the corresponding name to the RTL port. <br> For example in this case, the specified settings on the Input ports tab result in the YCbCr inputs being mapped to AXI4-Stream (video) interfaces and bundled together as an image_in port in the generated IP while the YCbCr outputs are bundled together as an image_out port.</p>
 <p>The Video Format drop-down menu lets you select between the following formats:</p>
 <ul>
@@ -116,7 +116,7 @@ a.href = commandURI;
 <li>To generate an IP from this design, click the <strong>Apply</strong> button in the Model Composer Hub block dialog box to save the settings. Then click the <strong>Export</strong> button to start the code generation process.</li>
 </ol>
 <p>Vitis Model Composer opens a progress window to show you the status. After completion, click OK and you will see the new <code>codegen_IP/ip/Edge_Detection/src/Edge_Detection_prj</code> folder in the Current Folder, which contains the generated IP solution1 folder.</p>
-<p><img src="Images/Step3/Step4-1.png" alt="" /></p>
+<p><img src="../Images/Step3/Step4-1.png" alt="" /></p>
 <ol start="5">
 <li><p>Launch Vivado and perform the following steps to add the generated IP to the IP catalog.</p></li>
 <li><p>Create a Vivado RTL project.</p></li>
@@ -130,13 +130,13 @@ a.href = commandURI;
 <li>Click <strong>Select</strong> and see the generated IP get added to the repository.</li>
 <li>Click <strong>OK</strong>.</li>
 </ul>
-<p><img src="Images/Step3/Step7.png" alt="" /></p>
+<p><img src="../Images/Step3/Step7.png" alt="" /></p>
 <ol start="8">
 <li>To view the generated Edge_detection IP in the IP catalog, search for “Edge_Detection”. The generated Edge_detection IP, now appears in the IP catalog under Vitis HLS IP as shown in the following figure.</li>
 </ol>
-<p><img src="Images/Step3/Step8-1.png" alt="" /></p>
+<p><img src="../Images/Step3/Step8-1.png" alt="" /></p>
 <p>You can now add this IP into an IP integrator block diagram, as shown in the following figure.</p>
-<p><img src="Images/Step3/Step8-2.png" alt="" /></p>
+<p><img src="../Images/Step3/Step8-2.png" alt="" /></p>
 <h2 id="step-4-generate-hls-synthesizable-code">Step 4: Generate HLS Synthesizable Code</h2>
 <p>In this section you will generate HLS Synthesizable code from the original Edge Detection design. Use the <code>CodeGen_Cplus.slx</code> design for this lab. Simulate the model and ensure that algorithm is functionally correct and gives you the results you would expect.</p>
 <ol>
@@ -155,7 +155,7 @@ a.href = commandURI;
 <ol start="4">
 <li>Open the <code>codegen_edge_detection/ip/Edge_Detection/src</code>  folder and explore the generated code files highlighted in the following figure.</li>
 </ol>
-<p><img src="Images/Step4/Step7.png" alt="" /></p>
+<p><img src="../Images/Step4/Step7.png" alt="" /></p>
 <p><code>Edge_Detection.cpp</code> is the main file generated for the subsystem. <code>run_hls.tcl</code> is the Tcl file needed to create the Vitis HLS project and synthesize the design.</p>
 <p>With the <strong>Genrate testbench</strong> option selected on the Model Composer Hub block, Vitis Model Composer logs the inputs and outputs at the boundary of the Edge Detection subsystem and saves the logged stimulus signals in the <code>signals.stim</code> file. The <code>tb.cpp</code> file is the automatically-generated test bench that you can use for verification in Vitis HLS. At the end of the code generation process, Vitis Model Composer automatically verifies that the output from the generated code matches the output logged from the simulation and reports any errors.</p>
 <h2 id="step-5-port-a-vitis-model-composer-hls-design-to-hdl-design">Step 5: Port a Vitis Model Composer HLS Design to HDL Design</h2>
@@ -165,9 +165,9 @@ a.href = commandURI;
 <li>In the <code>HLS_Library\Lab4\HLS_to_HDL</code> folder, double-click <code>HLS_design.slx</code> to see the Model Composer HLS design. </li>
 </ol>
 <p>The design is configured to have AXI4-Stream interfaces at both the input and output. This is done through the Interface Spec block within the <code>HLS_Design</code> subsystem. Note that there are no structural changes required at the Simulink level to change interfaces for the IP.</p>
-<p><img src="Images/Step5/Step1-1.png" alt="" /></p>
-<p><img src="Images/Step5/Step1-2.png" alt="" /></p>
-<p><img src="Images/Step5/Step1-3.png" alt="" /></p>
+<p><img src="../Images/Step5/Step1-1.png" alt="" /></p>
+<p><img src="../Images/Step5/Step1-2.png" alt="" /></p>
+<p><img src="../Images/Step5/Step1-3.png" alt="" /></p>
 <ol start="2">
 <li><p>Open the <strong>followme_script.m</strong> in MATLAB. This script will guide you through all the steps to import the Vitis Model Composer HLS generated solution as a block in Vitis Model Composer HDL.</p></li>
 <li><p>Read the comments at the start of each section (labeled Section 1 to Section 8) in the MATLAB script and execute each section one at a time (the start of each section is marked by a <code>%%</code> sign). You can click on <strong>Run and Advance</strong> to step through each section in the script. The sections are as follows:</p></li>
@@ -235,7 +235,7 @@ close(outputVideo);</code></pre>
 <li>The AXI4-Stream uses three signals, <code>DATA</code>, <code>READY</code>, and <code>VALID</code>. The <code>READY</code> signal is a back pressure signal from the slave side to the master side indicating whether the slave side can accept new data.</li>
 </ol>
 <p>As you examine the Vitis Model Composer HDL model in Section 4, pay attention to the labels on blocks for each signal to help you understand how the model is designed. For example, whenever the IP can no longer accept input, the <code>READY</code> signal (top right of the Vitis HLS block) puts pressure on the master side of the input AXI FIFO by resetting the <code>READY</code> signal. Likewise, the input AXI FIFO pressures the input stream by resetting its <code>READY</code> signal.</p>
-<p><img src="Images/Step5/Step4.png" alt="" /></p>
+<p><img src="../Images/Step5/Step4.png" alt="" /></p>
 <h3 id="conclusion">Conclusion</h3>
 <p>In this lab, you learned:</p>
 <ul>
@@ -257,7 +257,7 @@ close(outputVideo);</code></pre>
 <p>The following solution directory contains the final Vitis Model Composer (<code>*.slx</code>) files for this lab.</p>
 <p><code>\HLS_Library\Lab4\solution</code></p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

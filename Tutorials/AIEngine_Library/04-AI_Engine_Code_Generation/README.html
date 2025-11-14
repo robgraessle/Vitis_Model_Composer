@@ -52,12 +52,12 @@ a.href = commandURI;
 <li><p>Click <strong>Apply</strong>.</p></li>
 <li><p>Go to Analyze tab, click <strong>Analyze</strong>.</p></li>
 </ol>
-<p><img src="Images/vmc1.png" alt="missing image" /></p>
-<p><img src="Images/vmc2.png" alt="missing image" /></p>
+<p><img src="../Images/vmc1.png" alt="missing image" /></p>
+<p><img src="../Images/vmc2.png" alt="missing image" /></p>
 <ol start="12">
 <li>Select ** View AIE Simulation output and throughput** after code generation to view cycle-approximate AIE Simulation data.</li>
 </ol>
-<p><img src="Images/vmc4.png" alt="missing image" /></p>
+<p><img src="../Images/vmc4.png" alt="missing image" /></p>
 <p>The Simulink model is run to generate the testbench, then the AI Engine graph code is generated and compiled. </p>
 <p>The source code can be viewed in <code>./code/ip/FIRchain/src/FIRchain.h</code>.</p>
 <p>Let's review this code:</p>
@@ -131,7 +131,7 @@ public:
 <h3 id="functional-verification">Functional Verification</h3>
 <p>Because we selected <strong>Create Testbench</strong> in the Model Composer Hub block, Vitis Model Composer generates a testbench that compares the output of the AI Engine simulation to the Simulink simulation for the same input. The AI Engine simulation runs immediately after testbench generation because we selected the option in the Model Composer Hub block. In this case, the simulation results <strong>MATCH</strong> and the testbench <strong>PASSED</strong>. </p>
 <p>The Progress window displays the progress generating and compiling the AI Engine code. It also displays the final result of running the AI Engine simulation:</p>
-<p><img src="Images/Image03.png" alt="missing image" /></p>
+<p><img src="../Images/Image03.png" alt="missing image" /></p>
 <p>Regarding the simulation results, there are 3 possible outcomes:</p>
 <ul>
 <li><strong>Match:</strong> All of the outputs of the Simulink simulation and AI Engine simulation exactly match. In this case, the testbench will <strong>PASS</strong>.</li>
@@ -143,19 +143,19 @@ public:
 <ol>
 <li>In the Simulation Data Inspector window, select the <strong>Out1</strong> signal from the Inspect menu.</li>
 </ol>
-<p><img src="Images/Image04.png" alt="missing image" /></p>
+<p><img src="../Images/Image04.png" alt="missing image" /></p>
 <p>The output of the AI Engine is plotted in the Simulation Data Inspector. The Simulation Data Inspector also contains a estimate of the AI Engine's throughput. The throughput is calculated by counting the number of output data points and dividing by the total time displayed on the X-axis. </p>
 <p>In this case, three frames are received but only two interframe idle time are taken into account. To obtain a more accurate throughput estimate, we can use data cursors to select a specific time region over which to calculate throughput.</p>
 <ol start="2">
-<li><p>Select the Cursor icon from the toolbar, then select <strong>Two Cursors</strong>. <img src="Images/Image05.png" alt="missing image" /></p></li>
+<li><p>Select the Cursor icon from the toolbar, then select <strong>Two Cursors</strong>. <img src="../Images/Image05.png" alt="missing image" /></p></li>
 <li><p>Position the cursors at the beginning of the first and third signal frames, as shown below.</p></li>
 </ol>
-<p><img src="Images/Image06.png" alt="missing image" /></p>
+<p><img src="../Images/Image06.png" alt="missing image" /></p>
 <p>This limits the throughput calculation to the area between the two cursors. In the figures above, the calculated throughput changes from 55 MSPS to 35 MSPS (your displayed value may vary slightly). This throughput is below our expected throughput for the decimation chain, which we expect to output samples at a rate of 125 MSPS. We will see how to improve the throughput in Lab 5.</p>
 <h2 id="step-3-review-code-generation-artifacts">Step 3: Review Code Generation Artifacts</h2>
 <p>When you generate AI Engine code with Vitis Model Composer, a number of artifacts are also generated. These artifacts can be used to run the AI Engine simulation outside of Vitis Model Composer or to integrate the generated code within a larger project.</p>
 <p>The artifacts include shell scripts and Makefiles for compiling, simulating, and building the AI Engine application. Makefiles are commonly used to build applications targeting Versal Adaptive SoC devices. For an example build flow that uses Makefiles, see the <a href="matlab:XmcExampleApi.getExample('01-Versal_Custom_Thin_Platform_Extensible_System')">Versal Custom Thin Platform</a>. </p>
-<p><img src="Images/Image07.png" alt="missing image" /></p>
+<p><img src="../Images/Image07.png" alt="missing image" /></p>
 <ul>
 <li><code>data/input/In1.txt</code>, <code>data/reference_output/Out1.txt</code>: These are the input data and reference output data files, respectively, to be used with the <code>aiesimulator</code>. These are simple text files where each row represents inputs/outputs for a simulation time stamp, and each column represents a different channel of data (or for complex data, the real and imaginary components of the data). These files are generated based on the inputs and outputs from the Simulink model.</li>
 <li><code>run_hw</code>: This folder contains scripts and Makefiles to run the design on hardware (Hardware Validation flow).<ul>
@@ -174,7 +174,7 @@ public:
 <p><strong>Congratulations!</strong> This concludes Lab 4. In this lab, you generated AI Engine graph code from Vitis Model Composer, reviewed AI Engine simulation results, and learned about the code generation artifacts produced by Vitis Model Composer. The AI Engine simulation results showed that the design currently does not produce the desired throughput. </p>
 <p>In the next lab, you will see how to increase the design's throughput with PLIOs and AI Engine design constraints.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

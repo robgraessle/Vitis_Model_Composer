@@ -43,17 +43,17 @@ a.href = commandURI;
 <li>Double-click <strong>Lab7_1.slx</strong> in the Current Folder browser.</li></ul></li>
 </ol>
 <p><code>Lab7_1</code> opens as shown in figure below:</p>
-<p><img src="Images/Lab7_1.png" alt="" /></p>
+<p><img src="../Images/Lab7_1.png" alt="" /></p>
 <p>The design input consists of two sine waves with frequencies <strong>1 MHz</strong> and <strong>5 MHz</strong> respectively and sampled at <strong>100 MHz</strong>. A random noise is added to create a realistic scenario.</p>
 <p>The <strong>FDATool</strong> block is added to the design to generate coefficients for a lowpass filter. Double-click on the <strong>FDATool</strong> block to observe the settings and then close the window.</p>
 <ol start="4">
 <li>From the Simulink Toolstrip, click on <strong>Library Browser</strong> and then go to <strong>AMD Toolbox->HDL->DSP->AXI-S</strong> and scroll down to find the FIR Compiler 7.2 block.</li>
 </ol>
-<p><img src="Images/step1_1.png" alt="" /></p>
+<p><img src="../Images/step1_1.png" alt="" /></p>
 <ol start="5">
 <li>Right click on <strong>FIR Compiler 7.2</strong> and click on <strong>Add block to model Lab7_1</strong> to add this block to the model as shown below:</li>
 </ol>
-<p><img src="Images/step1_2.png" alt="" /></p>
+<p><img src="../Images/step1_2.png" alt="" /></p>
 <ol start="6">
 <li>Double click on FIR Compiler and add the following command to the cofficient vector field to use filter coefficients generated from the FDATool. </li>
 </ol>
@@ -64,11 +64,11 @@ a.href = commandURI;
 <ol start="7">
 <li>Select filter type as <code>Single_Rate</code> under filter specification field as shown below:</li>
 </ol>
-<p><img src="Images/step1_3.png" alt="" /></p>
+<p><img src="../Images/step1_3.png" alt="" /></p>
 <ol start="8">
 <li>Switch to the <strong>Channel Specification</strong> tab and select <code>Maximum_Possible</code> format under hardware oversampling specification as shown below:</li>
 </ol>
-<p><img src="Images/step1_4.png" alt="" /></p>
+<p><img src="../Images/step1_4.png" alt="" /></p>
 <blockquote>
   <p><strong>NOTE:</strong> When <strong>Maximum_Possible</strong> format is selected, there is an automatic input handshaking, so s_data_tvalid port is not exposed here.</p>
 </blockquote>
@@ -80,23 +80,23 @@ a.href = commandURI;
 <li><strong>Coefficient Width:</strong> 16</li>
 <li><strong>Coefficient Fractional Bits:</strong> 14</li>
 </ul>
-<p><img src="Images/step1_5.png" alt="" /></p>
+<p><img src="../Images/step1_5.png" alt="" /></p>
 <ol start="10">
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>, connect Gateway In block to <strong>data_tdata_real</strong> port of FIR Compiler.</p></li>
 <li><p>Connect Gateway Out blocks to <strong>tready</strong>, <strong>tvalid</strong> and <strong>tdata</strong> as shown in figure below:</p></li>
 </ol>
-<p><img src="Images/step1_6.png" alt="" /></p>
+<p><img src="../Images/step1_6.png" alt="" /></p>
 <ol start="12">
 <li><p>Left click on the canvas and drag the mouse to select <strong>FIR Compiler</strong>, <strong>Gateway In</strong> and <strong>Gateway Out</strong> blocks.</p></li>
 <li><p>Right click and choose <strong>Create Subsystem from Selection</strong>.</p></li>
 <li><p>The subsystem will be created as shown below:</p></li>
 </ol>
-<p><img src="Images/step1_7.png" alt="" /></p>
+<p><img src="../Images/step1_7.png" alt="" /></p>
 <ol start="15">
 <li><p>Rename the Subsystem as <strong>HDL_DUT</strong>. </p></li>
 <li><p>Connect the input and output ports as shown in figure below:</p></li>
 </ol>
-<p><img src="Images/step1_8.png" alt="" /></p>
+<p><img src="../Images/step1_8.png" alt="" /></p>
 <ol start="17">
 <li><p>Double click on the <strong>Vitis Model Composer Hub</strong> block, switch to the <strong>Code Generation</strong> tab and select <strong>HDL_DUT</strong>.</p></li>
 <li><p>On the <strong>Settings</strong> tab of Hub block, set <strong>FPGA Clock Period(ns)</strong> to <code>10</code> and <strong>Simulink System Period(sec)</strong> to <code>1/100e6</code> or <code>10e-9</code>, the formula to compute <strong>Simulink System Period</strong> is explained below:</p></li>
@@ -113,25 +113,25 @@ a.href = commandURI;
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
 <li><p>Run the design and observe the FIR Compiler output signals displayed in the <strong>Scope</strong> and <strong>Spectrum Analyzer</strong> as shown below:</p></li>
 </ol>
-<p><img src="Images/step1_9.png" alt="" /></p>
-<p><img src="Images/step1_10.png" alt="" /></p>
+<p><img src="../Images/step1_9.png" alt="" /></p>
+<p><img src="../Images/step1_10.png" alt="" /></p>
 <p>The input to the FIR has two signals (<strong>1 MHz</strong> and <strong>5 MHz</strong>), but the output has only one signal (<strong>1 MHz</strong>). The signal with <strong>5 MHz</strong> is attenuated because it is falling in the stopband of the filter.</p>
 <ol start="21">
 <li>Double click on <strong>FDATool</strong>, change the passband (<strong>Fpass</strong>) from 2 to 5 and the stopband (<strong>Fstop</strong>) from 4 to 10 and then click on <strong>Design Filter</strong>. </li>
 </ol>
 <p>Now the filter coefficients are generated with Fpass = 5MHz and Fstop = 10 MHz.</p>
-<p><img src="Images/step1_11.png" alt="" /></p>
+<p><img src="../Images/step1_11.png" alt="" /></p>
 <ol start="22">
 <li>Close the <strong>FDATool</strong> and run the design again to observe the FIR Compiler output signals.</li>
 </ol>
 <p>Now you can see two signals (with <strong>1MHz</strong> and <strong>5MHz</strong>) at the FIR Compiler output:</p>
-<p><img src="Images/step1_12.png" alt="" /> </p>
+<p><img src="../Images/step1_12.png" alt="" /> </p>
 <p>You can observe the output sample rate displayed at the bottom toolstrip of spectrum analyzer. The input sample rate is <strong>100 MHz</strong> and the output sample rate is also <strong>100 MHz</strong>. </p>
 <h3 id="updating-the-design-with-a-sampling-rate-of-50-mhz">Updating the design with a sampling rate of 50 MHz:</h3>
 <ol start="23">
 <li>Double click on each input signal (including random source) and change the Sample time from <strong>1/100e6</strong> to <strong>1/50e6</strong> as shown below:</li>
 </ol>
-<p><img src="Images/step1_13.png" alt="" /> </p>
+<p><img src="../Images/step1_13.png" alt="" /> </p>
 <ol start="24">
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
 <li><p>Double click on the <strong>HDL_DUT</strong> subsystem, then double click the <strong>Gateway In</strong> block. Change sample period to <strong>1/50e6</strong> and then click <strong>Apply</strong>. </p></li>
@@ -150,19 +150,19 @@ a.href = commandURI;
 <li><p>Double click on <strong>FDATool</strong>, change <strong>Fs</strong> from 100 to 50, click on <strong>Design Filter</strong> and close FDA Tool.</p></li>
 <li><p>Run the design. Now you can observe the FIR Compiler output sample rate is updated to <strong>50MHz</strong> as shown below:</p></li>
 </ol>
-<p><img src="Images/step1_14.png" alt="" /> </p>
+<p><img src="../Images/step1_14.png" alt="" /> </p>
 <h2 id="step-2-configure-fir-compiler-as-an-interpolator-with-integer-rate-change">Step 2: Configure FIR Compiler as an Interpolator with Integer rate change</h2>
 <ol>
 <li>Double-click <strong>Lab7_2.slx</strong> in the Current Folder browser.</li>
 </ol>
 <p>Lab7_2 opens as shown in the figure below:</p>
-<p><img src="Images/step2_1.png" alt="" /> </p>
+<p><img src="../Images/step2_1.png" alt="" /> </p>
 <ol start="2">
 <li><p>Double click on the <strong>Sine Wave</strong> block and make sure the sample time is 1/20e6.</p></li>
 <li><p>Double click on <strong>HDL_DUT</strong> subsystem. Add the FIR Compiler 7.2 block here (copy-paste the block from <code>Lab7_1.slx</code>).</p></li>
 </ol>
-<p><img src="Images/step2_2.png" alt="" /> </p>
-<p><img src="Images/step2_3.png" alt="" /> </p>
+<p><img src="../Images/step2_2.png" alt="" /> </p>
+<p><img src="../Images/step2_3.png" alt="" /> </p>
 <ol start="4">
 <li>Double click on the FIR Compiler block and change the filter specification settings as shown below:</li>
 </ol>
@@ -182,7 +182,7 @@ a.href = commandURI;
 <li>Click <strong>Apply</strong> and <strong>OK</strong>.</li>
 </ol>
 <p>When you select <strong>Input_Sampling_Period</strong> format, the <strong>Sample Period</strong> parameter indicates the number of Simulink System Periods between two input samples.</p>
-<p><img src="Images/step2_4.PNG" alt="" /></p>
+<p><img src="../Images/step2_4.PNG" alt="" /></p>
 <p>The formula for computing the Sample Period for a given input rate and Simulink system rate is: </p>
 <pre><code>Sample Period = {(Input Sampling Period /Simulink System Period)/number of input channels}
 
@@ -198,23 +198,23 @@ Sample Period = (50ns/10ns)/(1) = 5.</code></pre>
 <ol start="7">
 <li>Add a <strong>Constant</strong> block to the design. Double click on this block and select output type as Boolean. </li>
 </ol>
-<p><img src="Images/step2_5.png" alt="" /></p>
+<p><img src="../Images/step2_5.png" alt="" /></p>
 <ol start="8">
 <li>Check <strong>Sampled constant</strong> and enter a sample period value of <code>1/20e6</code>:</li>
 </ol>
-<p><img src="Images/step2_6.png" alt="" /></p>
+<p><img src="../Images/step2_6.png" alt="" /></p>
 <ol start="9">
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
 <li><p>Connect the input and output ports of FIR Compiler as shown below:</p></li>
 </ol>
-<p><img src="Images/step2_7.png" alt="" /></p>
+<p><img src="../Images/step2_7.png" alt="" /></p>
 <ol start="11">
 <li><p>Go one level up and double click on the <strong>Vitis Model Composer Hub</strong> block. Select <strong>HDL_DUT</strong>.</p></li>
 <li><p>Make sure <strong>FPGA Clock Period(ns)</strong> is set to <code>10</code>, and <strong>Simulink System Period</strong> is set to <code>1/100e6</code> or <code>10e-9</code> in the Hub block.</p></li>
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
 <li><p>Run the design to observe the FIR Compiler output signals.</p></li>
 </ol>
-<p><img src="Images/step2_8.png" alt="" /></p>
+<p><img src="../Images/step2_8.png" alt="" /></p>
 <p>The input sample rate to the filter is 20 MHz and the expected output sample rate is 100MHz (Interpolation with rate change value: 5). Observe the output sample rate in the spectrum analyzer, it should be 100MHz.</p>
 <blockquote>
   <p><strong>NOTE:</strong> We can also select any existing hardware oversampling specification format for this design.</p>
@@ -242,25 +242,25 @@ Sample Period = (10ns/10ns)/(1) = 1.</code></pre>
 <li><p>Double-click <strong>Lab7_3.slx</strong> in the Current Folder browser.</p></li>
 <li><p>Lab7_3 opens as shown in figure below:</p></li>
 </ol>
-<p><img src="Images/step3_1.png" alt="" /> </p>
+<p><img src="../Images/step3_1.png" alt="" /> </p>
 <ol start="3">
 <li><p>Add a Sine Wave as an input:</p>
 <ul>
 <li>Double click on canvas and type <code>sine</code></li>
 <li>Select <strong>Sine Wave</strong> to add it to the design</li></ul></li>
 </ol>
-<p><img src="Images/step3_2.png" alt="" /> </p>
+<p><img src="../Images/step3_2.png" alt="" /> </p>
 <ol start="4">
 <li>Generate signal with 50MHz input sample rate by double click on the sine wave and add the settings as shown in figure below:</li>
 </ol>
-<p><img src="Images/step3_3.png" alt="" /> </p>
+<p><img src="../Images/step3_3.png" alt="" /> </p>
 <ol start="5">
 <li><p>Click <strong>Apply</strong>.</p></li>
 <li><p>Connect the <strong>Sine Wave</strong> block to the <strong>HDL_DUT</strong> input.</p></li>
 <li><p>Double click on the <strong>HDL_DUT</strong> subsystem.</p></li>
 </ol>
 <p><strong>HDL_DUT</strong> opens as shown below:</p>
-<p><img src="Images/step3_4.png" alt="" /> </p>
+<p><img src="../Images/step3_4.png" alt="" /> </p>
 <ol start="8">
 <li>Double click on <strong>FIR Compiler 7.2</strong> block and make the settings as shown below:</li>
 </ol>
@@ -291,11 +291,11 @@ Sample Period = (10ns/10ns)/(1) = 1.</code></pre>
 <li><p>Click <strong>Apply</strong> and <strong>OK</strong>.</p></li>
 <li><p>Run the design to observe the FIR Compiler output signals.</p></li>
 </ol>
-<p><img src="Images/step3_5.png" alt="" /> </p>
+<p><img src="../Images/step3_5.png" alt="" /> </p>
 <ol start="16">
 <li>Observe the output sample rate in the <strong>Spectrum Analyzer</strong>; it should be 62.5 MHz.</li>
 </ol>
-<p><img src="Images/step3_6.png" alt="" /> </p>
+<p><img src="../Images/step3_6.png" alt="" /> </p>
 <h3 id="updating-the-design-to-configure-fir-compiler-as-a-decimator">Updating the design to configure FIR Compiler as a Decimator:</h3>
 <ol start="17">
 <li><p>Open <strong>HDL_DUT</strong>, double click on <strong>FIR Compiler 7.2</strong> block and change the <strong>Filter Type</strong> to Decimator.</p></li>
@@ -315,15 +315,15 @@ Sample Period = (10ns/10ns)/(1) = 1.</code></pre>
 <li><p>Double click on <strong>FDATool</strong>, set <strong>Fs</strong> to 200, click on <strong>Design Filter</strong> and close it.</p></li>
 <li><p>Run the design to observe the FIR Compiler output signals.</p></li>
 </ol>
-<p><img src="Images/step3_7.png" alt="" /></p>
+<p><img src="../Images/step3_7.png" alt="" /></p>
 <ol start="26">
 <li>Observe the output sample rate in the Spectrum Analyzer; it should be 40 MHz.</li>
 </ol>
-<p><img src="Images/step3_8.png" alt="" /></p>
+<p><img src="../Images/step3_8.png" alt="" /></p>
 <h2 id="summary">Summary</h2>
 <p>In this lab, you learned how to configure the FIR Compiler block and Simulink System Period to implement single-rate and multi-rate FIR filters.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
