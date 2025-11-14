@@ -37,7 +37,8 @@ jobs:
           # Absolute path to converter in the runner workspace
           # GITHUB_WORKSPACE is automatically set to the repository root
           if [ -n "${GITHUB_WORKSPACE:-}" ]; then 
-          ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" else 
+          ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" 
+          else 
           ABS_CONVERTER_SCRIPT="$PWD/$CONVERTER_SCRIPT" 
           fi
 
