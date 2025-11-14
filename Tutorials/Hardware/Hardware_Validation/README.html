@@ -22,8 +22,8 @@ a.href = commandURI;
 </script>
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis.html')\">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis-ai.html')\">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -48,7 +48,7 @@ information is communicated between Vitis Model Composer and the hardware.</p>
 <li>In Step 2, you will run hardware emulation to simulate the behavior of the Versal Adaptive SoC design including AI Engine, PL and PS.</li>
 <li>In Step 3, you will download the hardware image to a VCK190 board and perform hardware validation.</li>
 </ul>
-<p>⚠️ Steps 1 and 2 of this lab can be completed without hardware. Step 3 requires a Versal board such as the <a href="matlab:XmcExampleApi.getExample(\'vck190.html\')">VCK190</a>.</p>
+<p>⚠️ Steps 1 and 2 of this lab can be completed without hardware. Step 3 requires a Versal board such as the <a href=\"matlab:XmcExampleApi.getExample('vck190.html')\">VCK190</a>.</p>
 <h2 id="step-1-configure-hardware-validation-flow">Step 1: Configure Hardware Validation Flow</h2>
 <ol>
 <li><p>Run the <strong><em>setupLab</em></strong> script to initialize a working directory.</p></li>
@@ -66,7 +66,7 @@ information is communicated between Vitis Model Composer and the hardware.</p>
 <ol start="8">
 <li>Click <strong>Browse</strong>.</li>
 </ol>
-<p>This is where you will specify the path to a <em>.xpfm</em> file that defines your <a href="matlab:XmcExampleApi.getExample(\'Platform-Based-Design-Flows\')">platform</a>. In this lab, we will use a <a href="matlab:XmcExampleApi.getExample(\'embedded-platforms.html\')">Versal base platform</a> for the <a href="matlab:XmcExampleApi.getExample(\'vck190.html\')">VCK190</a> that has been provided with the Vitis installation.</p>
+<p>This is where you will specify the path to a <em>.xpfm</em> file that defines your <a href=\"matlab:XmcExampleApi.getExample('Platform-Based-Design-Flows')\">platform</a>. In this lab, we will use a <a href=\"matlab:XmcExampleApi.getExample('embedded-platforms.html')\">Versal base platform</a> for the <a href=\"matlab:XmcExampleApi.getExample('vck190.html')\">VCK190</a> that has been provided with the Vitis installation.</p>
 <ol start="9">
 <li>Navigate to the folder where the Versal base platforms are installed. These are located within the Vitis tools installation, for example: <strong>/opt/Xilinx/Vitis/2025.2/base_platforms</strong>.</li>
 </ol>
@@ -90,13 +90,13 @@ information is communicated between Vitis Model Composer and the hardware.</p>
 <li>With a <em>baremetal</em> environment, the PS application is compiled to run directly on the processor. The application must integrate and manage the AI Engine graph and PL kernels directly without the support of any operating system. AMD provides a standalone board support package (BSP), drivers, and libraries for applications to use to reduce development effort.</li>
 <li>With <em>Linux</em>, the PS application is compiled to run on a Linux operating system. AMD provides an ADF API to control control the AI Engine graph and the Xilinx Runtime (XRT) API to control PL kernels.</li>
 </ul>
-<p>For more details, refer to the <a href="matlab:XmcExampleApi.getExample(\'Programming-the-PS-Host-Application\')">AI Engine Tools and Flows User Guide (UG1076)</a>. In either scenario, Vitis Model Composer automatically generates all required source code for the host application to execute the testbench and interact with the Adaptive SoC device. <strong>We will use Baremetal flow for this lab.</strong></p>
+<p>For more details, refer to the <a href=\"matlab:XmcExampleApi.getExample('Programming-the-PS-Host-Application')\">AI Engine Tools and Flows User Guide (UG1076)</a>. In either scenario, Vitis Model Composer automatically generates all required source code for the host application to execute the testbench and interact with the Adaptive SoC device. <strong>We will use Baremetal flow for this lab.</strong></p>
 <p><strong>Target</strong> has two options: <strong>hw</strong> or <strong>hw emu</strong>.</p>
 <ul>
 <li><em>hw</em> generates a binary image (for baremetal) or an SD card image (for Linux) with which to program the hardware.</li>
 <li><em>hw emu</em> generates simulation artifacts to perform Vitis hardware emulation. SystemC is used to simulate the AI Engine and PL kernels, and QEMU is used to simulate the PS application. Hardware emulation lets you obtain high-fidelity profiling data about the design as it would run on hardware, without having access to a physical board.</li>
 </ul>
-<p>For more information, see <a href="matlab:XmcExampleApi.getExample(\'Simulating-an-AI-Engine-Graph-Application\')">Simulating an AI Engine Graph Application</a>.</p>
+<p>For more information, see <a href=\"matlab:XmcExampleApi.getExample('Simulating-an-AI-Engine-Graph-Application')\">Simulating an AI Engine Graph Application</a>.</p>
 <p><strong>If you do not have access to a board and/or would like to perform hardware emulation, select <em>hw emu</em> as the Target and proceed to Step 2.</strong></p>
 <p><strong>If you have access to a VCK190 evaluation board (or another Versal Adaptive SoC board), select <em>hw</em> as the Target and proceed to Step 3.</strong></p>
 <h2 id="step-2-validation-using-hardware-emulation">Step 2: Validation using Hardware Emulation</h2>
@@ -126,7 +126,7 @@ information is communicated between Vitis Model Composer and the hardware.</p>
 <p><img src="Images/Image10.png" alt="missing image" /></p>
 <p>We will now prepare the board and download the hardware image to it. This lab provides instructions specific to the VCK190.</p>
 <blockquote>
-  <p>Note: Here we are assuming the board is physically connected to a Windows machine and the BOOT.BIN is generated using Vitis Model Composer on a Linux machine. The Windows machine and Linux machine are networked together, and the <a href="matlab:XmcExampleApi.getExample(\'Connecting-to-a-Hardware-Target-Using-hw_server\')">AMD Hardware Server</a> is run on the Windows machine to route data between the board and the Linux machine.</p>
+  <p>Note: Here we are assuming the board is physically connected to a Windows machine and the BOOT.BIN is generated using Vitis Model Composer on a Linux machine. The Windows machine and Linux machine are networked together, and the <a href=\"matlab:XmcExampleApi.getExample('Connecting-to-a-Hardware-Target-Using-hw_server')\">AMD Hardware Server</a> is run on the Windows machine to route data between the board and the Linux machine.</p>
 </blockquote>
 <ol start="3">
 <li><p>Connect the power cable to the board.</p></li>
@@ -188,7 +188,7 @@ information is communicated between Vitis Model Composer and the hardware.</p>
 <li><p>Click <code>Next</code> and complete the rest of the installation process. </p></li>
 </ol>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

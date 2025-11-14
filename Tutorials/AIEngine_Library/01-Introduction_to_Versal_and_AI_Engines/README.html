@@ -22,8 +22,8 @@ a.href = commandURI;
 </script>
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis.html')\">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis-ai.html')\">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -76,12 +76,12 @@ a.href = commandURI;
 </ul>
 <p><img src="Images/Image05.png"></p>
 <h3 id="programming-the-ai-engine-array">Programming the AI Engine Array</h3>
-<p>AI Engine tiles come in arrays of 10 or 100 units. Creating a single program embedding some directives to specify the parallelism would be a tedious, almost impossible task. That's why the programming model of the AI Engine Array is close to <a href="matlab:XmcExampleApi.getExample(\'kahn_networks.pdf\')">Kahn Process Networks</a> where autonomous computing processes are connected to each other by communication edges generating a network of processes.</p>
+<p>AI Engine tiles come in arrays of 10 or 100 units. Creating a single program embedding some directives to specify the parallelism would be a tedious, almost impossible task. That's why the programming model of the AI Engine Array is close to <a href=\"matlab:XmcExampleApi.getExample('kahn_networks.pdf')\">Kahn Process Networks</a> where autonomous computing processes are connected to each other by communication edges generating a network of processes.</p>
 <p>In the AI Engine framework, edges of the graph are <strong><em>buffers</em></strong> and <strong><em>streams</em></strong> and the computing processes are called <strong><em>kernels</em></strong>. The kernels are instantiated and connected together and to the rest of the design (NoC or PL) within <strong><em>graphs</em></strong>.</p>
 <p>The programming flow is done in 2 stages.</p>
 <h4 id="single-kernel-programming">Single Kernel Programming</h4>
 <p>A kernel describes a specific computing process. One kernel will run on a single AI Engine tile. However, note that multiple kernels can run on the same AI Engine tile, sharing the processing time.</p>
-<p>Any C/C++ code can be used to program the AI Engine. The scalar processor will handle the majority of the code. If your goal is to design a high performance kernel, then you will target the vector processor using functions from the <a href="matlab:XmcExampleApi.getExample(\'AI-Engine-API-Overview\')"><strong><em>AI Engine API</em></strong></a>. These functions are dedicated to the vector processor of the AI Engine and will allow you to extract a massive processing performance from the AI Engine.</p>
+<p>Any C/C++ code can be used to program the AI Engine. The scalar processor will handle the majority of the code. If your goal is to design a high performance kernel, then you will target the vector processor using functions from the <a href=\"matlab:XmcExampleApi.getExample('AI-Engine-API-Overview')\"><strong><em>AI Engine API</em></strong></a>. These functions are dedicated to the vector processor of the AI Engine and will allow you to extract a massive processing performance from the AI Engine.</p>
 <p>AMD will provide pre-built kernels included in libraries that users will be able to use in their custom graphs.</p>
 <h4 id="graph-programming">Graph Programming</h4>
 <p>AMD provides a C++ framework to create <strong><em>graphs</em></strong> from kernels. This framework includes graph nodes and connections declarations. These nodes are in the AI Engine Array. To have full control over the kernel location, there will be a set of methods that will constrain the placer (kernels, buffers, system memory, …). A graph will instantiate and connect the kernels together using buffers and streams. It will also describes the data transfer from/to the AI Engine Array to/from the rest of the Adaptive SoC device (PL, DDR).</p>
@@ -94,10 +94,10 @@ a.href = commandURI;
 <li>Baremetal drivers</li>
 </ul>
 <h2 id="step-2-set-up-development-environment">Step 2: Set Up Development Environment</h2>
-<p>Before you begin, be sure your system meets the <a href="matlab:XmcExampleApi.getExample(\'Installation-Requirements\')">minimum requirements</a>. In particular, <strong>at least 32 GB of system memory</strong> is required to complete this tutorial.</p>
+<p>Before you begin, be sure your system meets the <a href=\"matlab:XmcExampleApi.getExample('Installation-Requirements')\">minimum requirements</a>. In particular, <strong>at least 32 GB of system memory</strong> is required to complete this tutorial.</p>
 <p>To set up your environment to develop AI Engine applications, do the following:</p>
 <ol>
-<li><p>If you did not install the Vitis Software Platform when you installed Vitis Model Composer, follow the <a href="matlab:XmcExampleApi.getExample(\'Installing-the-Vitis-Software-Platform\')">installation instructions</a> to do so.</p></li>
+<li><p>If you did not install the Vitis Software Platform when you installed Vitis Model Composer, follow the <a href=\"matlab:XmcExampleApi.getExample('Installing-the-Vitis-Software-Platform')\">installation instructions</a> to do so.</p></li>
 <li><p>To run this tutorial, make sure you are using a supported version of MATLAB (R2021a, R2021b, R2022a Update 6) with DSP System Toolbox installed. </p></li>
 <li><p>Invoke Vitis Model Composer while pointing to the correct versions of MATLAB and Vitis installed. For example: <code>./model_composer -vitis /opt/Xilinx/Vitis/2022.2 -matlab /tools/gensys/matlab/R2021a</code> </p></li>
 </ol>
@@ -134,7 +134,7 @@ a.href = commandURI;
 <p><img src ="Images/Scope.png"></p>
 <p>In future labs, you will learn how to build up this model from scratch using Vitis Model Composer, and how to implement the design on AI Engine hardware. </p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

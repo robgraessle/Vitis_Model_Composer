@@ -21,7 +21,7 @@ commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
 a.href = commandURI;
 </script>
 <p>This example implements a 129-tap, &gt;2.0 GSPS filter on AI Engines, using a frequency domain filtering approach.</p>
-<p>In this example, the FFT &amp; IFFT are implemented using the AI Engine API. To see the FFT &amp; IFFT implemented using the Vitis DSP Library, and techniques for increasing throughput, refer to <a href="matlab:XmcExampleApi.getExample(\'Filtering_in_frequency_domain_AIE_Blocks\')">this example</a>.</p>
+<p>In this example, the FFT &amp; IFFT are implemented using the AI Engine API. To see the FFT &amp; IFFT implemented using the Vitis DSP Library, and techniques for increasing throughput, refer to <a href=\"matlab:XmcExampleApi.getExample('Filtering_in_frequency_domain_AIE_Blocks')\">this example</a>.</p>
 <h2 id="algorithm">Algorithm</h2>
 <p>Time domain filtering involves convolution (i.e.: multiply and add operations).  In the time domain if the signal and the filter length are both of length <em>N</em>, we can say the arithmetic complexity is of order N<sup>2</sup>.  </p>
 <p>Convolution in the time domain is equivalent to multiplication in the frequency domain implying that FFTs can be used to perform filtering.  <strong>Frequency domain filtering is used to improve filtering efficiency as N becomes larger.</strong>  Typically, the critical threshold for efficiency improvements based on the filter order N is somewhere between 32 and 64 taps.   Below the threshold, time domain convolution is more efficient while above the threshold frequency domain filtering is more efficient</p>
@@ -76,7 +76,7 @@ auto pCoeff = aie::cbegin_vector&lt;4&gt;(coeff); // setup pointer to coeff
 <h2 id="summary">Summary</h2>
 <p>We can easily compare the AIE simulation results to a Simulink reference model, perform quantization, and ascertain the number of parallel paths to meet targeted throughput requirements using VMC.  We used the AIE API to create custom source code for a FFT + complex multiply, iFFT and established a direct cascade connection between the functions that guarantees colocation of AIEs for each data path.  The cascades maintain a fast 48 bit * 2 data between the FFT + complex multiply and iFFT.  For a 129 tap, &gt;2Gsps FIR a total 22 AIE compute engines were used.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {

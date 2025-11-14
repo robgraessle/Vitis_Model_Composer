@@ -22,8 +22,8 @@ a.href = commandURI;
 </script>
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis.html')\">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href=\"matlab:XmcExampleApi.getExample('vitis-ai.html')\">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -102,7 +102,7 @@ a.href = commandURI;
 <p>AI Engine devices have cascade streams that implement high-speed interfaces between adjacent kernels. This enables an algorithm to be spread across adjacent kernels to process data in parallel, thus increasing throughput. </p>
 <p>The FIR filter blocks in the Vitis Model Composer AI Engine DSP library have a parameter <strong>Number of cascade stages</strong> that let you easily specify parallelization of the filter. The parallelization effectively spreads the multiply-accumulate operations for each coefficient across multiple AI Engine tiles. The AI Engine vector unit supports 8 MACs per cycle for cint16 data types, so setting the number of cascade stages to <code>ceil(N/8)</code>, where N is the filter length, will achieve full parallelization. The diagram below shows a 32-tap filter parallelize across 4 AI Engine kernels:</p>
 <p><img src="Images/Image07.png" alt="missing image" /></p>
-<p>For more details, refer to <a href="matlab:XmcExampleApi.getExample(\'Multiple-Kernels-Coding-Example-FIR-Filter\')">Multiple Kernels Coding Example: FIR Filter</a>.</p>
+<p>For more details, refer to <a href=\"matlab:XmcExampleApi.getExample('Multiple-Kernels-Coding-Example-FIR-Filter')\">Multiple Kernels Coding Example: FIR Filter</a>.</p>
 <p>Our halfband filters have 4, 5, and 14 non-zero taps respectively, while the symmetric filter has 61 non-zero taps. This means that the 3rd halfband decimation filter can be parallelized across up to 2 AIE kernels (8 MACs per kernel) and the symmetric filter can be parallelized across up to 8 AIE kernels. The actual number of kernels to use is a tradeoff between required throughput and the design size within the AI Engine. Vitis Model Composer coupled with the AI Engine simulator can be used to explore these tradeoffs.</p>
 <ol>
 <li><p>Open the model <code>Lab5_Part2_Start.slx</code>.</p></li>
@@ -127,7 +127,7 @@ a.href = commandURI;
 </ol>
 <p><img src="Images/Image12.png" alt="missing image" /></p>
 <p>This limits the throughput calculation to the area between the two cursors. In the figure above, the estimated throughput is 157 MSPS (your displayed value may vary slightly). The cascading of the FIR filter algorithm across multiple AI Engine kernels has increased our throughput. In the next step, we will see how this change has affected how the algorithm is implemented in the AI Engine.</p>
-<p>By combining multiple techniques: high throughput across the AIE-PL boundary, cascading the algorithm across multiple AI Engine tiles and Super Sample Rate (SSR) parallelism, it is possible to implement designs well in excess of 1 GSPS. One example is an <a href="matlab:XmcExampleApi.getExample(\'fir_ssr\')">AI Engine SSR FIR</a> that achieves 4 GSPS.</p>
+<p>By combining multiple techniques: high throughput across the AIE-PL boundary, cascading the algorithm across multiple AI Engine tiles and Super Sample Rate (SSR) parallelism, it is possible to implement designs well in excess of 1 GSPS. One example is an <a href=\"matlab:XmcExampleApi.getExample('fir_ssr')\">AI Engine SSR FIR</a> that achieves 4 GSPS.</p>
 <h2 id="step-3-use-vitis-analyzer-to-calculate-latency">Step 3: Use Vitis Analyzer to Calculate Latency</h2>
 <p>In addition to throughput, a key design metric for signal processing systems is latency. The AI Engine simulator can be configured to capture detailed timing information for display in Vitis Analyzer, which can be used to calculate latency.</p>
 <ol>
@@ -182,7 +182,7 @@ a.href = commandURI;
 <p><strong>Congratulations!</strong> This concludes Lab 5. In this lab, you explored different ways to increase throughput of your AI Engine design. You also saw how to view the design in the Vitis Analyzer to calculate latency.</p>
 <p>In the next lab, you will see how to validate the AI Engine design running on real hardware.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
