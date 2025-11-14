@@ -48,8 +48,14 @@ jobs:
           changed=false
           
           # Find only README.md files that were modified in this push
-          # Compare current commit with the previous commit to find changed files
-          mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+          # Handle different scenarios: first commit, multiple commits, etc.
+          if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+            # Not the first commit - compare with previous commit
+            mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+          else
+            # First commit or no previous commit - get all README.md files from current commit
+            mapfile -t files < <(git diff --name-only --diff-filter=A HEAD | grep -E '(^|/)README\.md$' || true)
+          fi
           
           if [ "${#files[@]}" -eq 0 ]; then 
             echo "No modified README.md files found in this push." 
