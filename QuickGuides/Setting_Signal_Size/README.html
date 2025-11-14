@@ -7,11 +7,11 @@
       <body>
         <div id='content'>
     <h1 id="how-to-properly-set-the-signal-size-property-on-ai-engine-blocks-with-stream-or-cascade-output">How to properly set the Signal Size property on AI Engine blocks with stream or cascade output?</h1>
-<p>This short tutorial goes over how to optimally set the signal size for AI Engine blocks. These include kernels with stream input and output, as well as Run-Time Parameter (RTP) ports.</p>
+<p>This short tutorial goes over how to optimally set the signal size for AI Engine blocks. These include kernels with stream input and output, as well as Run-Time Parameter (RTP) ports</p>
 <h2 id="what-is-signal-size">What is "Signal Size"?</h2>
 <p>Signal Size is a block mask property associated with each stream or cascade output of an imported AI Engine block. This property is used only in Simulink simulation and is not reflected in the generated code. This value is always set as samples and not bytes. Here is an example of the block mask for a kernel with a stream output.</p>
 <p><img src="images/mask.png" alt="" /></p>
-<p>In the example above, the stream output of this block will be a <a href="../Variable_Size_Signals/README.md">variable-size signal</a> with a maximum size of 4 samples as shown below:</p>
+<p>In the example above, the stream output of this block will be a <a href="matlab:XmcExampleApi.getExample(\'Variable_Size_Signals\')">variable-size signal</a> with a maximum size of 4 samples as shown below:</p>
 <p><img src="images/block_with_output_stream.png" alt="" /></p>
 <h2 id="how-to-set-signal-size">How to set "Signal Size"?</h2>
 <h3 id="example-1---stream-inputs-and-outputs">Example 1 - Stream Inputs and Outputs</h3>
