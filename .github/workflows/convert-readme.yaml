@@ -36,11 +36,7 @@ jobs:
 
           # Absolute path to converter in the runner workspace
           # GITHUB_WORKSPACE is automatically set to the repository root
-          if [ -n "${GITHUB_WORKSPACE:-}" ]; then 
-            ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" 
-          else 
-            ABS_CONVERTER_SCRIPT="$PWD/$CONVERTER_SCRIPT" 
-          fi
+          ABS_CONVERTER_SCRIPT="${GITHUB_WORKSPACE:-$PWD}/$CONVERTER_SCRIPT"
 
           if [ ! -f "$ABS_CONVERTER_SCRIPT" ]; then 
             echo "Converter script not found at $ABS_CONVERTER_SCRIPT" 
@@ -52,52 +48,57 @@ jobs:
           # Find all tracked README.md files
           mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
           
-          if [ "${#files[@]}" -eq 0 ]; then
-            echo "No README.md files found."
-            exit 0
+          if [ "${#files[@]}" -eq 0 ]; then 
+            echo "No README.md files found." 
+            exit 0 
           fi
           
           for md in "${files[@]}"; do
-          dir=$(dirname "$md")
-          # If README.md is in repository root, dirname returns "."
-          if [ "$dir" = "." ]; then
-            dir="$PWD"
-            workdir="$PWD"
-          else
-            workdir="$PWD/$dir"
-          fi
-          
-          echo "Processing $md (workdir: $workdir)"
-          
-          # Remove existing README.html if present so convert.js can create a fresh file
-          if [ -f "$workdir/README.html" ]; then
-            rm "$workdir/README.html"
-            echo "Removed existing $workdir/README.html"
-          fi
-          
-          # Optionally derive a page title (e.g., folder name). Adjust as desired.
-          pageTitle="$(basename "$dir")"
-          
-          # Run the converter from inside the README.md folder.
-          # Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
-          (
-            cd "$workdir"
-            node "$ABS_CONVERTER_SCRIPT" "$pageTitle"
-          ) || { echo "Conversion failed for $md"; exit 1; }
-          
-          # If convert.js wrote README.html, stage it.
-          if [ -f "$workdir/README.html" ]; then
-            git add "$gitPath"
-            changed=true
-          else
-            echo "Warning: $workdir/README.html not created."
-          fi
+            dir=$(dirname "$md")
+            # If README.md is in repository root, dirname returns "."
+            if [ "$dir" = "." ]; then
+              workdir="$PWD"
+              gitPath="README.html"
+              pageTitle="$(basename "$PWD")"
+            fi
+  
+            if [ "$dir" != "." ]; then
+              workdir="$PWD/$dir"
+              gitPath="$dir/README.html"
+              pageTitle="$(basename "$dir")"
+            fi
+            
+            echo "Processing $md (workdir: $workdir)"
+            
+            # Remove existing README.html if present so convert.js can create a fresh file
+            if [ -f "$workdir/README.html" ]; then
+              rm "$workdir/README.html"
+              echo "Removed existing $workdir/README.html"
+            fi
+            
+            # Run the converter from inside the README.md folder.
+            # Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
+            (
+              cd "$workdir"
+              node "$ABS_CONVERTER_SCRIPT" "$pageTitle"
+            ) || { echo "Conversion failed for $md"; exit 1; }
+            
+            # If convert.js wrote README.html, stage it.
+            if [ -f "$workdir/README.html" ]; then
+              git add "$gitPath"
+              changed=true
+            else
+              echo "Warning: $workdir/README.html not created."
+            fi
+          done
           
           if [ "$changed" = true ]; then
             git config user.name "$GIT_COMMITTER_NAME"
             git config user.email "$GIT_COMMITTER_EMAIL"
             git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
             git push origin HEAD
-          else
+          fi
+          
+          if [ "$changed" != true ]; then
             echo "No generated files to commit."
           fi
