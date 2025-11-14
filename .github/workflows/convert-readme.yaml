@@ -129,8 +129,22 @@ jobs:
             if [ -f "$workdir/README.html" ]; then
               echo "Post-processing $workdir/README.html"
               
+              # Determine directory type and check for .slx files for button insertion
+              directory_type=""
+              has_slx_files="false"
+              
+              if [[ "$workdir" == *"/Examples/"* ]]; then
+                directory_type="Examples"
+                # Check if this directory contains .slx files
+                if ls "$workdir"/*.slx >/dev/null 2>&1; then
+                  has_slx_files="true"
+                fi
+              elif [[ "$workdir" == *"/Tutorials/"* ]]; then
+                directory_type="Tutorials"
+              fi
+              
               # Run the post-processing script to apply MATLAB-compatible transformations
-              python3 "${GITHUB_WORKSPACE}/util/post-process-html.py" "$workdir/README.html" "$dir" || {
+              python3 "${GITHUB_WORKSPACE}/util/post-process-html.py" "$workdir/README.html" "$dir" "$directory_type" "$has_slx_files" || {
                 echo "Post-processing failed for $md"
                 exit 1
               }
