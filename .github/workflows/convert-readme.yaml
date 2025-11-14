@@ -125,8 +125,19 @@ jobs:
               node "$ABS_CONVERTER_SCRIPT" "$pageTitle"
             ) || { echo "Conversion failed for $md"; exit 1; }
             
-            # If convert.js wrote README.html, stage it.
+            # Post-process the generated HTML file
             if [ -f "$workdir/README.html" ]; then
+              echo "Post-processing $workdir/README.html"
+              
+              # Run the post-processing script to apply MATLAB-compatible transformations
+              python3 "${GITHUB_WORKSPACE}/util/post-process-html.py" "$workdir/README.html" "$dir" || {
+                echo "Post-processing failed for $md"
+                exit 1
+              }
+              
+              echo "Post-processing completed for $workdir/README.html"
+              
+              # Stage the processed HTML file
               git add "$gitPath"
               changed=true
             fi
