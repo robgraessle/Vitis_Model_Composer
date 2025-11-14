@@ -37,14 +37,14 @@ jobs:
           # Absolute path to converter in the runner workspace
           # GITHUB_WORKSPACE is automatically set to the repository root
           if [ -n "${GITHUB_WORKSPACE:-}" ]; then 
-          ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" 
+            ABS_CONVERTER_SCRIPT="$GITHUB_WORKSPACE/$CONVERTER_SCRIPT" 
           else 
-          ABS_CONVERTER_SCRIPT="$PWD/$CONVERTER_SCRIPT" 
+            ABS_CONVERTER_SCRIPT="$PWD/$CONVERTER_SCRIPT" 
           fi
 
           if [ ! -f "$ABS_CONVERTER_SCRIPT" ]; then 
-          echo "Converter script not found at $ABS_CONVERTER_SCRIPT" 
-          exit 1 
+            echo "Converter script not found at $ABS_CONVERTER_SCRIPT" 
+            exit 1 
           fi
 
           changed=false
@@ -53,26 +53,26 @@ jobs:
           mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
           
           if [ "${#files[@]}" -eq 0 ]; then
-          echo "No README.md files found."
-          exit 0
+            echo "No README.md files found."
+            exit 0
           fi
           
           for md in "${files[@]}"; do
           dir=$(dirname "$md")
           # If README.md is in repository root, dirname returns "."
           if [ "$dir" = "." ]; then
-          dir="$PWD"
-          workdir="$PWD"
+            dir="$PWD"
+            workdir="$PWD"
           else
-          workdir="$PWD/$dir"
+            workdir="$PWD/$dir"
           fi
           
           echo "Processing $md (workdir: $workdir)"
           
           # Remove existing README.html if present so convert.js can create a fresh file
           if [ -f "$workdir/README.html" ]; then
-          rm "$workdir/README.html"
-          echo "Removed existing $workdir/README.html"
+            rm "$workdir/README.html"
+            echo "Removed existing $workdir/README.html"
           fi
           
           # Optionally derive a page title (e.g., folder name). Adjust as desired.
@@ -94,10 +94,10 @@ jobs:
           fi
           
           if [ "$changed" = true ]; then
-          git config user.name "$GIT_COMMITTER_NAME"
-          git config user.email "$GIT_COMMITTER_EMAIL"
-          git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
-          git push origin HEAD
+            git config user.name "$GIT_COMMITTER_NAME"
+            git config user.email "$GIT_COMMITTER_EMAIL"
+            git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
+            git push origin HEAD
           else
-          echo "No generated files to commit."
+            echo "No generated files to commit."
           fi
