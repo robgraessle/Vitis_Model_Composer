@@ -1,80 +1,95 @@
-- name: Setup Node.js
-uses: actions/setup-node@v4
-with:
-node-version: '18'
+name: Convert README
 
-- name: Install dependencies (if package.json present)
-run: |
-if [ -f package.json ]; then npm ci; fi
+on:
+  push:
+    branches: ["2025.2"]
+  pull_request:
+    branches: ["2025.2"]
+  workflow_dispatch: {}
 
-- name: Convert README.md files (run convert.js from README folder)
-env:
-GIT_COMMITTER_NAME: "github-actions[bot]"
-GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
-run: |
-set -euo pipefail
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-# Path to your converter folder (adjust if needed)
-CONVERTER_DIR="util"
-CONVERTER_SCRIPT="$CONVERTER_DIR/convert.js"
-
-if [ ! -f "$CONVERTER_SCRIPT" ]; then
-echo "Converter script not found at $CONVERTER_SCRIPT"
-exit 1
-fi
-
-changed=false
-
-# Find all tracked README.md files
-mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
-
-if [ "${#files[@]}" -eq 0 ]; then
-echo "No README.md files found."
-exit 0
-fi
-
-for md in "${files[@]}"; do
-dir=$(dirname "$md")
-# If README.md is in repository root, dirname returns "."
-if [ "$dir" = "." ]; then
-dir="$PWD"
-workdir="$PWD"
-else
-workdir="$PWD/$dir"
-fi
-
-echo "Processing $md (workdir: $workdir)"
-
-# Remove existing README.html if present so convert.js can create a fresh file
-if [ -f "$workdir/README.html" ]; then
-rm "$workdir/README.html"
-echo "Removed existing $workdir/README.html"
-fi
-
-# Optionally derive a page title (e.g., folder name). Adjust as desired.
-pageTitle="$(basename "$dir")"
-
-# Run the converter from inside the README.md folder.
-# Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
-(
-cd "$workdir"
-node "$PWD/../$CONVERTER_SCRIPT" "$pageTitle" 2>&1 | sed 's/^/  /'
-) || { echo "Conversion failed for $md"; exit 1; }
-
-# If convert.js wrote README.html, stage it.
-if [ -f "$workdir/README.html" ]; then
-git add "$dir/README.html"
-changed=true
-else
-echo "Warning: $workdir/README.html not created."
-fi
-done
-
-if [ "$changed" = true ]; then
-git config user.name "$GIT_COMMITTER_NAME"
-git config user.email "$GIT_COMMITTER_EMAIL"
-git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
-git push origin HEAD
-else
-echo "No generated files to commit."
-fi
+    steps:
+    
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies (if package.json present)
+        run: |
+          if [ -f package.json ]; then npm ci; fi
+      
+      - name: Convert README.md files (run convert.js from README folder)
+        env:
+          GIT_COMMITTER_NAME: "github-actions[bot]"
+          GIT_COMMITTER_EMAIL: "41898282+github-actions[bot]@users.noreply.github.com"
+        run: |
+          set -euo pipefail
+      
+          # Path to your converter folder (adjust if needed)
+          CONVERTER_DIR="util"
+          CONVERTER_SCRIPT="$CONVERTER_DIR/convert.js"
+          
+          if [ ! -f "$CONVERTER_SCRIPT" ]; then
+          echo "Converter script not found at $CONVERTER_SCRIPT"
+          exit 1
+          fi
+          
+          changed=false
+          
+          # Find all tracked README.md files
+          mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
+          
+          if [ "${#files[@]}" -eq 0 ]; then
+          echo "No README.md files found."
+          exit 0
+          fi
+          
+          for md in "${files[@]}"; do
+          dir=$(dirname "$md")
+          # If README.md is in repository root, dirname returns "."
+          if [ "$dir" = "." ]; then
+          dir="$PWD"
+          workdir="$PWD"
+          else
+          workdir="$PWD/$dir"
+          fi
+          
+          echo "Processing $md (workdir: $workdir)"
+          
+          # Remove existing README.html if present so convert.js can create a fresh file
+          if [ -f "$workdir/README.html" ]; then
+          rm "$workdir/README.html"
+          echo "Removed existing $workdir/README.html"
+          fi
+          
+          # Optionally derive a page title (e.g., folder name). Adjust as desired.
+          pageTitle="$(basename "$dir")"
+          
+          # Run the converter from inside the README.md folder.
+          # Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
+          (
+          cd "$workdir"
+          node "$PWD/../$CONVERTER_SCRIPT" "$pageTitle" 2>&1 | sed 's/^/  /'
+          ) || { echo "Conversion failed for $md"; exit 1; }
+          
+          # If convert.js wrote README.html, stage it.
+          if [ -f "$workdir/README.html" ]; then
+          git add "$dir/README.html"
+          changed=true
+          else
+          echo "Warning: $workdir/README.html not created."
+          fi
+          done
+          
+          if [ "$changed" = true ]; then
+          git config user.name "$GIT_COMMITTER_NAME"
+          git config user.email "$GIT_COMMITTER_EMAIL"
+          git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
+          git push origin HEAD
+          else
+          echo "No generated files to commit."
+          fi
