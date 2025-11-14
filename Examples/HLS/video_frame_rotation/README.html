@@ -7,11 +7,24 @@
       <body>
         <div id='content'>
     <h1 id="video-frame-rotation">Video Frame Rotation</h1>
+<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
+
+<script>
+var a = document.getElementById('openlink');
+
+var path = document.location.pathname;
+var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var directory = directory1.substring(directory1.lastIndexOf('/')+1); 
+
+commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
+
+a.href = commandURI;
+</script>
 <p>This example demonstrates rotating video frames by a certain angle in Model Composer.</p>
 <p>This example uses the following Mathworks toolboxes.  </p>
 <ul>
-<li><a href="https://www.mathworks.com/products/computer-vision.html">MATLAB Computer Vision System Toolbox</a>  </li>
-<li><a href="https://www.mathworks.com/products/dsp-system.html">DSP System Toolbox</a></li>
+<li><a href="matlab:XmcExampleApi.getExample(\'computer-vision.html\')">MATLAB Computer Vision System Toolbox</a>  </li>
+<li><a href="matlab:XmcExampleApi.getExample(\'dsp-system.html\')">DSP System Toolbox</a></li>
 </ul>
 <h2 id="video-frame-rotation-1">Video frame rotation</h2>
 <p>In this example, we rotate video frames by a small angle using the warp transform block in Model Composer.</p>
@@ -25,7 +38,7 @@
 <p>We use the IP Catalog export flow in Model Composer to package the design as an IP, which can then be imported into the Vivado IP Catalog to connect with other IPs in the IP Integrator tool. The image below shows the generated IP in the Vivado IP Catalog. Note the input and output ports, and the bundled port named rotation_ctrl.</p>
 <p><img src="Images/ip_catalog.PNG" alt="" /></p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

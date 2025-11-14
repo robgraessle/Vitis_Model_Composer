@@ -7,6 +7,19 @@
       <body>
         <div id='content'>
     <h1 id="vector-real-time-parameter-rtp">Vector Real Time Parameter (RTP)</h1>
+<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
+
+<script>
+var a = document.getElementById('openlink');
+
+var path = document.location.pathname;
+var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var directory = directory1.substring(directory1.lastIndexOf('/')+1); 
+
+commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
+
+a.href = commandURI;
+</script>
 <p>This is an example of an AIE Kernel that is controlled by a syncronous RTP input. The value of the RTP input changes between a wide filter and a narrow filter.</p>
 <h2 id="knowledge-nuggets">Knowledge nuggets</h2>
 <p>💡 An RTP input can be a scaler or a vector.</p>
@@ -17,7 +30,7 @@
 <p><img src="images/out_narrow.PNG" alt="" /></p>
 <p><img src="images/out_wide.PNG" alt="" /></p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

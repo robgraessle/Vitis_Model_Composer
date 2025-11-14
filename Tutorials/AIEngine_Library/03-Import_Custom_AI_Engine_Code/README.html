@@ -7,10 +7,23 @@
       <body>
         <div id='content'>
     <table class="sphinxhide" width="100%">
+<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
+
+<script>
+var a = document.getElementById('openlink');
+
+var path = document.location.pathname;
+var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var directory = directory1.substring(directory1.lastIndexOf('/')+1);  
+
+commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
+
+a.href = commandURI;
+</script>
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="https://www.xilinx.com/products/design-tools/vitis.html">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="https://www.xilinx.com/products/design-tools/vitis/vitis-ai.html">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -34,7 +47,7 @@
 <li>One or more <em>AI Engine kernels</em>, which are C/C++ functions that target the AI Engine's scalar and vector processing units. AI Engine kernel code is written using native C/C++ code and a provided AI Engine API. The kernel code is compiled by the AIE Compiler (<code>aiecompiler</code>).</li>
 <li>A <em>Data Flow Graph Specification</em> (graph code), which is C++ code that describes a network with a single AI Engine kernel or multiple AI Engine kernels connected by data streams. The graph can interact with the programmable logic (PL), global memory, and/or the host processor. The graph is also compiled using the <code>aiecompiler</code>.</li>
 </ol>
-<p>Both kernel programming and graph programming are covered extensively in the <a href="https://docs.xilinx.com/r/en-US/ug1079-ai-engine-kernel-coding">AI Engine Kernel and Graph Programming Guide (UG1079)</a>. There are also many examples on the <a href="https://github.com/Xilinx/Vitis-Tutorials/tree/HEAD/AI_Engine_Development">Xilinx GitHub</a>.</p>
+<p>Both kernel programming and graph programming are covered extensively in the <a href="matlab:XmcExampleApi.getExample(\'ug1079-ai-engine-kernel-coding\')">AI Engine Kernel and Graph Programming Guide (UG1079)</a>. There are also many examples on the <a href="matlab:XmcExampleApi.getExample(\'AI_Engine_Development\')">Xilinx GitHub</a>.</p>
 <p>In our decimation chain example, the frequency shift operation is implemented as an AI Engine kernel function. After the frequency shift kernel is integrated with the rest of the decimation chain, Vitis Model Composer will automatically generate graph code for the entire design (see Lab 4).</p>
 <h3 id="ai-engine-kernel-function-frequency-shift">AI Engine Kernel Function: Frequency Shift</h3>
 <ol>
@@ -140,12 +153,12 @@ void FreqShift(adf::input_buffer&lt;cint16&gt;&amp; __restrict in,
 <p>The output buffer size parameter sets the length of the output buffer. At the conclusion of the kernel's execution, the contents of the output buffer will be returned to Simulink. If the kernel's execution does not fill the output buffer with data (i.e. the kernel inserts 256 samples into the buffer, but the buffer length is 512 samples), the remainder of the buffer contains zeros.</p>
 <p>Also, note the <em>Synchronicity</em> setting. The <em>sync</em> setting means that the synchronization that is required to wait for an input buffer of data, or to provide an empty output buffer, is performed before entering the kernel. There is no synchronization needed within the kernel to read or write the individual elements of data after the kernel has started. This is the default behavior, and this scheme works best when the kernel produces and consumes a buffer's worth of data on every invocation. If you are not consuming a buffer's worth of data on every invocation of a kernel, or if you are not producing a buffer's worth of data on every invocation, then you can control the buffer synchronization by declaring the kernel port to be <em>async</em>. You then must use buffer synchronization APIs inside the kernel code before accessing the buffer using read/write APIs.</p>
 <p>To avoid buffer overflows or stalling of kernel execution, it is important to set the size of the input and output buffers appropriately. If Simulink produces samples at a greater rate than the AI Engine kernel can consume them, buffer overflows will occur.</p>
-<p>For more details, see <a href="https://github.com/Xilinx/VMC_Help/tree/HEAD/GEN/kernel-buffer-overflow">How to fix buffer overflow errors with AI Engine and HLS Kernels?</a>.</p>
+<p>For more details, see <a href="matlab:XmcExampleApi.getExample(\'kernel-buffer-overflow\')">How to fix buffer overflow errors with AI Engine and HLS Kernels?</a>.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p><strong>Congratulations!</strong> This concludes Lab 3. In this lab, you learned about AI Engine kernel programming and how to bring pre-existing AI Engine kernel code into Vitis Model Composer. You also saw how to simulate the kernel function and understand its operation in the context of a larger AI Engine design. </p>
 <p>In the next lab, you will see how to generate graph code and testbenches that can be run in a cycle-approximate simulation of the AI Engine.</p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

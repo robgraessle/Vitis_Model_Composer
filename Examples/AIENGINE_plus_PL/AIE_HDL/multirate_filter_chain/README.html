@@ -7,6 +7,19 @@
       <body>
         <div id='content'>
     <h1 id="multirate-filter-chain-example-model-using-both-ai-engines-and-programmable-logic-hdl">Multirate Filter Chain Example model using both AI Engines and Programmable Logic (HDL)</h1>
+<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
+
+<script>
+var a = document.getElementById('openlink');
+
+var path = document.location.pathname;
+var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var directory = directory1.substring(directory1.lastIndexOf('/')+1); 
+
+commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
+
+a.href = commandURI;
+</script>
 <p>In this section we showcase a Multirate Filter Chain design using both AI Engines and Programmable Logic.</p>
 <h2 id="knowledge-nuggets">Knowledge Nuggets</h2>
 <p>💡 <em>AIE to HDL</em> blocks are needed for connectivity between AIE blocks and HDL blocks. </p>
@@ -52,7 +65,7 @@
 <p>Output spectrum when input is complex sinusoidal signal:</p>
 <p><img src="./images/Filter_Output_SineWave_Spectrum.png" alt="" /></p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {

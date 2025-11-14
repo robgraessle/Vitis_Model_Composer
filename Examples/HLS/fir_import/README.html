@@ -7,10 +7,23 @@
       <body>
         <div id='content'>
     <h1 id="importing-fir-filter-into-model-composer">Importing FIR Filter into Model Composer</h1>
+<a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
+
+<script>
+var a = document.getElementById('openlink');
+
+var path = document.location.pathname;
+var directory1 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var directory = directory1.substring(directory1.lastIndexOf('/')+1); 
+
+commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
+
+a.href = commandURI;
+</script>
 <p>Model Composer allows users to import C/C++ code as a block. You can simulate the imported block along with other blocks in your design and also export it to one of the target types. In this example, we import a symmetric FIR filter developed in C++ into Model Composer as a block.</p>
 <p>This example also uses the following MathWorks toolbox:</p>
 <ul>
-<li><a href="https://www.mathworks.com/products/dsp-system.html">DSP System Toolbox</a></li>
+<li><a href="matlab:XmcExampleApi.getExample(\'dsp-system.html\')">DSP System Toolbox</a></li>
 </ul>
 <h2 id="finite-impulse-response-fir-filter">Finite Impulse Response (FIR) filter</h2>
 <p>The FIR filter we are importing is a 103 tap symmetric FIR filter. The filter accepts a vector of size 100 and data type x_sfix17_En14 (signed, 17 bit wide, 14 bit fractional) as input.</p>
@@ -33,7 +46,7 @@
 <p>ap_fixed is High Level Synthesis (HLS) notation to specify a fixed point number. To learn more about HLS, refer to Vitis HLS reference manual (UG1399).</p>
 <p>The fourth argument is a cell array listing all the needed files to compile the function and the fifth argument is another cell array that specifies the include files.</p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
