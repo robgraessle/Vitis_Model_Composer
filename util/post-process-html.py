@@ -34,26 +34,26 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
     
     # Format 1: <a href="path/to/folder/README.md">
     pattern1 = r'<a\s+href="[^"]*\/([^\/]+)\/README\.md">'
-    content = re.sub(pattern1, r"<a href=\"matlab:XmcExampleApi.getExample('\1')\">", content)
+    content = re.sub(pattern1, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
     # Format 2: <a href="folder/README.md">
     pattern2 = r'<a\s+href="([^\/]+)\/README\.md">'
-    content = re.sub(pattern2, r"<a href=\"matlab:XmcExampleApi.getExample('\1')\">", content)
+    content = re.sub(pattern2, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
     # Format 3: GitHub URLs to Vitis_Model_Composer
     pattern3 = r'<a\s+href="https?://[^"]*\/Vitis_Model_Composer\/[^"]*\/([^\/]+)\/README\.md">'
-    content = re.sub(pattern3, r"<a href=\"matlab:XmcExampleApi.getExample('\1')\">", content)
+    content = re.sub(pattern3, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
     # Format 4: Directory links (with or without trailing slash)
     pattern4 = r'<a\s+href="[^"]*\/([^\/]+)\/?">(?![^<]*<img)'  # Negative lookahead to avoid image links
-    content = re.sub(pattern4, r"<a href=\"matlab:XmcExampleApi.getExample('\1')\">", content)
+    content = re.sub(pattern4, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
     # 3. Replace VMC Help links with vmcHelp API calls
     pattern_vmc = r'<a\s+href="https://github\.com/Xilinx/VMC_Help/([^/]+)/([^/]+)/README\.md">'
     def replace_vmc_help(match):
         category = match.group(1)
         block_name = match.group(2)
-        return f"<a href=\"matlab:helpview(vmcHelp(name='{block_name}',category='{category}'))\">"
+        return f'<a href="matlab:helpview(vmcHelp(name=\'{block_name}\',category=\'{category}\'))">'
     
     content = re.sub(pattern_vmc, replace_vmc_help, content)
     
