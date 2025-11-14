@@ -51,8 +51,28 @@ jobs:
           # Find only README.md files that were modified in this push using the GitHub event payload (reliable in CI)
           if [ -f "$GITHUB_EVENT_PATH" ]; then
             echo "Using GitHub event payload to detect changed files..."
+            
+            # Debug: Show what's in the event payload
+            echo "Debug: Event payload structure:"
+            jq -r '.commits[] | "Commit: \(.id) - Added: \(.added // []) - Modified: \(.modified // []) - Removed: \(.removed // [])"' "$GITHUB_EVENT_PATH" || echo "Failed to parse commits"
+            
+            # Try to get all changed files first
+            echo "Debug: All changed files:"
+            jq -r '[.commits[] | .added[]?, .modified[]?, .removed[]?] | unique | .[] | select(. != null and . != "")' "$GITHUB_EVENT_PATH" || echo "No files found in commits"
+            
             # Use mapfile to properly handle the pipeline and avoid empty elements
             mapfile -t files < <(jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[] | select(. != null and . != "")' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true)
+            
+            # If no files found in event payload, fall back to git diff
+            if [ "${#files[@]}" -eq 0 ]; then
+              echo "No files found in event payload, falling back to git diff method..."
+              if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+                mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+              else
+                echo "No previous commit, processing all README.md files"
+                mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
+              fi
+            fi
           else
             echo "GITHUB_EVENT_PATH not found, falling back to all tracked README.md files."
             mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
