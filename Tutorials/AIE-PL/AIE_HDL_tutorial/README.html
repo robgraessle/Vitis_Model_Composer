@@ -22,8 +22,8 @@ a.href = commandURI;
 </script>
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href=\"matlab:XmcExampleApi.getExample('vitis.html')\">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href=\"matlab:XmcExampleApi.getExample('vitis-ai.html')\">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href="matlab:XmcExampleApi.getExample('vitis.html')">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="matlab:XmcExampleApi.getExample('vitis-ai.html')">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -55,7 +55,7 @@ a.href = commandURI;
 </ol>
 <p><img src="./Images/vmchub.png" alt="" /></p>
 <p>The <strong>FPGA clock period</strong> and <strong>Simulink system period</strong> settings control how the Simulink sample times are reflected in the generated HDL code. When the <strong>FPGA clock period</strong> corresponds to the desired hardware clock rate, and <strong>Simulink system period</strong> is equal to the same value, then the sample times observed in Simulink will match those of the design running in hardware. In this case, the settings correspond to a FPGA clock rate of 500 MHz.</p>
-<p>For more information on how timing and clocks are modeled in Vitis Model Composer, see the section, Synchronous Clocking, in <a href=\"matlab:XmcExampleApi.getExample('Timing-and-Clocking')\">Timing and Clocking</a> in the Vitis Model Composer User Guide. </p>
+<p>For more information on how timing and clocks are modeled in Vitis Model Composer, see the section, Synchronous Clocking, in <a href="matlab:XmcExampleApi.getExample('Timing-and-Clocking')">Timing and Clocking</a> in the Vitis Model Composer User Guide. </p>
 <p>With that in mind, let's refer to the sample times in the Simulink model.</p>
 <ol start="7">
 <li>From the top level of the model, double-click on the <strong>HDL_Subsystem</strong> to open it.</li>
@@ -67,7 +67,7 @@ a.href = commandURI;
 <li><code>tvalid</code>: Signal indicating the producer is producing valid data on the <code>tdata</code> signal.</li>
 <li><code>tready</code>: Signal indicating the consumer is ready to receive data on the <code>tdata</code> signal.</li>
 </ul>
-<p>For more information, see <a href=\"matlab:XmcExampleApi.getExample('How-AXI4-Stream-Works')\">How AXI4-Stream Works</a>.</p>
+<p>For more information, see <a href="matlab:XmcExampleApi.getExample('How-AXI4-Stream-Works')">How AXI4-Stream Works</a>.</p>
 <ol start="8">
 <li>Open the <strong>Gateway In AXIS</strong> and <strong>Gateway Out AXIS</strong> blocks and refer to the Sample Period parameter.</li>
 </ol>
@@ -134,7 +134,7 @@ a.href = commandURI;
   <p><strong>When would you reduce the output sample rate?</strong></p>
   <p>If the HDL subsystem does not produce valid data on every clock cycle, the AI Engine subsystem will operate at a reduced rate. The <strong>Reduce output sample rate</strong> parameter allows the <strong>HDL to AIE</strong> block to model this behavior.</p>
   <p>For example, if the HDL subsystem asserts <code>tvalid</code> every 4 HDL clock cycles, set the <strong>Reduce output sample rate by a factor of</strong> parameter to 4. </p>
-  <p>If you do not do this, the <strong>HDL to AIE</strong> block will output a variable-size signal that is empty when there is no valid data. For analysis and viewing the signal on a scope, it is easier to work with variable-size signals that are full. For more information, see the <a href=\"matlab:XmcExampleApi.getExample('Variable_Size_Signals')\">Variable-Size Signals</a> Quick Guide.</p>
+  <p>If you do not do this, the <strong>HDL to AIE</strong> block will output a variable-size signal that is empty when there is no valid data. For analysis and viewing the signal on a scope, it is easier to work with variable-size signals that are full. For more information, see the <a href="matlab:XmcExampleApi.getExample('Variable_Size_Signals')">Variable-Size Signals</a> Quick Guide.</p>
 </blockquote>
 <p><img src="./Images/hdl_aie_params2.png" alt="" /></p>
 <ol start="17">
@@ -189,7 +189,7 @@ a.href = commandURI;
 <li>They also determine the Simulink sample rate of the AI Engine design, based on the HDL sample rate and the relationship between the HDL/AIE data types. </li>
 </ul>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

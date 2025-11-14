@@ -41,7 +41,7 @@ a.href = commandURI;
 <li>Data Type: <code>bfloat16</code></li>
 </ul>
 <h2 id="design">Design</h2>
-<p>The Vitis Model Composer model imports the normalization design as AI Engine Kernel blocks. For a detailed description of the example design and its kernel functions, refer to the <a href=\"matlab:XmcExampleApi.getExample('13-aie-ml-performance-analysis')\">AIE-ML Performance Analysis Tutorial</a>. The Vitis Model Composer example uses Version 4 of the normalization design.</p>
+<p>The Vitis Model Composer model imports the normalization design as AI Engine Kernel blocks. For a detailed description of the example design and its kernel functions, refer to the <a href="matlab:XmcExampleApi.getExample('13-aie-ml-performance-analysis')">AIE-ML Performance Analysis Tutorial</a>. The Vitis Model Composer example uses Version 4 of the normalization design.</p>
 <p><img src="./Images/model.png" alt="" /> </p>
 <p>Here are the relevant features of the Vitis Model Composer model: </p>
 <ul>
@@ -61,15 +61,15 @@ for i=0:5
     pattern = struct('buffer_dimension', [COL,ROW], 'tiling_dimension', [K_COL,K_ROW], 'offset', [0,K_ROW*i])
     mtxA_r = [mtxA_r, pattern];
 end</code></pre>
-<p>This shared buffer has 3 write (input) ports and 5 read (output) ports. The tiling parameters are stored in 3x1 and 5x1, respectively, MATLAB structure arrays. For more information on the format of the MATLAB structure, refer to the <a href=\"matlab:XmcExampleApi.getExample('Shared_Buffer')\">Shared Buffer</a> block help.</p>
+<p>This shared buffer has 3 write (input) ports and 5 read (output) ports. The tiling parameters are stored in 3x1 and 5x1, respectively, MATLAB structure arrays. For more information on the format of the MATLAB structure, refer to the <a href="matlab:XmcExampleApi.getExample('Shared_Buffer')">Shared Buffer</a> block help.</p>
 <ul>
 <li>The AI Engine design inputs and outputs <code>bfloat16</code> floating-point data. The <strong>Convert To Bfloat16</strong> and <strong>Convert From Bfloat16</strong> blocks convert between the Simulink <code>single</code> data type and the <code>bfloat16</code> data type.</li>
-<li>Because this design has a feedback loop within the AI Engine subsystem, an <strong>Algebraic Loop Breaker</strong> block is needed to compile and run the model. For more information, see the <a href=\"matlab:XmcExampleApi.getExample('AlgebraicLoopBreaker')\">Algebraic Loop Breaker</a> block help.</li>
+<li>Because this design has a feedback loop within the AI Engine subsystem, an <strong>Algebraic Loop Breaker</strong> block is needed to compile and run the model. For more information, see the <a href="matlab:XmcExampleApi.getExample('AlgebraicLoopBreaker')">Algebraic Loop Breaker</a> block help.</li>
 </ul>
 <p><img src="./Images/results.png" alt="" />   </p>
 <p>The mean and variance of both the input and output signal are displayed. Note that the mean of the output signal is less than 1, and the variance of the output signal is 1. This is the result of the normalization algorithm.</p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {
