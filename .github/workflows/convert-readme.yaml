@@ -1,17 +1,20 @@
-name: Convert README
+name: Convert README.md -> README.html 
+on: 
+  push: # watch only README.md files (ignore README.html to be safe) 
+    paths: 
+      - '**/README.md' # optionally, avoid triggering on commits that include [skip ci] messages from this workflow 
+      # (most CI systems respect this token; keeping it here is additional protection) 
+      # no additional config needed here for [skip ci], it's in the commit message below
 
-on:
-  push:
-    branches: ["2025.2"]
-  pull_request:
-    branches: ["2025.2"]
-  workflow_dispatch: {}
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
+jobs: 
+  convert: 
+    runs-on: ubuntu-latest 
+    
+    steps: 
+      - name: Checkout repository 
+        uses: actions/checkout@v4 
+        with: 
+          persist-credentials: true # allow pushing back
     
       - name: Setup Node.js
         uses: actions/setup-node@v4
