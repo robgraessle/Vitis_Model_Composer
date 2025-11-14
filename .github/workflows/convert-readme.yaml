@@ -47,15 +47,25 @@ jobs:
 
           changed=false
           
-          # Find all tracked README.md files
-          mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
+          # Find only README.md files that were modified in this push
+          # Compare current commit with the previous commit to find changed files
+          mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
           
           if [ "${#files[@]}" -eq 0 ]; then 
-            echo "No README.md files found." 
+            echo "No modified README.md files found in this push." 
             exit 0 
           fi
           
+          echo "Found ${#files[@]} modified README.md file(s):"
+          printf '  %s\n' "${files[@]}"
+          
           for md in "${files[@]}"; do
+            # Skip if the file doesn't exist (might have been deleted)
+            if [ ! -f "$md" ]; then
+              echo "Skipping deleted file: $md"
+              continue
+            fi
+            
             dir=$(dirname "$md")
             # If README.md is in repository root, dirname returns "."
             if [ "$dir" = "." ]; then
@@ -95,7 +105,7 @@ jobs:
           if [ "$changed" = true ]; then
             git config user.name "$GIT_COMMITTER_NAME"
             git config user.email "$GIT_COMMITTER_EMAIL"
-            git commit -m "Auto-generate README.html from README.md [skip ci]" || echo "Nothing to commit"
+            git commit -m "Auto-generate README.html from modified README.md files [skip ci]" || echo "Nothing to commit"
             git push origin HEAD
           fi
           
