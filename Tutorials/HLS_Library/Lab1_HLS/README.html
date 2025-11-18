@@ -43,7 +43,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <h3 id="sobel-edge-detection-algorithm-overview">Sobel Edge Detection: Algorithm Overview</h3>
 <p>Sobel edge detection is a classical algorithm in the field of image and video processing for the extraction of object edges. Edge detection using Sobel operators works on the premise of computing an estimate of the first derivative of an image to extract edge information.</p>
 <p><b> Sobel Edge Detection </b><br />
-<img src="../Images/Step2/Part1/SobelEdgeDetection.png"></p>
+<img src="Images/Step2/Part1/SobelEdgeDetection.png"></p>
 <h3 id="implementing-algorithms-in-vitis-model-composer">Implementing Algorithms in Vitis Model Composer</h3>
 <ol>
 <li><p>In the MATLAB Current Folder, navigate to <code>\HLS_Library\Lab1\Section1.</code></p></li>
@@ -58,14 +58,14 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <blockquote>
   <p>📝 Note: The blocks SobelFilter_XMC and GradientMag_XMC have been generated using the <code>xmcImportFunction</code> feature.</p>
 </blockquote>
-<ul> <img src="../Images/Step2/Part2/Step5.png"> </ul>
+<ul> <img src="Images/Step2/Part2/Step5.png"> </ul>
 <ol start="6">
 <li><p>Select the <strong>Simulation > Run</strong> command to simulate the model and view the results of the Sobel Edge Detection algorithm.<br />
-<br><br><img src="../Images/Step2/Part2/Step6.png"><br />
+<br><br><img src="Images/Step2/Part2/Step6.png"><br />
 <br><br> One way to assess the simulation performance of the algorithm is to check the video frame rate of the simulation. Do the following:</p></li>
 <li><p>Add the Frame Rate Display block from the Simulink Computer Vision Toolbox (under the Sinks category) and connect it to the output of the algorithm as shown in the following figure.</p></li>
 <li><p>Simulate the model again to see the number of video frames processed per second.<br />
-<br><br><img src="../Images/Step2/Part2/Step8.png"></p></li>
+<br><br><img src="Images/Step2/Part2/Step8.png"></p></li>
 <li><p>Try changing the input video through the From Multimedia File block by double-clicking the block and changing the File Name field to select a different video. Notice that changing the video resolution in the Source block does not require any structural modifications to the algorithm itself.</p></li>
 </ol>
 <blockquote>
@@ -95,8 +95,8 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li><p>Double-click <strong>Colorspace_Conversion_fixed_start.slx</strong> in the Current Folder to open the design.</p></li>
 <li><p>Open the <strong>HLS</strong> library in the Simulink Library Browser.</p></li>
 <li><p>Navigate to the Signal Attributes sub-library, select the <strong>Data Type Conversio</strong>n block, and drag it into the empty slots in the designs, before and after the RGB to YCbCr subsystem.<br />
-<br><br><img src="../Images/Step3/Part1/Step3-1.png"><br />
-<br><br><img src="../Images/Step3/Part1/Step3-2.jfif"></p></li>
+<br><br><img src="Images/Step3/Part1/Step3-1.png"><br />
+<br><br><img src="Images/Step3/Part1/Step3-2.jfif"></p></li>
 <li><p>Open the Data Type Conversion blocks at the inputs of the RGB to YCbCr Subsystem, and do the following:</p>
 <ul>
 <li>Change the <strong>Output data type</strong> parameter to <strong>fixed</strong>.</li>
@@ -104,9 +104,9 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 <li>Set the <strong>Word length</strong> to <strong>8</strong>.</li>
 <li>Set <strong>Fractional length</strong> to <strong>7</strong>.</li>
 <li>Click <strong>Apply</strong>, and close the dialog box.<br />
-<br><br><img src="../Images/Step3/Part1/Step3-2.jfif"></li></ul></li>
+<br><br><img src="Images/Step3/Part1/Step3-2.jfif"></li></ul></li>
 <li><p>Add the Data Type Conversion blocks at the output of the RGB to YCbCr Subsystem and set the <strong>Output data type</strong> parameter to <strong>single</strong>. This will enable connecting the output signals to the Video Viewer blocks for visualization.<br />
-<br><br><img src="../Images/Step3/Part1/Step5.png"></p></li>
+<br><br><img src="Images/Step3/Part1/Step5.png"></p></li>
 <li><p>Double-click the <strong>RGB</strong> to <strong>YCbCr</strong> subsystem to descend the hierarchy and open the model. Within the RGB to YCbCr subsystem, there are subsystems to calculate Y, Cb, and Cr components using Gain and Constant blocks.<br />
 <br><br> You can control the fixed point types for the gain parameter in the Gain blocks and the value in the Constant blocks. You can do this by opening up the <strong>Calculate_Y</strong>, <strong>Calculate_Cb</strong>, and <strong>Calculate_Cr</strong> blocks and setting the data types as follows.<br />
 <br><br> For Gain blocks, set the Gain data type to fixed. For Constant blocks, on the Data Types tab set the Output data type to fixed. The following options appear:</p>
@@ -120,7 +120,7 @@ The HLS blocks are organized into subcategories based on functionality. Spend a 
 </blockquote>
 <ul>
 <br><br>Ensure you do this for all the Constant and Gain blocks in the design. Update the model (Ctrl+D) and observe the fixed point data types being propagated along with automatic bit growth in gain blocks and adder trees in the design as shown in the following figure:
-<br><br><img src="../Images/Step3/Part1/Step6.jfif">
+<br><br><img src="Images/Step3/Part1/Step6.jfif">
 <br><br>T he general format used to display the AMD fixed point data types is as follows:
 <br><br> ` x_[u/s]fix[wl]_En[fl] `
 <br><br> <b>u</b>: Unsigned
@@ -136,7 +136,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <ol>
 <li><p>Double-click <strong>Colorspace_Conversion_expression.slx</strong> in the Current Folder to open the design.</p></li>
 <li><p>Notice that the Data Type Conversion blocks at the Input of the RGB to YCbCr Subsystem, the Gain blocks and Constant blocks within the Subsystem have Output data type and Gain data type set to data type expression.<br />
-<br><br><img src="../Images/Step3/Part2/Step2.png"><br />
+<br><br><img src="Images/Step3/Part2/Step2.png"><br />
 <br><br> This enables HLS blocks to control the data types in the design using workspace variables, in this case <code>InputDataType</code> and <code>FDataType</code> that you can easily change from the MATLAB command prompt.</p></li>
 <li><p>Update the model (<strong>Ctrl+D</strong>) and observe the fixed-point data types propagated through the blocks.<br />
 <br><br>The other HLS blocks in the design will automatically take care of the bit-growth in the design. If you want more control over the fixed point data types at other intermediate portions of the design, you can insert Data Type Conversion blocks wherever necessary.</p></li>
@@ -251,7 +251,7 @@ You can view a completed version of the design here: ` HLS_Library\Lab1\Section2
 <li><code>\HLS_Library\Lab1\Section2\solution</code></li>
 </ul>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

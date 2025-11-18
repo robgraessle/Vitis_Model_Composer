@@ -45,7 +45,7 @@ a.href = commandURI;
 <li><p>Type <code>open Lab5_1.slx</code> in the Command Window.</p></li>
 </ol>
 <p>This opens the design shown in the following figure.</p>
-<p><img src="../Images/Step1/Step2.png" alt="" /></p>
+<p><img src="Images/Step1/Step2.png" alt="" /></p>
 <p>This design uses a number of AXI interfaces. You will review these shortly.</p>
 <p>Using AXI interfaces allows a design exported to the Vivado IP catalog to be efficiently integrated into a larger system using IP integrator. It is not a requirement for designs exported to the IP catalog to use AXI interfaces.</p>
 <p>This design uses the following AXI interfaces:</p>
@@ -76,13 +76,13 @@ a.href = commandURI;
 <blockquote>
   <p>⭐ <strong>Tip:</strong> You will have to manually type <code>/IPI_Project</code> in the Project location box to create the IPI_Project directory.</p>
 </blockquote>
-<p><img src="../Images/Step2/Step9.png" alt="" /></p>
+<p><img src="Images/Step2/Step9.png" alt="" /></p>
 <ol start="10">
 <li><p>Click <strong>Next</strong>.</p></li>
 <li><p>Select both <strong>RTL Project</strong> and <strong>Do not specify sources</strong> at this time and click <strong>Next</strong>.</p></li>
 <li><p>Select <strong>Boards</strong> and <strong>ZYNQ-7 ZC702 Evaluation Board</strong> as shown in the next figure.</p></li>
 </ol>
-<p><img src="../Images/Step2/Step12.png" alt="" /></p>
+<p><img src="Images/Step2/Step12.png" alt="" /></p>
 <ol start="13">
 <li><p>Click <strong>Next</strong>.</p></li>
 <li><p>Click <strong>Finish</strong>.</p></li>
@@ -93,7 +93,7 @@ a.href = commandURI;
 <ol>
 <li>Click <strong>Create Block Design</strong> in the Flow Navigator pane.</li>
 </ol>
-<p><img src="../Images/Step3/Step1.png" alt="" /></p>
+<p><img src="Images/Step3/Step1.png" alt="" /></p>
 <ol start="2">
 <li>In the Create Block Design dialog box, click <strong>OK</strong> to accept the default name.</li>
 </ol>
@@ -101,7 +101,7 @@ a.href = commandURI;
 <ol start="3">
 <li>In the Settings dialog box, select <strong>IP > Repository</strong> under Project Settings and click the <strong>Add Repository</strong> button to add a repository.</li>
 </ol>
-<p><img src="../Images/Step3/Step3.png" alt="" /></p>
+<p><img src="Images/Step3/Step3.png" alt="" /></p>
 <ol start="4">
 <li>In the IP Repositories dialog box, navigate to the following directory:</li>
 </ol>
@@ -109,7 +109,7 @@ a.href = commandURI;
 <ol start="5">
 <li>With folder <code>ip</code> selected, click <strong>Select</strong> to create the new repository as shown in the following figure.</li>
 </ol>
-<p><img src="../Images/Step3/Step5.png" alt="" /></p>
+<p><img src="Images/Step3/Step5.png" alt="" /></p>
 <ol start="6">
 <li><p>Click <strong>OK</strong> to exit the Add Repository dialog box.</p></li>
 <li><p>Click <strong>OK</strong> to exit the Settings dialog box.</p></li>
@@ -117,16 +117,16 @@ a.href = commandURI;
 <li><p>Type <code>zynq</code> in the Search field.</p></li>
 <li><p>Double-click <strong>ZYNQ7 Processing System</strong> to add the CPU.</p></li>
 </ol>
-<p><img src="../Images/Step3/Step10.png" alt="" /></p>
+<p><img src="Images/Step3/Step10.png" alt="" /></p>
 <ol start="11">
 <li>Click <strong>Run Block Automation</strong> as shown in the following figure.</li>
 </ol>
-<p><img src="../Images/Step3/Step11.png" alt="" /></p>
+<p><img src="Images/Step3/Step11.png" alt="" /></p>
 <ol start="12">
 <li><p>Leave Apply Board Preset selected and click <strong>OK</strong>. This will ensure the design is automatically configured to operate on the ZC702 evaluation board.</p></li>
 <li><p>Right-click anywhere in the block diagram and select <strong>Add IP</strong>.</p></li>
 </ol>
-<p><img src="../Images/Step3/Step13.png" alt="" /></p>
+<p><img src="Images/Step3/Step13.png" alt="" /></p>
 <ol start="14">
 <li><p>Type <code>HDL_DUT</code> in the Search dialog box.</p></li>
 <li><p>Double-click <strong>HDL_DUT</strong> to add the IP to the design.</p></li>
@@ -139,19 +139,19 @@ a.href = commandURI;
 <li><p>Click the <strong>PS-PL Configuration</strong> as shown in the following figure.</p></li>
 <li><p>Expand the HP Slave AXI Interface and select the <strong>S AXI HP0</strong> interface. Make sure to check the box next to S AXI HP0 interface.</p></li>
 </ol>
-<p><img src="../Images/Step3/Step20.png" alt="" /></p>
+<p><img src="Images/Step3/Step20.png" alt="" /></p>
 <ol start="21">
 <li><p>Click <strong>OK</strong> to add this port to the Zynq Processing System.</p></li>
 <li><p>On the Model Composer IP HDL_DUT block, click the AXI4-Stream input interface port <code>s_axis_source</code> and drag the mouse. Possible valid connections are shown with green check marks as the pencil cursor approaches them. Drag the mouse to the <code>S_AXI_HP0</code> port on the Zynq Processing System to complete the connection.</p></li>
 </ol>
-<p><img src="../Images/Step3/Step22.png" alt="" /></p>
+<p><img src="Images/Step3/Step22.png" alt="" /></p>
 <ol start="23">
 <li><p>Click <strong>OK</strong> in the Make Connection dialog box.</p></li>
 <li><p>Click <strong>Run Connection Automation</strong> to connect the AXI4-Lite interface on the AXI DMA to the processor.</p></li>
 <li><p>Click <strong>OK</strong> to accept the default.</p></li>
 <li><p>Use the Validate Design toolbar button to confirm the design has no errors.</p></li>
 </ol>
-<p><img src="../Images/Step3/Step26.png" alt="" /></p>
+<p><img src="Images/Step3/Step26.png" alt="" /></p>
 <ol start="27">
 <li>Click OK to close the Validate Design message.</li>
 </ol>
@@ -164,7 +164,7 @@ a.href = commandURI;
 <li><p>In the Sources browser in the main workspace pane, a Block Diagram object called <code>design_1</code> is at the top of the Design Sources tree view.</p></li>
 <li><p>Right-click this object and select <strong>Generate Output Products</strong>.</p></li>
 </ol>
-<p><img src="../Images/Step4/Step3.png" alt="" /></p>
+<p><img src="Images/Step4/Step3.png" alt="" /></p>
 <ol start="4">
 <li><p>In the Generate Output Products dialog box, click <strong>Generate</strong> to start the process of generating the necessary source files.</p></li>
 <li><p>When the generation completes, right-click the <code>design_1</code> object again, select <strong>Create HDL Wrapper</strong>, and click <strong>OK</strong> (and let Vivado manage the wrapper) to exit the resulting dialog box.</p></li>
@@ -181,7 +181,7 @@ a.href = commandURI;
 <p>The following <code>solution</code> directory contains the final Vitis Model Composer (<code>*.slx</code>) files for this lab. The solution directory does not contain the IP output from Vitis Model Composer or the files and directories generated by Vivado.</p>
 <pre><code>\HDL_Library\Lab5\solution</code></pre>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
