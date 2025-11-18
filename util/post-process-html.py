@@ -58,8 +58,9 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
     content = re.sub(pattern_vmc, replace_vmc_help, content)
     
     # 4. Fix image paths for product display (normalize to ../Images)
-    # Match any src attribute that points to an Images directory (with any relative path)
-    pattern_img = r'src="[^"]*Images/'
+    # Only normalize paths that contain relative path indicators (../ or ./)
+    # Leave simple "Images/" paths unchanged (for root level files)
+    pattern_img = r'src="(\.+/)+Images/'
     content = re.sub(pattern_img, 'src="../Images/', content)
     
     # 5. Insert HTML for "Open Design" or "Open Lab Directory" button (README.html only)
