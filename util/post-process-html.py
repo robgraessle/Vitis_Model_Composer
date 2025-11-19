@@ -32,12 +32,12 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
     
     # 2. Replace various README.md link formats with MATLAB API calls
     
-    # Format 1: <a href="path/to/folder/README.md">
-    pattern1 = r'<a\s+href="[^"]*\/([^\/]+)\/README\.md">'
+    # Format 1: <a href="path/to/folder/README.md"> or <a href="./path/to/folder/README.md">
+    pattern1 = r'<a\s+href="(?:\./)?[^"]*\/([^\/]+)\/README\.md">'
     content = re.sub(pattern1, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
-    # Format 2: <a href="folder/README.md">
-    pattern2 = r'<a\s+href="([^\/]+)\/README\.md">'
+    # Format 2: <a href="folder/README.md"> or <a href="./folder/README.md">
+    pattern2 = r'<a\s+href="(?:\./)?([^\/]+)\/README\.md">'
     content = re.sub(pattern2, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
     
     # Format 3: GitHub URLs to Vitis_Model_Composer
