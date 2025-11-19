@@ -44,5 +44,5 @@ You can write a variable-size signal to MATLAB workspace using *Variable-Size Si
 
 ------------
 
-Copyright (c) 2024 Advanced Micro Devices, Inc.
+Copyright (c) 2025 Advanced Micro Devices, Inc.
 

@@ -153,4 +153,4 @@ This design implements two decimation filters, one in AI Engine and the other in
 
 ------------
 
-Copyright (c) 2024 Advanced Micro Devices, Inc.
+Copyright (c) 2025 Advanced Micro Devices, Inc.
