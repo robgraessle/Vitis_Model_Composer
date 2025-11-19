@@ -6,7 +6,6 @@
       </head>
       <body>
         <div id='content'>
-    <h1 id="filtering-in-frequency-domain">Filtering in Frequency Domain</h1>
 <a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
 
 <script>
@@ -20,10 +19,11 @@ commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
 
 a.href = commandURI;
 </script>
+    <h1 id="filtering-in-frequency-domain">Filtering in Frequency Domain</h1>
 <p>In the frequency domain, the filtering operation involves the multiplication of the Fourier transform of the input and the Fourier transform of the <br />
 impulse response followed by an inverse Fourier transform.<br />
 As the length of the impulse response increases, the frequency-domain filtering technique becomes more efficient compared to time-domain filtering.</p>
-<p>This example implements a frequency domain filter using the Vitis DSP Library FFT &amp; IFFT functions. It also demonstrates how to boost throughput by varying thee cascade length, PLIO width, and number of frames. See also <a href="matlab:XmcExampleApi.getExample('Filtering_in_frequency_domain')">this example</a> that implements the FFT &amp; IFFT using the AI Engine API.</p>
+<p>This example implements a frequency domain filter using the Vitis DSP Library FFT &amp; IFFT functions. It also demonstrates how to boost throughput by varying thee cascade length, PLIO width, and number of frames. See also <a href="matlab:XmcExampleApi.getExample(\'Filtering_in_frequency_domain\')">this example</a> that implements the FFT &amp; IFFT using the AI Engine API.</p>
 <h2 id="algorithm">Algorithm</h2>
 <p>This example uses the Overlap-Save method. The diagram below depicts this algorithm at a high level:</p>
 <p><img src="../Images/high_level.png" width="600"></p>
@@ -160,7 +160,7 @@ void __attribute__ ((noinline)) overlap_save(adf::input_buffer&lt;cint16,adf::ex
 </table>
 <p>By employing the mentioned techniques to boost the throughput, we have achieved a 1GSPS throughput. However, this comes at the cost of higher resource usage due to the increased cascade length and increased design latency resulting from the higher number of frames. </p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {

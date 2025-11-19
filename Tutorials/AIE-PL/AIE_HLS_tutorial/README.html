@@ -6,7 +6,6 @@
       </head>
       <body>
         <div id='content'>
-    <table class="sphinxhide" width="100%">
 <a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
 
 <script>
@@ -20,10 +19,11 @@ commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
 
 a.href = commandURI;
 </script>
+    <table class="sphinxhide" width="100%">
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample('vitis.html')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample('vitis-ai.html')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -50,7 +50,7 @@ a.href = commandURI;
 <h2 id="hls-kernel-block">HLS Kernel Block</h2>
 <p>In order to interface a PL kernel written in HLS with an AI Engine design, the PL kernel must be brought into Vitis Model Composer using the <strong>HLS Kernel</strong> block. This block lets you import HLS C/C++ code that is compiled and executed when simulating the Simulink model. The simulation of the HLS Kernel in Simulink is not cycle-accurate.</p>
 <blockquote>
-  <p><strong>IMPORTANT:</strong> Vitis Model Composer also allows you to import HLS code into your design using the <code>xmcImportFunction</code>, or to build a design out of blocks from the HLS block library. <strong>These approaches are not supported for connecting an HLS design to the AI Engine.</strong> For a detailed discussion on the differences between these approaches and using the <strong>HLS Kernel</strong> block, see <a href="matlab:XmcExampleApi.getExample('Interconnecting-AI-Engines-and-HLS-Kernels')">Interconnecting AI Engines and HLS Kernels</a> in the Vitis Model Compouser User Guide. </p>
+  <p><strong>IMPORTANT:</strong> Vitis Model Composer also allows you to import HLS code into your design using the <code>xmcImportFunction</code>, or to build a design out of blocks from the HLS block library. <strong>These approaches are not supported for connecting an HLS design to the AI Engine.</strong> For a detailed discussion on the differences between these approaches and using the <strong>HLS Kernel</strong> block, see <a href="matlab:XmcExampleApi.getExample(\'Interconnecting-AI-Engines-and-HLS-Kernels\')">Interconnecting AI Engines and HLS Kernels</a> in the Vitis Model Compouser User Guide. </p>
 </blockquote>
 <ol start="5">
 <li>Focus on the <strong>HLS_passthrough</strong> block on the canvas.</li>
@@ -81,8 +81,8 @@ HLS_passthrough(hls::stream&lt; uint64_t &gt;&amp; arg0, hls::stream&lt; uint64_
     data = arg0.read();
     arg1.write(data);
 }</code></pre>
-<p>Note the pragmas that define the <code>axis</code> interface on the input and output. When this function is implemented in hardware, it will have AXI4-Stream interfaces. This is a requirement for any PL component that interfaces with an AI Engine. For more information, see <a href="matlab:XmcExampleApi.getExample('How-AXI4-Stream-Works')">How AXI4-Stream Works</a>.</p>
-<p>Additional requirements to interface an HLS Kernel with an AI Engine graph, specific to the Vitis Model Composer hardware validation flow, are listed in <a href="matlab:XmcExampleApi.getExample('Design-Considerations')">Design Considerations</a> in the Vitis Model Composer User Guide.</p>
+<p>Note the pragmas that define the <code>axis</code> interface on the input and output. When this function is implemented in hardware, it will have AXI4-Stream interfaces. This is a requirement for any PL component that interfaces with an AI Engine. For more information, see <a href="matlab:XmcExampleApi.getExample(\'How-AXI4-Stream-Works\')">How AXI4-Stream Works</a>.</p>
+<p>Additional requirements to interface an HLS Kernel with an AI Engine graph, specific to the Vitis Model Composer hardware validation flow, are listed in <a href="matlab:XmcExampleApi.getExample(\'Design-Considerations\')">Design Considerations</a> in the Vitis Model Composer User Guide.</p>
 <h2 id="aie-subsystem">AIE Subsystem</h2>
 <p>Now let's examine the AI Engine subsystem.</p>
 <ol start="8">
@@ -178,7 +178,7 @@ HLS_passthrough(hls::stream&lt; uint64_t &gt;&amp; arg0, hls::stream&lt; uint64_
 <li>The <strong>AIE to HLS</strong> and <strong>HLS to AIE</strong> blocks translate between HLS and AI Engine data types and vector lengths. </li>
 </ul>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

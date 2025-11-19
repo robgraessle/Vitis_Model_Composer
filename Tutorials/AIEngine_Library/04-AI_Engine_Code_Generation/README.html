@@ -6,7 +6,6 @@
       </head>
       <body>
         <div id='content'>
-    <table class="sphinxhide" width="100%">
 <a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Lab Directory</a>
 
 <script>
@@ -20,10 +19,11 @@ commandURI="matlab:XmcExampleApi.changeDirectory('" + directory + "');"
 
 a.href = commandURI;
 </script>
+    <table class="sphinxhide" width="100%">
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample('vitis.html')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample('vitis-ai.html')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -154,7 +154,7 @@ public:
 <p>This limits the throughput calculation to the area between the two cursors. In the figures above, the calculated throughput changes from 55 MSPS to 35 MSPS (your displayed value may vary slightly). This throughput is below our expected throughput for the decimation chain, which we expect to output samples at a rate of 125 MSPS. We will see how to improve the throughput in Lab 5.</p>
 <h2 id="step-3-review-code-generation-artifacts">Step 3: Review Code Generation Artifacts</h2>
 <p>When you generate AI Engine code with Vitis Model Composer, a number of artifacts are also generated. These artifacts can be used to run the AI Engine simulation outside of Vitis Model Composer or to integrate the generated code within a larger project.</p>
-<p>The artifacts include shell scripts and Makefiles for compiling, simulating, and building the AI Engine application. Makefiles are commonly used to build applications targeting Versal Adaptive SoC devices. For an example build flow that uses Makefiles, see the <a href="matlab:XmcExampleApi.getExample('01-Versal_Custom_Thin_Platform_Extensible_System')">Versal Custom Thin Platform</a>. </p>
+<p>The artifacts include shell scripts and Makefiles for compiling, simulating, and building the AI Engine application. Makefiles are commonly used to build applications targeting Versal Adaptive SoC devices. For an example build flow that uses Makefiles, see the <a href="matlab:XmcExampleApi.getExample(\'01-Versal_Custom_Thin_Platform_Extensible_System\')">Versal Custom Thin Platform</a>. </p>
 <p><img src="Images/Image07.png" alt="missing image" /></p>
 <ul>
 <li><code>data/input/In1.txt</code>, <code>data/reference_output/Out1.txt</code>: These are the input data and reference output data files, respectively, to be used with the <code>aiesimulator</code>. These are simple text files where each row represents inputs/outputs for a simulation time stamp, and each column represents a different channel of data (or for complex data, the real and imaginary components of the data). These files are generated based on the inputs and outputs from the Simulink model.</li>
@@ -164,7 +164,7 @@ public:
 <li><code>src_aie</code>: This folder contains the generated source code for the AI Engine graph.</li>
 <li><code>src_pl_datamover</code>: This folder contains HLS kernels to move data between the AI Engine and the PL. Used as part of the Hardware Validation flow.</li>
 <li><code>src_ps</code>: This folder contains source code for a PS application to run the validation testbench (data movers and AI Engine design) on Versal hardware. Used as part of the Hardware Validation flow.</li>
-<li><code>FIRchain.cfg</code>: Vitis compiler link configuration file. This describes how the data movers and AI Engine are to be connected in the design running on hardware. For more information on this file, refer to <a href="matlab:XmcExampleApi.getExample('Linking-the-System')">Linking the System</a> in AI Engine Tools and Flows User Guide (UG1076). </li>
+<li><code>FIRchain.cfg</code>: Vitis compiler link configuration file. This describes how the data movers and AI Engine are to be connected in the design running on hardware. For more information on this file, refer to <a href="matlab:XmcExampleApi.getExample(\'Linking-the-System\')">Linking the System</a> in AI Engine Tools and Flows User Guide (UG1076). </li>
 <li><code>make.sh</code>: This script configures the shell environment before launching the Makefile described below.</li>
 <li><code>Makefile</code>: This Makefile compiles and simulates the AI Engine kernel portion of the design.</li>
 </ul>
@@ -174,7 +174,7 @@ public:
 <p><strong>Congratulations!</strong> This concludes Lab 4. In this lab, you generated AI Engine graph code from Vitis Model Composer, reviewed AI Engine simulation results, and learned about the code generation artifacts produced by Vitis Model Composer. The AI Engine simulation results showed that the design currently does not produce the desired throughput. </p>
 <p>In the next lab, you will see how to increase the design's throughput with PLIOs and AI Engine design constraints.</p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

@@ -6,7 +6,6 @@
       </head>
       <body>
         <div id='content'>
-    <h1 id="reloadable-fir-filter">Reloadable FIR Filter</h1>
 <a id="openlink" href="" style="display:inline-block; padding:10px 20px; background-color:#007acc; color:white; text-decoration:none; border-radius:5px; font-weight:900">Open Example</a>
 
 <script>
@@ -20,6 +19,7 @@ commandURI="matlab:XmcExampleApi.openExample('" + directory + "');"
 
 a.href = commandURI;
 </script>
+    <h1 id="reloadable-fir-filter">Reloadable FIR Filter</h1>
 <p>This design example shows how the FIR Compiler block can be configured as a reloadable coefficient FIR filter. <br />
 In this example, the first set of coefficients is specified and loaded by the core, and the second set is loaded from an external<br />
 source. The first set of coefficients specifies a symmetric filter, [1 2 3 2 1]. Note the filter structure is <em>inferred</em> from the coefficients provided to the block per the setting depicted in the image below.</p>
@@ -79,7 +79,7 @@ to indicate the last coefficient data.</p></li>
 <p>💡 Note that the reloadable input to the filter must be unsigned. In this example, the gateway block is set to produce unsigned output and the <em>Overflow mode</em> is set to <em>wrap</em>. </p>
 <p><img src="images/screen_shot.PNG" alt="" /></p>
 <hr />
-<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
