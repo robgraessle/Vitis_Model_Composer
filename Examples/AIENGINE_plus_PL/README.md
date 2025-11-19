@@ -151,3 +151,6 @@ This design implements two decimation filters, one in AI Engine and the other in
  
 </table>
 
+------------
+
+Copyright (c) 2024 Advanced Micro Devices, Inc.

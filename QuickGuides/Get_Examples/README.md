@@ -24,3 +24,7 @@ git checkout 2021.2
 ## Download a zipped version directly from GitHub
 First switch to the branch corresponding to the version of Vitis Model Composer you have. Then click "Download ZIP".
 ![](Images/download_zip_from_github.PNG)
+
+------------
+
+Copyright (c) 2024 Advanced Micro Devices, Inc.

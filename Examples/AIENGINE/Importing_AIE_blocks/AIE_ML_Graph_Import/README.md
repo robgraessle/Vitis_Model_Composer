@@ -47,4 +47,6 @@ The image below depicts the Simulink design. Note that we are comparing the outp
 <img src="./images/AIE_ML_design.jpg" width="1000"/>
 
 
+------------
 
+Copyright (c) 2024 Advanced Micro Devices, Inc.

@@ -200,3 +200,7 @@ Using FIR Interpolator blocks to implement a Digital Upconverter (DUC).
 
 # More AI Engine and Programmable Logic Examples
 For more examples with AI Engine and Programmable Logic click [here](../AIENGINE_plus_PL).
+
+------------
+
+Copyright (c) 2024 Advanced Micro Devices, Inc.

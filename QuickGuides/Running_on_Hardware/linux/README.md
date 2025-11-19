@@ -72,3 +72,7 @@ In TeraTerm, select the low COM number (Versal UART0, COM4 in this example) and 
 * The application will run and at the end of the test, you should see similar messages as highlighted below.
 
 ![](./images/rob_17.PNG)
+
+------------
+
+Copyright (c) 2024 Advanced Micro Devices, Inc.

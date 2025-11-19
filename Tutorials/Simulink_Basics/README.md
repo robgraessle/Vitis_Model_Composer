@@ -98,3 +98,7 @@ A subsystem created in this way is called a _virtual subsystem_. Virtual subsyst
 Instead of executing your entire design at once, you have the option to proceed incrementally. This approach proves valuable while troubleshooting a design as it allows you to inspect Display blocks that are positioned at various parts of your design, providing visibility at each step.
 
 <img src="./images/step.gif" width="700">
+
+------------
+
+Copyright (c) 2024 Advanced Micro Devices, Inc.
