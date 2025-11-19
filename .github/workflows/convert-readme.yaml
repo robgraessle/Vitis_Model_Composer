@@ -33,30 +33,53 @@ jobs:
         run: |
           set -euo pipefail
       
-          # Path to converter script
-          CONVERTER_SCRIPT="${GITHUB_WORKSPACE:-$PWD}/util/convert.js"
-          
-          if [ ! -f "$CONVERTER_SCRIPT" ]; then 
-            echo "Converter script not found at $CONVERTER_SCRIPT" 
+          # Relative path (inside repo) to where convert.js and style.css live
+          CONVERTER_DIR="util" 
+          CONVERTER_SCRIPT="$CONVERTER_DIR/convert.js"
+
+          # Absolute path to converter in the runner workspace
+          # GITHUB_WORKSPACE is automatically set to the repository root
+          ABS_CONVERTER_SCRIPT="${GITHUB_WORKSPACE:-$PWD}/$CONVERTER_SCRIPT"
+
+          if [ ! -f "$ABS_CONVERTER_SCRIPT" ]; then 
+            echo "Converter script not found at $ABS_CONVERTER_SCRIPT" 
             exit 1 
           fi
 
           changed=false
           
-          # Find modified README.md files using GitHub event payload or git diff fallback
-          get_modified_files() {
-            if [ -f "$GITHUB_EVENT_PATH" ]; then
-              jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[] | select(. != null and . != "")' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true
-            elif git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
-              git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true
-            else
-              echo "No previous commit available, processing all README.md files" >&2
-              git ls-files | grep -E '(^|/)README\.md$' || true
+          # Find only README.md files that were modified in this push
+          # Try GitHub event payload first, fall back to git diff if needed
+          if [ -f "$GITHUB_EVENT_PATH" ]; then
+            # Use mapfile to properly handle the pipeline and avoid empty elements
+            mapfile -t files < <(jq -r '[.commits[] | .added[]?, .modified[]?] | unique | .[] | select(. != null and . != "")' "$GITHUB_EVENT_PATH" | grep -E '(^|/)README\.md$' || true)
+            
+            # If no files found in event payload, fall back to git diff
+            if [ "${#files[@]}" -eq 0 ]; then
+              if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+                mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+              else
+                echo "No previous commit available, processing all README.md files"
+                mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
+              fi
             fi
-          }
+          else
+            echo "GITHUB_EVENT_PATH not found, falling back to git diff method."
+            if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+              mapfile -t files < <(git diff --name-only HEAD~1 HEAD | grep -E '(^|/)README\.md$' || true)
+            else
+              mapfile -t files < <(git ls-files | grep -E '(^|/)README\.md$' || true)
+            fi
+          fi
           
-          # Get files and filter out empty lines in one step
-          mapfile -t files < <(get_modified_files | grep -v '^$')
+          # Filter out any empty elements from the array
+          filtered_files=()
+          for file in "${files[@]}"; do
+            if [ -n "$file" ] && [ "$file" != "" ]; then
+              filtered_files+=("$file")
+            fi
+          done
+          files=("${filtered_files[@]}")
           
           if [ "${#files[@]}" -eq 0 ]; then 
             echo "No modified README.md files found in this push." 
@@ -74,12 +97,14 @@ jobs:
             fi
             
             dir=$(dirname "$md")
-            # Set paths based on whether file is in root or subdirectory
+            # If README.md is in repository root, dirname returns "."
             if [ "$dir" = "." ]; then
               workdir="$PWD"
-              gitPath="README.html" 
+              gitPath="README.html"
               pageTitle="$(basename "$PWD")"
-            else
+            fi
+  
+            if [ "$dir" != "." ]; then
               workdir="$PWD/$dir"
               gitPath="$dir/README.html"
               pageTitle="$(basename "$dir")"
@@ -93,27 +118,30 @@ jobs:
               echo "Removed existing $workdir/README.html"
             fi
             
-            # Run the converter from the target directory
-            (cd "$workdir" && node "$CONVERTER_SCRIPT" "$pageTitle") || { 
-              echo "Conversion failed for $md"; exit 1; 
-            }
+            # Run the converter from inside the README.md folder.
+            # Use node <path-to-convert.js>. convert.js reads style.css relative to its own folder (__dirname).
+            (
+              cd "$workdir"
+              node "$ABS_CONVERTER_SCRIPT" "$pageTitle"
+            ) || { echo "Conversion failed for $md"; exit 1; }
             
             # Post-process the generated HTML file
             if [ -f "$workdir/README.html" ]; then
               echo "Post-processing $workdir/README.html"
               
-              # Determine directory type and check for .slx files
-              case "$workdir" in
-                *"/Examples/"*) 
-                  directory_type="Examples"
-                  has_slx_files=$([ -n "$(ls "$workdir"/*.slx 2>/dev/null)" ] && echo "true" || echo "false") ;;
-                *"/Tutorials/"*) 
-                  directory_type="Tutorials" 
-                  has_slx_files="false" ;;
-                *) 
-                  directory_type=""
-                  has_slx_files="false" ;;
-              esac
+              # Determine directory type and check for .slx files for button insertion
+              directory_type=""
+              has_slx_files="false"
+              
+              if [[ "$workdir" == *"/Examples/"* ]]; then
+                directory_type="Examples"
+                # Check if this directory contains .slx files
+                if ls "$workdir"/*.slx >/dev/null 2>&1; then
+                  has_slx_files="true"
+                fi
+              elif [[ "$workdir" == *"/Tutorials/"* ]]; then
+                directory_type="Tutorials"
+              fi
               
               # Run the post-processing script to apply MATLAB-compatible transformations
               python3 "${GITHUB_WORKSPACE}/util/post-process-html.py" "$workdir/README.html" "$dir" "$directory_type" "$has_slx_files" || {
@@ -129,12 +157,13 @@ jobs:
             fi
           done
           
-          # Commit and push changes if any files were processed
           if [ "$changed" = true ]; then
             git config user.name "$GIT_COMMITTER_NAME"
             git config user.email "$GIT_COMMITTER_EMAIL"
             git commit -m "Auto-generate README.html from modified README.md files [skip ci]" || echo "Nothing to commit"
             git push origin HEAD
-          else
+          fi
+          
+          if [ "$changed" != true ]; then
             echo "No generated files to commit."
           fi
