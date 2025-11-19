@@ -33,13 +33,13 @@ a.href = commandURI;
 </ol>
 <p><a href="#references">References</a></p>
 <h2 id="introduction">Introduction</h2>
-<p>The polyphase channelizer [<a href="matlab:XmcExampleApi.getExample(\'1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.\')">1</a>] down-converts simultaneously a set of frequency-division multiplexed (FDM) channels carried in a single data stream using an<br />
+<p>The polyphase channelizer [<a href="matlab:XmcExampleApi.getExample('1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.')">1</a>] down-converts simultaneously a set of frequency-division multiplexed (FDM) channels carried in a single data stream using an<br />
 efficient approach based on digital signal processing. Channelizer use is ubiquitous in many wireless communications systems. Channelizer sampling rates increase <br />
 steadily as the capabilities of RF-DAC and RF-ADC technology advances, making them challenging to implement in high speed reconfigurable devices such as field programmable<br />
 gate arrays (FPGAs). This example implements a high-speed channelizer design using a combination of AI Engine and Programmable Logic (PL) resources in Versal devices. </p>
 <p>To aid in simulation and verification, the AI Engine and Programmable Logic parts of the design are brought into Vitis Model Composer, which enables functional simulation of the AI Engine and PL components together.</p>
 <h2 id="channelizer-requirements">Channelizer Requirements</h2>
-<p>The table below shows the system requirements for the polyphase channelizer. The input sampling rate is 8.75 Gsps. The design supports M=16 channels with each one supporting 8.75G / 16 = 546.8765 MHz of bandwidth. The channelizer employs a polyphase technique as outlined in [<a href="matlab:XmcExampleApi.getExample(\'1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.\')">1</a>] to achieve an oversampled output at a rate of P/Q = 8/7 times the channel bandwidth, or 546.8765 * 8/7 = 625 Msps. The prototype filter used by the channelizer uses K=8 taps per phase, leading to a total of 16 x 8 = 128 taps overall.</p>
+<p>The table below shows the system requirements for the polyphase channelizer. The input sampling rate is 8.75 Gsps. The design supports M=16 channels with each one supporting 8.75G / 16 = 546.8765 MHz of bandwidth. The channelizer employs a polyphase technique as outlined in [<a href="matlab:XmcExampleApi.getExample('1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.')">1</a>] to achieve an oversampled output at a rate of P/Q = 8/7 times the channel bandwidth, or 546.8765 * 8/7 = 625 Msps. The prototype filter used by the channelizer uses K=8 taps per phase, leading to a total of 16 x 8 = 128 taps overall.</p>
 <table>
 <thead>
 <tr>
@@ -97,7 +97,7 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 </ul>
 <p><img src="images/channelizer-block-diagram.png" alt="figure1" /><br />
 <em>Polyphase Channelizer Block Diagram.</em></p>
-<p>For a more detailed description of the implementation, refer to <a href="matlab:XmcExampleApi.getExample(\'04-Polyphase-Channelizer\')">Polyphase Channelizer</a> in <a href="matlab:XmcExampleApi.getExample(\'Vitis-Tutorials\')">Vitis-Tutorials</a>. </p>
+<p>For a more detailed description of the implementation, refer to <a href="matlab:XmcExampleApi.getExample('04-Polyphase-Channelizer')">Polyphase Channelizer</a> in <a href="matlab:XmcExampleApi.getExample('Vitis-Tutorials')">Vitis-Tutorials</a>. </p>
 <p>The remainder of this example will focus on how to bring the polyphase channelizer implementation into Vitis Model Composer and simulate it.</p>
 <h2 id="matlab-model">MATLAB Model</h2>
 <p>The figure below shows a system model of the polyphase channelizer built in MATLAB and encapsulated in a MATLAB app. This provides a comprehensive golden model of the channelizer algorithms and illustrates the relationships between the various system parameters. The model was built to support a different, broader range of parameter settings than the actual Versal design:</p>
@@ -139,13 +139,13 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <p><img src="images/Subsystem_DFT.png" alt="" /></p>
 <p>Each input and output stream has a 64-bit PLIO. This means that 2 <code>cint16</code> samples are transferred on each stream during each clock cycle. To achieve high throughput, the AI Engine design is implemented using a Super Sample Rate (SSR) parallel architecture. </p>
 <p>Each <strong>AIE Class Kernel</strong> block represents a kernel that will execute on its own AI Engine tile. The design consists of a 4x4 array of tiles. Each tile performs two [1x2] x [2x4] operations over two cycles. Each row of tiles passes its computed outputs to the tile below in the same column using the cascade stream.</p>
-<p>Refer to <a href="matlab:XmcExampleApi.getExample(\'04-Polyphase-Channelizer\')">Polyphase Channelizer</a> in Vitis-Tutorials for further details on the parallel architecture.</p>
+<p>Refer to <a href="matlab:XmcExampleApi.getExample('04-Polyphase-Channelizer')">Polyphase Channelizer</a> in Vitis-Tutorials for further details on the parallel architecture.</p>
 <ol start="5">
 <li>Double-click on the <strong>run_inputA</strong> block.</li>
 </ol>
 <p><img src="images/AIE_Class_Kernel_Function.png" alt="" /></p>
 <p>The <strong>Function Declaration</strong> indicates that this block executes the <code>run_input</code> function, with two stream inputs and one cascade output. </p>
-<p>The <strong>Signal size</strong> of the cascade output must be set by the user. Signal Size is a block mask property associated with each stream or cascade output of an imported AI Engine block. This property is used only in Simulink simulation and is not reflected in the generated code. This value is always set as samples and not bytes. For more information, see <a href="matlab:XmcExampleApi.getExample(\'Setting_Signal_Size\')">Setting Signal Size</a>.</p>
+<p>The <strong>Signal size</strong> of the cascade output must be set by the user. Signal Size is a block mask property associated with each stream or cascade output of an imported AI Engine block. This property is used only in Simulink simulation and is not reflected in the generated code. This value is always set as samples and not bytes. For more information, see <a href="matlab:XmcExampleApi.getExample('Setting_Signal_Size')">Setting Signal Size</a>.</p>
 <p>In this case, the <strong>Signal size</strong> parameter is set to 8 times the number of samples processed, reflecting the SSR=8 nature of the algorithm.</p>
 <ol start="6">
 <li>Click on the <strong>Kernel Class</strong> tab.</li>
@@ -165,7 +165,7 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 <li>Output Permute</li>
 <li>Cyclic Shift Buffer</li>
 </ul>
-<p>These functions are explained in greater detail in <a href="matlab:XmcExampleApi.getExample(\'04-Polyphase-Channelizer\')">Polyphase Channelizer</a>.</p>
+<p>These functions are explained in greater detail in <a href="matlab:XmcExampleApi.getExample('04-Polyphase-Channelizer')">Polyphase Channelizer</a>.</p>
 <p>These blocks are implemented in PL using HLS @ 625 MHz. With 2 samples transferred in each PL clock cycle, the AI Engine is able to operate at a rate of 1250 MHz.</p>
 <p>Each function is imported into Vitis Model Composer using the <strong>HLS Kernel</strong> block.</p>
 <ol start="8">
@@ -227,9 +227,9 @@ gate arrays (FPGAs). This example implements a high-speed channelizer design usi
 </ol>
 <hr />
 <h2 id="references">References</h2>
-<p>[<a href="matlab:XmcExampleApi.getExample(\'1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.\')">1</a>] F.J. Harris et. al., "<a href="matlab:XmcExampleApi.getExample(\'1193158\')">Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications</a>", IEEE Transactions on Microwave Theory and Techniques, Vol. 51, No. 4, April 2003.</p>
+<p>[<a href="matlab:XmcExampleApi.getExample('1193158" title="Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications, F.J. Harris et. al.')">1</a>] F.J. Harris et. al., "<a href="matlab:XmcExampleApi.getExample('1193158')">Digital Receivers and Transmitter Using Polyphase Filter Banks for Wireless Communications</a>", IEEE Transactions on Microwave Theory and Techniques, Vol. 51, No. 4, April 2003.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

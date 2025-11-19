@@ -36,7 +36,7 @@ a.href = commandURI;
 <p>These are the source files for a simple <code>basic_array</code> function in <code>C++</code>, which calculates the sum of two arrays of size 4. You will import this function as a Vitis Model Composer block using the <code>xmcImportFunction</code> function. The input and output ports for the generated block are determined by the signature of the source function. Vitis Model Composer identifies arguments specified with the const qualifier as inputs to the block, and all other arguments as outputs.</p>
 <blockquote>
   <p>📝<strong>Note:</strong>  For more details and other options for specifying the direction of the arguments, see the Vitis Model Composer User Guide <br />
-  (<a href="matlab:XmcExampleApi.getExample(\'ug1483-model-composer-sys-gen-user-guide\')">UG1483</a>).</p>
+  (<a href="matlab:XmcExampleApi.getExample('ug1483-model-composer-sys-gen-user-guide')">UG1483</a>).</p>
 </blockquote>
 <blockquote>
   <p>❗❗ <strong>Important:</strong>  You can use the <code>const</code> qualifier in the function signature to identify the inputs to the block or use the pragma <code>INPORT</code>.</p>
@@ -94,7 +94,7 @@ a.href = commandURI;
 <li>In the piece of code, note the <code>#pragma XMC INPORT vector_in</code>. This is a way to manually specify port directions using pragmas. Here, we are specifying the function argument <code>vector_in</code> as the input port. Similarly, we can define <code>XMC OUTPORT</code> also.</li>
 </ol>
 <blockquote>
-  <p>📝 <strong>Note</strong>: For additional information about specifying ports, see Vitis Model Composer User Guide (<a href="matlab:XmcExampleApi.getExample(\'ug1483-model-composer-sys-gen-user-guide\')">UG1483</a>).</p>
+  <p>📝 <strong>Note</strong>: For additional information about specifying ports, see Vitis Model Composer User Guide (<a href="matlab:XmcExampleApi.getExample('ug1483-model-composer-sys-gen-user-guide')">UG1483</a>).</p>
 </blockquote>
 <ol start="4">
 <li>Notice the use of template before the function declaration. To support the inputs of different sizes, <code>NUMOFELEMENTS</code> is declared as a parameter and used the same while defining an array <code>vector_in</code> as shown in the following figure. This allows you to connect signals of different sizes to the input port of the block.</li>
@@ -178,7 +178,7 @@ a.href = commandURI;
 <li><code>\HLS_Library\Lab2\Section2\solution</code></li>
 </ul>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

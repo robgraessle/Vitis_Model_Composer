@@ -61,7 +61,7 @@ a.href = commandURI;
 </tbody>
 </table>
 <p>💡 The larger the <em>Input_Window_Size</em> the larger is the latency of the filter.</p>
-<p>💡 The <em>Cascade_Length</em> trades throughput for the number of AI Engine kernels used by the filter. For details, refer to the <a href="matlab:XmcExampleApi.getExample(\'func-fir-filters.html\')">AI Engine FIR function documentation</a>.</p>
+<p>💡 The <em>Cascade_Length</em> trades throughput for the number of AI Engine kernels used by the filter. For details, refer to the <a href="matlab:XmcExampleApi.getExample('func-fir-filters.html')">AI Engine FIR function documentation</a>.</p>
 <h2 id="knowledge-nuggets-about-setting-up-the-design">Knowledge nuggets about setting up the design</h2>
 <p>💡 Note that the Spectrum Analyzer block accepts a Variable Size Signal as input. Likewise, Simulink <em>Scope</em> block and <em>Display</em> block also accept variable size signals as inputs. </p>
 <p>💡 In this example, the output variable size signal is always full, i.e. the number of samples in the signal is equal to the maximum size of the variable size signal (in this case 256). We can monitor this using Simulink <em>width</em> block and a scope. Note that the number shown on the <em>width</em> block is the maximum size of the input signal while the output of the block is the number of samples in the variable size signal. </p>
@@ -76,9 +76,9 @@ a.href = commandURI;
 <p>💡 Also note the "Scale output down by 2^" setting (16) on the FIR Asymmetric Filter block. This is necessary to shift the AIE FIR output (32 bits wide) to fit in the desired cint16 output data type. To match the AIE and Simulink outputs, we need to add to the Simulink output a Gain block that performs the same scaling operation.</p>
 <p><img src="images/aie_filter_settings.PNG"></p>
 <h2 id="related-examples">Related Examples</h2>
-<p>To achieve throughput over 1GHz, you should use the FIR block Super Sample Rate capability. Take a look at <a href="matlab:XmcExampleApi.getExample(\'fir_ssr\')">this</a> example. </p>
+<p>To achieve throughput over 1GHz, you should use the FIR block Super Sample Rate capability. Take a look at <a href="matlab:XmcExampleApi.getExample('fir_ssr')">this</a> example. </p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

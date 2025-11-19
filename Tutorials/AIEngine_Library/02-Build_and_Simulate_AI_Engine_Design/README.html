@@ -22,8 +22,8 @@ a.href = commandURI;
     <table class="sphinxhide" width="100%">
  <tr width="100%">
     <td align="center"><img src="https://raw.githubusercontent.com/Xilinx/Image-Collateral/main/xilinx-logo.png" width="30%"/><h1>AI Engine Development</h1>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis.html\')">See Vitis™ Development Environment on xilinx.com</br></a>
-    <a href="matlab:XmcExampleApi.getExample(\'vitis-ai.html\')">See Vitis™ AI Development Environment on xilinx.com</a>
+    <a href="matlab:XmcExampleApi.getExample('vitis.html')">See Vitis™ Development Environment on xilinx.com</br></a>
+    <a href="matlab:XmcExampleApi.getExample('vitis-ai.html')">See Vitis™ AI Development Environment on xilinx.com</a>
     </td>
  </tr>
 </table>
@@ -38,7 +38,7 @@ a.href = commandURI;
 <li>In Step 3, you will see how to attach additional scopes and log signals to the MATLAB workspace for further analysis.</li>
 </ul>
 <h2 id="step-1-model-a-single-ai-engine-filter">Step 1: Model a Single AI Engine Filter</h2>
-<p>In this step, you will create a simple testbench for a block from the <a href="matlab:XmcExampleApi.getExample(\'dsp\')">AI Engine DSP Library</a>.</p>
+<p>In this step, you will create a simple testbench for a block from the <a href="matlab:XmcExampleApi.getExample('dsp')">AI Engine DSP Library</a>.</p>
 <ol>
 <li><p>Run the <strong><em>setupLab2</em></strong> script to initialize a working directory and preload the DSP filter configurations.</p></li>
 <li><p>On the MATLAB GUI, select the <strong>Home Tab</strong> and click <strong>Simulink</strong>.</p></li>
@@ -270,15 +270,15 @@ a.href = commandURI;
 <p><img src="Images/Image_016.png" alt="missing image" /></p>
 <blockquote>
   <p><strong>Why use <em><strong>Variable Size Signal to Workspace</strong></em> instead of <em><strong>To Workspace</strong></em>?</strong></p>
-  <p>AI Engine kernels can consume or produce different numbers of data samples (or no data samples at all) each time they are invoked. To model this behavior in Simulink, Vitis Model Composer uses <a href="matlab:XmcExampleApi.getExample(\'variable-size-signal-basics.html\')">variable-sized signals</a>, which are denoted by the thick dashed line between the AI Engine blocks. In this model, there is a <strong>To Fixed Size</strong> block that converts the variable-sized signal to a fixed-size signal with a valid signal that indicates when data is actually present. <strong>Variable Size Signal to Workspace</strong> is a convenience block that behaves similarly to <strong>To Workspace</strong>, but it automatically discards empty samples in the variable-sized signal and concatenates the valid samples into a single MATLAB vector. </p>
-  <p>For more details, refer to <a href="matlab:XmcExampleApi.getExample(\'Variable-Size-Signals\')">Variable-Sized Signals</a> in the Vitis Model Composer documentation.</p>
+  <p>AI Engine kernels can consume or produce different numbers of data samples (or no data samples at all) each time they are invoked. To model this behavior in Simulink, Vitis Model Composer uses <a href="matlab:XmcExampleApi.getExample('variable-size-signal-basics.html')">variable-sized signals</a>, which are denoted by the thick dashed line between the AI Engine blocks. In this model, there is a <strong>To Fixed Size</strong> block that converts the variable-sized signal to a fixed-size signal with a valid signal that indicates when data is actually present. <strong>Variable Size Signal to Workspace</strong> is a convenience block that behaves similarly to <strong>To Workspace</strong>, but it automatically discards empty samples in the variable-sized signal and concatenates the valid samples into a single MATLAB vector. </p>
+  <p>For more details, refer to <a href="matlab:XmcExampleApi.getExample('Variable-Size-Signals')">Variable-Sized Signals</a> in the Vitis Model Composer documentation.</p>
 </blockquote>
 <p>AI Engine simulations within Simulink are bit-exact but do not provide timing information for the design as it will run on the hardware. In later labs, we will see how to invoke the cycle-approximate AIE Simulator and view timing analysis results from within Vitis Model Composer.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p><strong>Congratulations!</strong> This concludes Lab 2. In this lab, you built a model of the decimation chain using blocks from the AI Engine DSP Library. You also used Simulink scopes to compare the AI Engine implementation of the design against a golden reference.</p>
 <p>In the next lab, you will see how to bring in custom AI Engine kernel or graph code and simulate it with Vitis Model Composer.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

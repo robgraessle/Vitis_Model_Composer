@@ -22,14 +22,14 @@ a.href = commandURI;
     <h1 id="using-dsplib-ai-engine-fft-directly-from-the-library-browser">Using DSPLib AI Engine FFT directly from the library browser</h1>
 <p>This example demonstrates using the AI Engine FFT block in Vitis Model Composer and comparing the results to the Simulink FFT block. </p>
 <h2 id="knowledge-nuggets">Knowledge nuggets</h2>
-<p>💡 Note the usage of the <a href="matlab:XmcExampleApi.getExample(\'setenv.html\')">environment varibale</a> in MATLAB to more easily set the paths in the AIE Graph block mask.</p>
+<p>💡 Note the usage of the <a href="matlab:XmcExampleApi.getExample('setenv.html')">environment varibale</a> in MATLAB to more easily set the paths in the AIE Graph block mask.</p>
 <p>💡 Note the usage of the <em>To Fixed Size</em> block to convert a variable size signal to a fixed size signal. This is needed to compare the output of the AIE block to the output of the FFT block from Simulink (which is a fixed size signal). Note this is only valid if the variable size signal is fully packed. Otherwise, the <em>To fixed size</em> block will insert zeros when samples are missing. To make sure this is not the case, you can check the status output of the <em>To fixed Size</em> block. </p>
 <p><img src="images/FFT_ExampleModel.png" alt="" /></p>
 <p>DSPlib AI Engine FFT and Simulink FFT comparison for a complex sinusoidal input:</p>
 <p><img src="images/FFT_Comparison.png" alt="" /><br />
 <img src="images/Error.png" alt="" /></p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
