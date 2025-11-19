@@ -20,54 +20,38 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
         content = f.read()
     
     # 1. Replace markdown emojis with image tags
-    # Calculate path to bulb image based on directory depth
-    if relative_path_to_root == ".":
-        img_path = "Images/bulb.png"
-    else:
-        # Count directory depth
-        depth = relative_path_to_root.count('/')
-        img_path = "../" * depth + "Images/bulb.png"
-    
+    img_path = "Images/bulb.png" if relative_path_to_root == "." else "../" * relative_path_to_root.count('/') + "Images/bulb.png"
     content = content.replace(':bulb:', f'<img width="18" height="18" src="{img_path}">')
     
-    # 2. Replace various README.md link formats with MATLAB API calls
-    
-    # Format 1: <a href="path/to/folder/README.md"> or <a href="./path/to/folder/README.md">
-    pattern1 = r'<a\s+href="(?:\./)?[^"]*\/([^\/]+)\/README\.md">'
-    content = re.sub(pattern1, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
-    
-    # Format 2: <a href="folder/README.md"> or <a href="./folder/README.md">
-    pattern2 = r'<a\s+href="(?:\./)?([^\/]+)\/README\.md">'
-    content = re.sub(pattern2, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
-    
-    # Format 3: GitHub URLs to Vitis_Model_Composer
-    pattern3 = r'<a\s+href="https?://[^"]*\/Vitis_Model_Composer\/[^"]*\/([^\/]+)\/README\.md">'
-    content = re.sub(pattern3, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
-    
-    # Format 4: Directory links (with or without trailing slash)
-    pattern4 = r'<a\s+href="[^"]*\/([^\/]+)\/?">(?![^<]*<img)'  # Negative lookahead to avoid image links
-    content = re.sub(pattern4, '<a href="matlab:XmcExampleApi.getExample(\'\\1\')">', content)
-    
-    # 3. Replace VMC Help links with vmcHelp API calls
-    pattern_vmc = r'<a\s+href="https://github\.com/Xilinx/VMC_Help/([^/]+)/([^/]+)/README\.md">'
+    # 2. Replace README.md links with MATLAB API calls
+    # VMC Help links (needs function replacement)
     def replace_vmc_help(match):
-        category = match.group(1)
-        block_name = match.group(2)
+        category, block_name = match.groups()
         return f'<a href="matlab:helpview(vmcHelp(name=\'{block_name}\',category=\'{category}\'))">'
     
-    content = re.sub(pattern_vmc, replace_vmc_help, content)
+    content = re.sub(r'<a\s+href="https://github\.com/Xilinx/VMC_Help/([^/]+)/([^/]+)/README\.md">', replace_vmc_help, content)
     
-    # 4. Fix image paths for product display (normalize to ../Images)
-    # Only normalize paths that contain relative path indicators (../ or ./)
-    # Leave simple "Images/" paths unchanged (for root level files)
-    pattern_img = r'src="(\.+/)+Images/'
-    content = re.sub(pattern_img, 'src="../Images/', content)
+    # Other README.md links (simple string replacements)
+    patterns = [
+        # README.md links with optional ./ prefix
+        (r'<a\s+href="(?:\./)?(?:[^"]*\/)?([^\/]+)\/README\.md">', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">'),
+        # GitHub Vitis_Model_Composer URLs
+        (r'<a\s+href="https?://[^"]*\/Vitis_Model_Composer\/[^"]*\/([^\/]+)\/README\.md">', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">'),
+        # Directory links (avoiding image links)
+        (r'<a\s+href="[^"]*\/([^\/]+)\/?">(?![^<]*<img)', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">')
+    ]
     
-    # 5. Insert HTML for "Open Design" or "Open Lab Directory" button (README.html only)
+    for pattern, replacement in patterns:
+        content = re.sub(pattern, replacement, content)
+    
+    # 3. Normalize image paths (preserve simple "Images/" for root files)
+    content = re.sub(r'src="(\.+/)+Images/', 'src="../Images/', content)
+    
+    # 4. Insert button HTML if applicable
     if os.path.basename(html_file) == 'README.html' and directory_type:
         content = insert_html_to_open_design(content, directory_type, has_slx_files)
     
-    # Write the processed content back
+    # Write processed content back
     with open(html_file, 'w', encoding='utf-8') as f:
         f.write(content)
     
@@ -76,58 +60,46 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
 def insert_html_to_open_design(content, directory_type, has_slx_files):
     """Insert HTML/JavaScript for Open Design or Lab Directory buttons."""
     
-    # Determine which template to use
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    
+    # Determine template file
+    template_name = None
     if directory_type == 'Examples' and has_slx_files:
-        template_file = os.path.join(script_dir, 'html_text.html')
+        template_name = 'html_text.html'
     elif directory_type == 'Tutorials':
-        template_file = os.path.join(script_dir, 'html_text_labs.html')
-    else:
-        return content  # No button to insert
+        template_name = 'html_text_labs.html'
     
-    # Read the template content
-    if not os.path.exists(template_file):
+    if not template_name:
+        return content
+    
+    # Read template content
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    template_file = os.path.join(script_dir, template_name)
+    
+    try:
+        with open(template_file, 'r', encoding='utf-8') as f:
+            insert_html = f.read()
+    except FileNotFoundError:
         print(f"Template file {template_file} not found")
         return content
-        
-    with open(template_file, 'r', encoding='utf-8') as f:
-        insert_html = f.read()
     
-    # Find the <div id='content'> line and insert the HTML after it
-    lines = content.split('\n')
-    result_lines = []
-    
-    for i, line in enumerate(lines):
-        result_lines.append(line)
-        
-        # Look for the content div
-        if "<div id='content'>" in line:
-            # Add the next line (typically empty or start of content)
-            if i + 1 < len(lines):
-                result_lines.append(lines[i + 1])
-                i += 1
-            # Insert the button HTML
-            result_lines.append(insert_html)
-            # Add remaining lines
-            result_lines.extend(lines[i + 1:])
-            break
-    
-    return '\n'.join(result_lines)
+    # Insert HTML after <div id='content'> using regex (more efficient than line-by-line)
+    return re.sub(
+        r"(<div id='content'>)(.*?\n)",
+        r'\1\2' + insert_html + '\n',
+        content,
+        count=1
+    )
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python3 post-process-html.py <html_file> <relative_path_to_root> [directory_type] [has_slx_files]")
         sys.exit(1)
     
-    html_file = sys.argv[1]
-    relative_path = sys.argv[2]
+    # Parse arguments
+    html_file, relative_path = sys.argv[1:3]
     directory_type = sys.argv[3] if len(sys.argv) > 3 else None
-    has_slx_files = sys.argv[4].lower() == 'true' if len(sys.argv) > 4 else False
+    has_slx_files = len(sys.argv) > 4 and sys.argv[4].lower() == 'true'
     
+    # Process file and exit with appropriate code
     success = post_process_html(html_file, relative_path, directory_type, has_slx_files)
-    if success:
-        print(f"Post-processing completed successfully for {html_file}")
-    else:
-        print(f"Post-processing failed for {html_file}")
-        sys.exit(1)
+    print(f"Post-processing {'completed successfully' if success else 'failed'} for {html_file}")
+    sys.exit(0 if success else 1)
