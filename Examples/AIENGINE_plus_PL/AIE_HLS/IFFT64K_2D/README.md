@@ -48,4 +48,4 @@ When the model runs, the scope displays the real and imaginary output of the IFF
 
 ------------
 
-Copyright (c) 2024 Advanced Micro Devices, Inc.
+Copyright (c) 2025 Advanced Micro Devices, Inc.

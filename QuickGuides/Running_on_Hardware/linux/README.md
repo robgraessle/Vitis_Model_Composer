@@ -75,4 +75,4 @@ In TeraTerm, select the low COM number (Versal UART0, COM4 in this example) and 
 
 ------------
 
-Copyright (c) 2024 Advanced Micro Devices, Inc.
+Copyright (c) 2025 Advanced Micro Devices, Inc.
