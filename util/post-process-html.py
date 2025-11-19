@@ -31,18 +31,22 @@ def post_process_html(html_file, relative_path_to_root, directory_type=None, has
     
     content = re.sub(r'<a\s+href="https://github\.com/Xilinx/VMC_Help/([^/]+)/([^/]+)/README\.md">', replace_vmc_help, content)
     
-    # Other README.md links (simple string replacements)
+    # Other README.md links (using functions for proper quote handling)
+    def replace_readme_link(match):
+        folder_name = match.group(1)
+        return f'<a href="matlab:XmcExampleApi.getExample(\'{folder_name}\')">'
+    
     patterns = [
         # README.md links with optional ./ prefix
-        (r'<a\s+href="(?:\./)?(?:[^"]*\/)?([^\/]+)\/README\.md">', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">'),
+        r'<a\s+href="(?:\./)?(?:[^"]*\/)?([^\/]+)\/README\.md">',
         # GitHub Vitis_Model_Composer URLs
-        (r'<a\s+href="https?://[^"]*\/Vitis_Model_Composer\/[^"]*\/([^\/]+)\/README\.md">', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">'),
+        r'<a\s+href="https?://[^"]*\/Vitis_Model_Composer\/[^"]*\/([^\/]+)\/README\.md">',
         # Directory links (avoiding image links)
-        (r'<a\s+href="[^"]*\/([^\/]+)\/?">(?![^<]*<img)', r'<a href="matlab:XmcExampleApi.getExample(\'\1\')">')
+        r'<a\s+href="[^"]*\/([^\/]+)\/?">(?![^<]*<img)'
     ]
     
-    for pattern, replacement in patterns:
-        content = re.sub(pattern, replacement, content)
+    for pattern in patterns:
+        content = re.sub(pattern, replace_readme_link, content)
     
     # 3. Normalize image paths (preserve simple "Images/" for root files)
     content = re.sub(r'src="(\.+/)+Images/', 'src="../Images/', content)
