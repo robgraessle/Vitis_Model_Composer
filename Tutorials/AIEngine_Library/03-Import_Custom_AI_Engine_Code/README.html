@@ -113,7 +113,7 @@ void FreqShift(adf::input_buffer&lt;cint16&gt;&amp; __restrict in,
 <li><p>Open the model <code>Lab3_Start.slx</code>.</p></li>
 <li><p>Select the block <em>AIE Kernel</em> from the <strong>User-defined Functions</strong> section of the AI Engine Library and place it in the canvas:</p></li>
 </ol>
-<p><img src="../Images/Image_017.png" alt="missing image" /></p>
+<p><img src="Images/Image_017.png" alt="missing image" /></p>
 <ol start="2">
 <li><strong>Double-click</strong> the block to open its parameters. Populate the window with the following data:</li>
 </ol>
@@ -122,33 +122,33 @@ void FreqShift(adf::input_buffer&lt;cint16&gt;&amp; __restrict in,
 <li><strong>Kernel function</strong>: <code>FreqShift</code></li>
 <li><strong>Kernel source file</strong>: <code>FreqShift.cpp</code></li>
 </ul>
-<p><img src="../Images/Image_018.png" alt="missing image" /></p>
+<p><img src="Images/Image_018.png" alt="missing image" /></p>
 <ol start="3">
 <li>Click <strong>Import</strong>. A new window displays. Set the buffer size of the inputs and outputs to 256 (in samples).<br />
 <strong>FRAME_LENGTH</strong> is the template parameter. Set its value to <code>256</code> because at this stage (after 3 decimation stages) each data frame has 256 samples.Click <strong>OK</strong>.</li>
 </ol>
-<p><img src="../Images/Image_019.png" alt="missing image" /></p>
+<p><img src="Images/Image_019.png" alt="missing image" /></p>
 <ol start="4">
 <li>Place this new block between the <strong>'AIE FIR Channel'</strong> and <strong>'To Fixed Size'</strong> blocks. Grab the <strong>'FreqShift'</strong> block from the <code>ReferenceChain.slx</code> Simulink design and place it after the <strong>ChannelFilter</strong> Simulink block. Your design should now look as follows:</li>
 </ol>
-<p><img src="../Images/Image_020.png" alt="missing image" /></p>
+<p><img src="Images/Image_020.png" alt="missing image" /></p>
 <h2 id="step-3-simulate-kernel-function-in-model-composer">Step 3: Simulate Kernel Function in Model Composer</h2>
 <ol>
 <li><p>Set the model's <strong>Stop Time</strong> to <code>inf</code>.</p></li>
 <li><p>Click <strong>Run</strong>. The new filter will get compiled and a new spectrum will be displayed. Note the shifted spectrum:</p></li>
 </ol>
-<p><img src="../Images/Image_021.png" alt="missing image" /></p>
+<p><img src="Images/Image_021.png" alt="missing image" /></p>
 <ol start="3">
 <li><p>Stop the simulation if it is still running.</p></li>
 <li><p>Switch the <strong>Stop Time</strong> back to <code>5000</code>.</p></li>
 <li><p>Click <strong>Run</strong>. On the Time Scope, verify that the difference is still 0.</p></li>
 </ol>
-<p><img src="../Images/Image_022.png" alt="missing image" /></p>
+<p><img src="Images/Image_022.png" alt="missing image" /></p>
 <p>We have confirmed that the frequency shift kernel function is behaving as expected. Let's now study in greater detail the operation of the kernel code within Vitis Model Composer.</p>
 <p>Simulation of the AI Engine in Vitis Model Composer, is data-driven, not clock driven. That is, the flow and availability of data determines when AI Engine kernels are executed in simulation. The AI Engine kernels are not executed on a fixed clock.</p>
 <p>In Lab 2, when we added the filter blocks from the AI Engine DSP library, we had to specify the input buffer size in samples. This tells Simulink to invoke execution of the filter whenever that number of samples is available. Because our model uses frames with the same number of samples, the filter is executed once per each frame period.</p>
 <p>When you import an AI Engine kernel as a function, you also need to specify the buffer size (in samples) of the inputs and outputs.</p>
-<p><img src="../Images/Image_023.png" alt="missing image" /></p>
+<p><img src="Images/Image_023.png" alt="missing image" /></p>
 <p>The input buffer size parameter sets the length of the input buffer. When Simulink fills the input buffer with the specified number of samples, the kernel function will be invoked. </p>
 <p>The output buffer size parameter sets the length of the output buffer. At the conclusion of the kernel's execution, the contents of the output buffer will be returned to Simulink. If the kernel's execution does not fill the output buffer with data (i.e. the kernel inserts 256 samples into the buffer, but the buffer length is 512 samples), the remainder of the buffer contains zeros.</p>
 <p>Also, note the <em>Synchronicity</em> setting. The <em>sync</em> setting means that the synchronization that is required to wait for an input buffer of data, or to provide an empty output buffer, is performed before entering the kernel. There is no synchronization needed within the kernel to read or write the individual elements of data after the kernel has started. This is the default behavior, and this scheme works best when the kernel produces and consumes a buffer's worth of data on every invocation. If you are not consuming a buffer's worth of data on every invocation of a kernel, or if you are not producing a buffer's worth of data on every invocation, then you can control the buffer synchronization by declaring the kernel port to be <em>async</em>. You then must use buffer synchronization APIs inside the kernel code before accessing the buffer using read/write APIs.</p>
@@ -158,7 +158,7 @@ void FreqShift(adf::input_buffer&lt;cint16&gt;&amp; __restrict in,
 <p><strong>Congratulations!</strong> This concludes Lab 3. In this lab, you learned about AI Engine kernel programming and how to bring pre-existing AI Engine kernel code into Vitis Model Composer. You also saw how to simulate the kernel function and understand its operation in the context of a larger AI Engine design. </p>
 <p>In the next lab, you will see how to generate graph code and testbenches that can be run in a cycle-approximate simulation of the AI Engine.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>

@@ -27,17 +27,17 @@ a.href = commandURI;
 <h2 id="tutorial-design">Tutorial Design</h2>
 <p>This tutorial uses the example design 64K-Pt IFFT @ 2 Gsps Using a 2D Architecture.</p>
 <p>The figure below shows a block diagram of a 64k-point 2D IFFT hardware design implemented in Versal using AI Engines and PL. The design targets a throughput of 2 GSPS.</p>
-<p><img src="../Images/ifft64k-block-diagram.png" alt="figure" /></p>
+<p><img src="Images/ifft64k-block-diagram.png" alt="figure" /></p>
 <p>The IFFT operation is performed by AI Engine kernels, 5 each for each data dimension. The results of the first dimension are transposed by an HLS kernel implemented in PL. The IFFT of the second dimension is then performed in the AI Engine.</p>
 <blockquote>
   <p><strong>NOTE:</strong> The DMA Source and DMA Sink blocks in the PL, shown in the diagram above, will be provided as part of the platform and not the Vitis Subsystem in this tutorial.</p>
 </blockquote>
 <p>For more details on the design, refer to the <a href="matlab:XmcExampleApi.getExample('IFFT64K_2D')">Vitis Model Composer example</a> and the <a href="matlab:XmcExampleApi.getExample('12-IFFT64K-2D')">Design Example from Vitis-Tutorials</a>.</p>
 <p>Open the model <code>IFFT64K_2D.slx</code> and examine the <code>DUT</code> subsystem, which contains an HLS Kernel and an AI Engine subsystem.</p>
-<p><img src="../Images/model2.png" alt="figure" /></p>
+<p><img src="Images/model2.png" alt="figure" /></p>
 <p>The signals entering and exiting the AI Engine are of <code>cint32</code> data type (64 bits wide). The PLIO blocks inside the AI Engine subsystem configure the PLIO width to 64 bits. This means that in hardware, one <code>cint32</code> sample will be transferred across each stream on every PL clock cycle. You could potentially increase the PLIO width to 128 bits, so that 2 samples are transferred on each PL clock cycle.</p>
 <p>When the model runs, the scope displays the real and imaginary output of the IFFT, which is compared to the original input signal. </p>
-<p><img src="../Images/results.png" alt="figure1" /></p>
+<p><img src="Images/results.png" alt="figure1" /></p>
 <h2 id="export-dut-as-vitis-subsystem">Export DUT as Vitis Subsystem</h2>
 <p>A Vitis Subsystem has the following constituent parts:</p>
 <ul>
@@ -51,15 +51,15 @@ a.href = commandURI;
 <li><p>Select the <strong>DUT</strong> subsystem and the <strong>Export</strong> tab.</p></li>
 <li><p>Select an <strong>Export Type</strong> of <strong>Vitis Subsystem</strong>.</p></li>
 </ol>
-<p><img src="../Images/hub1.png" alt="figure1" /></p>
+<p><img src="Images/hub1.png" alt="figure1" /></p>
 <p>The default configuration is to use the entire AI Engine array for the generated design. You can also specify <strong>Enable array partition</strong> to target the generated design to specific columns in the AIE array. This is useful if the generated AIE graph is to be combined with other graphs later on. For more information see <a href="matlab:XmcExampleApi.getExample('Compile-AI-Engine-Graph-for-Independent-Partitions')">Compile AI Engine Graph for Independent Partitions</a> in the <em>AI Engine Tools and Flows User Guide (UG1076)</em>.</p>
 <ol start="4">
 <li>Click <strong>Export</strong>.</li>
 </ol>
 <p>Vitis Model Composer generates the constituent parts of the VSS listed above, and it also invokes the Vitis linker (<code>v++</code>) to generate a Vitis Subsystem. This will take a few minutes.</p>
-<p><img src="../Images/progress1.png" alt="figure1" /></p>
+<p><img src="Images/progress1.png" alt="figure1" /></p>
 <p>After code generation is complete, the products can be viewed in the <code>code</code> folder.</p>
-<p><img src="../Images/folders1.png" alt="figure1" /></p>
+<p><img src="Images/folders1.png" alt="figure1" /></p>
 <ul>
 <li>The <code>ip</code> folder contains subfolders for each subsystem (AI Engine or HLS Kernel) in the design.<ul>
 <li><code>AIE</code> contains the generated code and libadf.a for the AI Engine subsystem.</li>
@@ -189,7 +189,7 @@ SYSTEM_CFG      := system.cfg</code></pre>
 <li>Run <code>make all TARGET=hw_emu</code> in this folder in a terminal window to build and package the project for hardware emulation.</li>
 </ol>
 <p>The build process will take some time. When complete, the outputs will appear in a new folder named <code>package</code>.</p>
-<p><img src="../Images/folders2.png" alt="figure1" /></p>
+<p><img src="Images/folders2.png" alt="figure1" /></p>
 <p>In addition to the <code>sd_card.img</code>, a script <code>launch_hw_emu.sh</code> is created to automate launching of the hardware emulator.</p>
 <ol start="2">
 <li>From within the <code>package</code> folder, launch hardware emulation as follows: <code>./launch_hw_emu.sh -run-app embedded_exec.sh</code>.</li>
@@ -217,11 +217,11 @@ Max Error: 256
 <li><p>Run <code>make all TARGET=hw</code> in a Vitis terminal window to build and package the project for the target.</p></li>
 <li><p>The build process will take some time. When complete, the outputs will appear in a new folder named <code>package</code>. An sd_card.img file is generated by Vitis for testing this design on the board.</p></li>
 </ol>
-<p><img src="../Images/hwtest2.png" alt="figure1" /></p>
+<p><img src="Images/hwtest2.png" alt="figure1" /></p>
 <ol start="3">
 <li>A new folder named <code>build_hw</code> will appear under <code>vitis</code> after completion of hardware build:</li>
 </ol>
-<p><img src="../Images/hwtest3.png" alt="figure1" /></p>
+<p><img src="Images/hwtest3.png" alt="figure1" /></p>
 <ol start="4">
 <li>Prerequisites:</li>
 </ol>
@@ -239,11 +239,11 @@ Max Error: 256
 <li><p>Run the executable file from the list by using the command <code>./embedded_exec.sh</code>.</p></li>
 <li><p>It should print the test result as shown in the below image:</p></li>
 </ol>
-<p><img src="../Images/hwtest9.png" alt="figure1" /></p>
+<p><img src="Images/hwtest9.png" alt="figure1" /></p>
 <h2 id="conclusion">Conclusion</h2>
 <p><strong>Congratulations!</strong> In this tutorial, you saw how to export a heterogeneous design (AI Engine + PL) to Vitis as a Vitis Subsystem (VSS) and build a complete design targeting the board.</p>
 <hr />
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 
         </div>
         <style type='text/css'>body {

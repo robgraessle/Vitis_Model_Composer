@@ -25,7 +25,7 @@ a.href = commandURI;
 <h2 id="mri-input-data-and-reconstructed-image-output">MRI Input Data and Reconstructed Image Output</h2>
 <p>In this design, the input data is 10 frames of 256x256 K-space MRI data of a human brain produced by an MRI machine. These 10 frames are adjacent slices parallel to the sagittal plane of the head. Because of the way the data was collected there is some spatial aliasing in the reconstructed image.</p>
 <h2 id="input-and-post-simulation-output-images">Input and post-simulation output images:</h2>
-<p><img src="../Images/MRI_InputOutputResult.jpg" alt="" /></p>
+<p><img src="Images/MRI_InputOutputResult.jpg" alt="" /></p>
 <h2 id="methodology">Methodology</h2>
 <p>This demo performs a two dimensional FFT (2D-FFT) on input data. Since the FFT is completely separable in two dimensions, a column wise FFT is performed on the input image, followed by row wise FFT to realize the 2D-FFT. An efficient implementation is to transpose the columns and rows in memory using a "corner-turning" technique before performing the 2nd FFT operation.</p>
 <p>Buffer the incoming data in an rectangular array with P rows and Q columns. For the 256 point x 256 point FFT performed in this demo design, P=256, and Q=256.</p>
@@ -36,8 +36,8 @@ a.href = commandURI;
 <h5 id="for-j0p-1">For j=0:P-1,</h5>
 <p>##### 1) Read jth column from the memory<br />
   ##### 2) FFT of Q samples</p>
-<h2 id="images2dfft_cornerturnjpg"><img src="../Images/2DFFT_CornerTurn.jpg" alt="" /></h2>
-<p>Copyright (c) 2024 Advanced Micro Devices, Inc.</p>
+<h2 id="images2dfft_cornerturnjpg"><img src="Images/2DFFT_CornerTurn.jpg" alt="" /></h2>
+<p>Copyright (c) 2025 Advanced Micro Devices, Inc.</p>
 <p>Licensed under the Apache License, Version 2.0 (the "License");<br />
 you may not use this file except in compliance with the License.<br />
 You may obtain a copy of the License at</p>
