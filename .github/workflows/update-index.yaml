@@ -1,0 +1,171 @@
+name: Update Index CSV
+
+# Trigger on any push/PR, then check for directory structure changes in the job
+on:
+  push:
+    branches: [ "main", "master", "2025.2" ]
+  pull_request:
+    branches: [ "main", "master", "2025.2" ]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository with full history
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Detect directory structure changes
+      id: check-changes
+      run: |
+        # Function to check if directories were added or removed
+        check_directory_changes() {
+          local base_ref=""
+          
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_ref="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            # For push events, compare with the previous commit
+            if [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+              base_ref="${{ github.event.before }}"
+            else
+              # For initial commit or forced push, compare with HEAD~1 if it exists
+              if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+                base_ref="HEAD~1"
+              else
+                echo "No base reference found, will update index anyway"
+                return 0
+              fi
+            fi
+          fi
+          
+          if [ -z "$base_ref" ]; then
+            echo "No base reference determined, will update index"
+            return 0
+          fi
+          
+          echo "Comparing directory structure between $base_ref and HEAD"
+          
+          # Get list of directories in base ref
+          git ls-tree -r --name-only "$base_ref" 2>/dev/null | xargs -I {} dirname {} | sort -u > /tmp/base_dirs.txt || echo "" > /tmp/base_dirs.txt
+          
+          # Get list of directories in current ref  
+          git ls-tree -r --name-only HEAD | xargs -I {} dirname {} | sort -u > /tmp/head_dirs.txt
+          
+          # Check for differences in directory structure
+          if ! diff -q /tmp/base_dirs.txt /tmp/head_dirs.txt > /dev/null 2>&1; then
+            echo "Directory structure changes detected:"
+            diff /tmp/base_dirs.txt /tmp/head_dirs.txt || true
+            return 0
+          else
+            echo "No directory structure changes detected"
+            return 1
+          fi
+        }
+        
+        if check_directory_changes; then
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+          echo "Directory structure changes detected - will update index.csv"
+        else
+          echo "has_changes=false" >> $GITHUB_OUTPUT  
+          echo "No directory structure changes - skipping index update"
+        fi
+
+    - name: Generate new index.csv
+      if: steps.check-changes.outputs.has_changes == 'true'
+      run: |
+        echo "Generating index.csv..."
+        
+        # Make the script executable
+        chmod +x util/generate_index.py
+        
+        # Run the index generation script
+        python3 util/generate_index.py .
+        
+        # Check if index.csv was created/modified
+        if [ -f index.csv ]; then
+          echo "Index.csv generated successfully"
+          echo "First few lines of index.csv:"
+          head -2 index.csv
+        else
+          echo "Error: index.csv was not generated"
+          exit 1
+        fi
+
+    - name: Check for changes in index.csv
+      if: steps.check-changes.outputs.has_changes == 'true'
+      id: index-changes
+      run: |
+        # Check if index.csv has changed
+        if git diff --quiet index.csv; then
+          echo "index_changed=false" >> $GITHUB_OUTPUT
+          echo "No changes detected in index.csv"
+        else
+          echo "index_changed=true" >> $GITHUB_OUTPUT
+          echo "Changes detected in index.csv:"
+          git diff --no-index /dev/null index.csv | head -20 || git diff index.csv | head -20
+        fi
+
+    - name: Commit and push changes
+      if: steps.check-changes.outputs.has_changes == 'true' && steps.index-changes.outputs.index_changed == 'true'
+      run: |
+        # Configure git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Add and commit the updated index.csv
+        git add index.csv
+        
+        # Create commit message with details
+        commit_msg="Update index.csv after directory structure changes"
+        if [ "${{ github.event_name }}" = "pull_request" ]; then
+          commit_msg="$commit_msg (PR #${{ github.event.number }})"
+        fi
+        
+        git commit -m "$commit_msg" -m "Auto-generated by GitHub Actions workflow" || {
+          echo "No changes to commit"
+          exit 0
+        }
+        
+        # Push the changes
+        git push origin HEAD:${{ github.ref_name }} || {
+          echo "Failed to push changes"
+          exit 1
+        }
+        
+        echo "Successfully updated and committed index.csv"
+
+    - name: Summary
+      if: always()
+      run: |
+        echo "## Index Update Summary" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.check-changes.outputs.has_changes }}" = "true" ]; then
+          echo "✅ Directory structure changes detected" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.index-changes.outputs.index_changed }}" = "true" ]; then
+            echo "✅ index.csv updated and committed" >> $GITHUB_STEP_SUMMARY
+            
+            # Add statistics about the index
+            if [ -f index.csv ]; then
+              entry_count=$(head -1 index.csv | tr ',' '\n' | wc -l)
+              echo "📊 Total entries in index: $entry_count" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "ℹ️ No changes needed in index.csv" >> $GITHUB_STEP_SUMMARY
+          fi
+        else
+          echo "ℹ️ No directory structure changes detected - skipped update" >> $GITHUB_STEP_SUMMARY
+        fi
