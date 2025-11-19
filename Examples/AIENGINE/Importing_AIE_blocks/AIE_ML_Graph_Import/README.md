@@ -49,4 +49,4 @@ The image below depicts the Simulink design. Note that we are comparing the outp
 
 ------------
 
-Copyright (c) 2025 Advanced Micro Devices, Inc.
+Copyright (c) 2024 Advanced Micro Devices, Inc.

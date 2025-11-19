@@ -203,4 +203,4 @@ For more examples with AI Engine and Programmable Logic click [here](../AIENGINE
 
 ------------
 
-Copyright (c) 2025 Advanced Micro Devices, Inc.
+Copyright (c) 2024 Advanced Micro Devices, Inc.
