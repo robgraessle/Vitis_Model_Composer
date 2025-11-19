@@ -1,11 +1,9 @@
 name: Update Index CSV
 
-# Trigger on any push/PR, then check for directory structure changes in the job
+# Trigger on any push/PR to any branch, then check for directory structure changes in the job
 on:
   push:
-    branches: [ "main", "master", "2025.2" ]
   pull_request:
-    branches: [ "main", "master", "2025.2" ]
 
 permissions:
   contents: write
@@ -153,19 +151,19 @@ jobs:
         echo "## Index Update Summary" >> $GITHUB_STEP_SUMMARY
         
         if [ "${{ steps.check-changes.outputs.has_changes }}" = "true" ]; then
-          echo "✅ Directory structure changes detected" >> $GITHUB_STEP_SUMMARY
+          echo ":white_check_mark: Directory structure changes detected" >> $GITHUB_STEP_SUMMARY
           
           if [ "${{ steps.index-changes.outputs.index_changed }}" = "true" ]; then
-            echo "✅ index.csv updated and committed" >> $GITHUB_STEP_SUMMARY
+            echo ":white_check_mark: index.csv updated and committed" >> $GITHUB_STEP_SUMMARY
             
             # Add statistics about the index
             if [ -f index.csv ]; then
               entry_count=$(head -1 index.csv | tr ',' '\n' | wc -l)
-              echo "📊 Total entries in index: $entry_count" >> $GITHUB_STEP_SUMMARY
+              echo ":bar_chart: Total entries in index: $entry_count" >> $GITHUB_STEP_SUMMARY
             fi
           else
-            echo "ℹ️ No changes needed in index.csv" >> $GITHUB_STEP_SUMMARY
+            echo ":information_source: No changes needed in index.csv" >> $GITHUB_STEP_SUMMARY
           fi
         else
-          echo "ℹ️ No directory structure changes detected - skipped update" >> $GITHUB_STEP_SUMMARY
+          echo ":information_source: No directory structure changes detected - skipped update" >> $GITHUB_STEP_SUMMARY
         fi
