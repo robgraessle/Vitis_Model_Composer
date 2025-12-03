@@ -1,45 +1,87 @@
-# This workflow was generated using the GitHub Actions Workflow Generator for MATLAB.
-# See https://matlab-actions.github.io/workflow-generator
+# Workflow to validate Simulink models in the repository
+# Checks for DUT subsystem and Hub block platform configuration
 
-name: MATLAB
+name: MATLAB Model Validation
 
 on:
   push:
   pull_request:
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
-  build:
+  validate-models:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
-      
-      # Set up MATLAB and other MathWorks products on the runner.
+      - name: Checkout repository with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Set up MATLAB
         uses: matlab-actions/setup-matlab@v2
         with:
           release: latest
           cache: true
-          # Set up additional products using the products input.
-          # See https://github.com/matlab-actions/setup-matlab/#set-up-matlab
-          # products: Simulink Deep_Learning_Toolbox
+          products: Simulink
 
-      # Run tests authored using the MATLAB unit testing framework or Simulink Test.
-      # - name: Run MATLAB tests
-      #  uses: matlab-actions/run-tests@v2
-        # If you are not using a MATLAB project, add your source code to the path using the source-folder input.
-        # with:
-        #   source-folder: myfolderA; myfolderB
+      - name: Detect modified .slx files
+        id: detect-slx
+        run: |
+          # Get list of .slx files in the current commit
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            base_ref="${{ github.event.pull_request.base.sha }}"
+            head_ref="${{ github.sha }}"
+          else
+            # For push events
+            if [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+              base_ref="${{ github.event.before }}"
+              head_ref="${{ github.sha }}"
+            else
+              # For first commit, check all .slx files
+              base_ref=""
+              head_ref="${{ github.sha }}"
+            fi
+          fi
+          
+          # Get changed .slx files
+          if [ -n "$base_ref" ]; then
+            echo "Detecting .slx files changed between $base_ref and $head_ref"
+            changed_files=$(git diff --name-only "$base_ref" "$head_ref" | grep '\.slx$' || true)
+          else
+            echo "Checking all .slx files in repository"
+            changed_files=$(git ls-files '*.slx')
+          fi
+          
+          # Convert to space-separated list for MATLAB
+          if [ -n "$changed_files" ]; then
+            echo "Found .slx files:"
+            echo "$changed_files"
+            
+            # Save to output and file
+            echo "$changed_files" > slx_files.txt
+            echo "has_slx_files=true" >> $GITHUB_OUTPUT
+            
+            # Count files
+            file_count=$(echo "$changed_files" | wc -l)
+            echo "file_count=$file_count" >> $GITHUB_OUTPUT
+          else
+            echo "No .slx files found"
+            echo "has_slx_files=false" >> $GITHUB_OUTPUT
+            echo "file_count=0" >> $GITHUB_OUTPUT
+          fi
 
-      # Alternatively, run tasks from your buildfile.m.
-      # - name: Run MATLAB build
-      #   uses: matlab-actions/run-build@v2
-      #   with:
-      #     tasks: test
-
-      # Alternatively, run MATLAB scripts, functions, and statements.
-      - name: Run MATLAB command
+      - name: Run model validation
+        if: steps.detect-slx.outputs.has_slx_files == 'true'
         uses: matlab-actions/run-command@v2
         with:
-           command: results = runtests('IncludeSubfolders',true); assertSuccess(results);
+          command: addpath('util'); validate_models();
+
+      - name: No models to validate
+        if: steps.detect-slx.outputs.has_slx_files == 'false'
+        run: |
+          echo "No .slx files found in this commit" >> $GITHUB_STEP_SUMMARY
