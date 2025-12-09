@@ -53,8 +53,16 @@ function validate_models()
                 continue;
             end
             
+            % Change to the directory containing the .slx file
+            [slx_dir, modelName, ~] = fileparts(slx_file);
+            if ~isempty(slx_dir)
+                original_dir = pwd;
+                cd(slx_dir);
+            else
+                original_dir = '';
+            end
+            
             % Load the model
-            [~, modelName, ~] = fileparts(slx_file);
             load_system(slx_file);
             
             % Check for DUT subsystem
@@ -103,6 +111,11 @@ function validate_models()
             % Close the model
             close_system(modelName, 0);
             
+            % Restore original directory
+            if ~isempty(original_dir)
+                cd(original_dir);
+            end
+            
         catch ME
             result.error = ME.message;
             fprintf('  [ERROR] %s\n', ME.message);
@@ -111,6 +124,11 @@ function validate_models()
             try
                 close_system(modelName, 0);
             catch
+            end
+            
+            % Restore original directory
+            if exist('original_dir', 'var') && ~isempty(original_dir)
+                cd(original_dir);
             end
         end
         
